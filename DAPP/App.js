@@ -10,12 +10,32 @@ import Axios from 'axios';
 
 const Stack = createNativeStackNavigator();
 
+const local_host = "http://192.168.0.13:3000/" // 로컬 주소 변경해야할 수 도 
+
 // 연동 테스트 함수 
 const test = async () =>{
   console.log("testing ...");
-  await Axios.get('http://192.168.0.13:3000/')
+  await Axios.get(local_host)
   .then(res => {
     console.log("id: " + "%s" + " pw: " + "%s", res.data[0].id, res.data[0].pw);
+  })
+  .catch(error => console.log(error));
+};
+
+const test1 = async () =>{
+  console.log("testing ...");
+  await Axios.post(local_host+'login', { id: "master1", pw: "1234" })
+  .then(res => {
+    console.log(res.data.success);
+  })
+  .catch(error => console.log(error));
+};
+
+const test2 = async () =>{
+  console.log("testing ...");
+  await Axios.post(local_host+'register', { id: "master1", pw: "1234", name: "admin" })
+  .then(res => {
+    console.log(res.data.success);
   })
   .catch(error => console.log(error));
 };
@@ -23,7 +43,7 @@ const test = async () =>{
 export default function App() {
   // 렌더링 시 콘솔로 출력시켜서 확인 
   useEffect(() => {
-    test();
+    test1();
   }, []);
 
 
