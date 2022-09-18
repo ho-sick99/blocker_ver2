@@ -4,6 +4,7 @@ import { createDrawerNavigator,DrawerActions } from "@react-navigation/drawer";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 import Three_Contracts from "./Three_Contracts";
+import Login from "./Login";
 const Drawer = createDrawerNavigator();
 
 function Main() {
@@ -62,6 +63,7 @@ function Notice_board() {
             size={size}
             color={color}
           />),}} />
+
     </Drawer.Navigator>
   );
 }
