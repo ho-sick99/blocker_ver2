@@ -11,7 +11,6 @@ const db = mysql.createConnection({
     database: "blocker_db", 
 });
 
-
 app.use(cors());
 app.use(express.json());
 db.connect();
@@ -29,4 +28,29 @@ app.get('/', (req,res) => {
         }
       });
 
+})
+
+app.post('/login', (req,res) => {
+  const query = "SELECT * FROM blocker_db.member WHERE id = ?;";
+  db.query(query, [req.body.id], (err, result) => {
+    if (err) {
+      res.send({success: "fail: id does't exit"});
+    } else {
+      if(req.body.pw === result[0].pw) 
+        res.send({success: "success"});
+      else
+        res.send({success: "fail: pw was wrong"});
+    }
+      });
+})
+
+app.post('/register', (req,res) => {
+  const query = "INSERT INTO blocker_db.member(id, pw, name) VALUES(?, ?, ?);";
+    db.query(query, [req.body.id, req.body.pw, req.body.name], (err) => {   
+      if (err) {
+        res.send({success: "fail: id does't exit"});
+      } else {
+        res.send({success: "success"});
+      }
+    });
 })
