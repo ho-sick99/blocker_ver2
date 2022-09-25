@@ -1,14 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Image, Modal, TextInput } from 'react-native';
 import { StyleSheet, Text, View, TouchableOpacity, Alert, Pressable } from 'react-native';
-
-import Axios from 'axios';
-
-const local_host = HOSTNAME // 로컬 주소 변경해야할 수 도 
-// /navigation.navigate("Notice_board")
-
-// 환경 변수
 import { HOSTNAME } from "@env";
+import Axios from 'axios';
+import LoginContext from "../context/LoginContext";
+
+const local_host = HOSTNAME
+
 
 function Login({ navigation }) {
   const [modalVisible_login, setLoginModalVisible] = useState(false);
@@ -29,32 +27,17 @@ function Login({ navigation }) {
     set_id("");
     set_pw("");
     set_name("");
-
   }
+  // 로그인 Context 관리 함수 
+  const { set_login_data } = useContext(LoginContext);
 
+  // 로그인 
   const chk_login = async (id_input, pw_input) => {
-
-    console.log("로그인 시도");
-    const inputData = {
-      "id": id_input,
-      "pw": pw_input
-    };
-    // 성공
-    // const res = await (
-    //   await fetch(local_host + "/login", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(inputData),
-    //   })
-    // ).json();
-
     const { data: res } = await Axios.post(local_host + '/login', { id: id_input, pw: pw_input })
     console.log(res);
     return res;
   }
-
+  // 회원가입 
   const req_register = async (id_input, pw_input, input_name) => {
     const { data: result } = await Axios.post(local_host + '/register', { id: id_input, pw: pw_input, name: input_name })
     console.log(result);
@@ -108,8 +91,10 @@ function Login({ navigation }) {
                 onPress={async () => {
                   const res = await chk_login(input_id, input_pw);
                   if (res.success) {
-                    setLoginModalVisible(!modalVisible_login)
-                    navigation.navigate("Notice_board")
+                    // 로그인 상태 변경
+                    set_login_data(input_id, res.name, 1);
+                    setLoginModalVisible(!modalVisible_login);
+                    navigation.navigate("Notice_board");
                   }
                   else {
                     if (res.err) alert(res.err);
@@ -179,6 +164,9 @@ function Login({ navigation }) {
                     console.log("fail")
                   }
                   reset_input();
+                  
+                  // setRegisterModalVisible(!modalVisible_register)
+                  // setLoginModalVisible(true)
                 }}
               >
                 <Text style={styles.textStyle}>Sign in</Text>
@@ -190,7 +178,8 @@ function Login({ navigation }) {
                 <Text style={styles.textStyle}>Close</Text>
               </Pressable>
             </View>
-
+                
+            
           </View>
         </View>
       </Modal>

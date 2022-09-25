@@ -12,6 +12,7 @@ const output = {
 
 const process = {
   login: async (req, res) => {
+    console.log("login")
     const bodyData = new User(req.body); // body에 유저 데이터(id, password)를 object 형태로 담아 post 요청
     const loginRes = await bodyData.login();
 
