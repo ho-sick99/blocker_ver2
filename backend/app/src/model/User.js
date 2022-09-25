@@ -9,7 +9,7 @@ class User {
 
   async login() {
     const clientData = this.body;
-    console.log(clientData);
+    console.log("로그인 시도");
     try {
       const userData = await UserStorage.getUserInfo(clientData.id);
 
@@ -20,7 +20,7 @@ class User {
           userData.id === clientData.id &&
           userData.pw === clientData.pw
         ) {
-          return { success: true };
+          return { success: true, name: userData.name};
         }
         // 유저 정보 불일치
         return { success: false, msg: "비밀번호 불일치" };

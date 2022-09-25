@@ -1,10 +1,14 @@
-import * as React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useEffect } from "react";
 import { createDrawerNavigator,DrawerActions } from "@react-navigation/drawer";
 import Ionicons from "@expo/vector-icons/Ionicons";
-
 import Three_Contracts from "./Three_Contracts";
-import Login from "./Login";
+import MyPage from "./MyPage";
+import { 
+  View, 
+  Text, 
+  StyleSheet 
+} from "react-native";
+
 const Drawer = createDrawerNavigator();
 
 function Main() {
@@ -22,20 +26,8 @@ function Main() {
   );
 }
 
-function MyPage() {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>마이페이지</Text>
-      
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Text>Log out</Text>
-      </TouchableOpacity>
 
-    </View>
-  );
-}
-
-function Notice_board() {
+const Notice_board = () => {
   return (
     <Drawer.Navigator
       useLegacyImplementation
@@ -62,18 +54,12 @@ function Notice_board() {
             size={size}
             color={color}
           />),}} />
-      <Drawer.Screen name="My Page" component={MyPage} options={{drawerIcon:({color,size,focuced})=>( 
+      <Drawer.Screen name="MyPage" component={MyPage} options={{drawerIcon:({color,size,focuced})=>( 
           <Ionicons
             name={"pause"}
             size={size}
             color={color}
           />),}} />
-          <Drawer.Screen name="Log out" component={MyPage} options={{drawerIcon:({color,size,focuced})=>( 
-              <Ionicons
-                name={"pause"}
-                size={size}
-                color={color}
-              />),}} />
     </Drawer.Navigator>
   );
 }
