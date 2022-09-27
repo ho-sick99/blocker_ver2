@@ -13,7 +13,6 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-      //LoginProvider로 하위 컴퍼넌트를 모두 감싸놓아야 하위 컴포넌트에서 사용 가능 
       <LoginProvider> 
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Login">
