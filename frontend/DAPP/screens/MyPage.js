@@ -1,4 +1,7 @@
-import React, {useContext} from 'react';
+import React, {
+  useContext,
+  useEffect,
+} from 'react';
 import LoginContext from '../context/LoginContext';
 import user_info_img_d from './image/user_info_img_d.png'
 import { 
@@ -6,11 +9,32 @@ import {
   View,
   Text,
   Image,
-  Pressable
+  Pressable,
  } from "react-native";
-function MyPage() {
+function MyPage({navigation}) {
+
   const {login_data} = useContext(LoginContext);
-  const user_contracts = 0; // API로 가져오기 
+  const user_info = {
+    user_name: 'name',
+    user_save_contracts: 0,
+    user_ing_contracts: 0,
+    user_ed_contracts: 0,
+    user_post: 0,
+    user_bmark: 0
+  }
+
+  const set_user_info = () => {
+    // ver.test => API 만들어지면 json으로 끌어와서 대입  
+    user_info.user_name = login_data.name;
+    user_info.user_save_contracts = 1;
+    user_info.user_ing_contracts = 1;
+    user_info.user_ed_contracts = 1;
+    user_info.user_post = 1;
+    user_info.user_bmark = 1;
+  }
+
+  set_user_info();
+
   return (
     <View style={styles.mypage_container}>
       {/* <Text>{login_data.name}, {login_data.id}, {login_data.login_state}</Text> */}
@@ -21,15 +45,17 @@ function MyPage() {
         <Image source = {user_info_img_d} style={styles.user_info_img}/>
         <View style={styles.user_info_text}>
           <Text style={styles.use_user_info_text_name}> 
-            {login_data.name}님의 계정
+            {user_info.name}님의 계정
           </Text>
           <Text style={styles.use_user_info_text_info}> 
-            현재 체결된 계약 {user_contracts}
+            현재 체결된 계약 {user_info.user_ed_contracts}
           </Text>
         </View>
           <Pressable 
           style={styles.btn_log_out}
-          onPress={() => alert("Logout")}
+          onPress={() => 
+            navigation.navigate("Login")
+          }
         >
           <Text style={styles.textStyle}>
             Logout
@@ -46,15 +72,15 @@ function MyPage() {
             <View style={styles.contracts_bar}>
               <View style={styles.contracts_bar_item}> 
                 <Text style={styles.textStyle_3}>미체결</Text>
-                <Text style={styles.textStyle_3}>0</Text>
+                <Text style={styles.textStyle_3}>{user_info.user_save_contracts}</Text>
               </View>
               <View style={styles.contracts_bar_item}> 
                 <Text style={styles.textStyle_3}>진행중</Text>
-                <Text style={styles.textStyle_3}>0</Text>
+                <Text style={styles.textStyle_3}>{user_info.user_ing_contracts}</Text>
               </View>
               <View style={styles.contracts_bar_item}> 
                 <Text style={styles.textStyle_3}>체결</Text>
-                <Text style={styles.textStyle_3}>0</Text>
+                <Text style={styles.textStyle_3}>{user_info.user_ed_contracts}</Text>
               </View>
             </View>
           </View>
@@ -65,11 +91,11 @@ function MyPage() {
             <View style={styles.contracts_bar}>
               <View style={styles.contracts_bar_item}> 
                 <Text style={styles.textStyle_3}>작성 게시글</Text>
-                <Text style={styles.textStyle_3}>0</Text>
+                <Text style={styles.textStyle_3}>{user_info.user_post}</Text>
               </View>
               <View style={styles.contracts_bar_item}> 
                 <Text style={styles.textStyle_3}>즐겨찾기</Text>
-                <Text style={styles.textStyle_3}>0</Text>
+                <Text style={styles.textStyle_3}>{user_info.user_bmark}</Text>
               </View>
             </View>
           </View>
