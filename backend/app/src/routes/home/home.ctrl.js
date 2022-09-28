@@ -24,17 +24,13 @@ const process = {
 
     return res.send(registerRes);
   },
-  //   register: app.post("/register", (req, res) => {
-  //     const query =
-  //       "INSERT INTO blocker_db.member(id, pw, name) VALUES(?, ?, ?);";
-  //     db.query(query, [req.body.id, req.body.pw, req.body.name], (err) => {
-  //       if (err) {
-  //         res.send({ success: "fail: id does't exit" });
-  //       } else {
-  //         res.send({ success: "success" });
-  //       }
-  //     });
-  //   }),
+  chk_id : async (req, res) => {
+    const bodyData = new User(req.body); // body에 유저 데이터(id)를 object 형태로 담아 post 요청
+    const registerRes = await bodyData.chk_id();
+
+    return res.send(registerRes);
+
+  }
 };
 
 module.exports = {
