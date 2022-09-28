@@ -42,6 +42,21 @@ class User {
       return { success: false, err };
     }
   }
+
+  async chk_id() {
+    const try_id = this.body;
+    try {
+      const response = await UserStorage.chk_id(try_id);
+      if(response.id === try_id.id){
+        return {is_signin: false};
+      }
+      else{
+        return { is_signin: true };
+      }
+    } catch (err) {
+      return { is_signin: true };
+    }
+  }
 }
 
 module.exports = User;

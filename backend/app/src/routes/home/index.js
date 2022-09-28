@@ -10,5 +10,6 @@ router.get("/", ctrl.output.home);
 
 router.post("/login", ctrl.process.login);
 router.post("/register", ctrl.process.register);
+router.post("/chk_id", ctrl.process.chk_id);
 
 module.exports = router;
