@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Image, Modal, TextInput } from 'react-native';
+import { Image, Modal, TextInput, Touchable } from 'react-native';
 import { StyleSheet, Text, View, TouchableOpacity, Alert, Pressable } from 'react-native';
 import { HOSTNAME } from "@env";
 import Axios from 'axios';
@@ -45,6 +45,7 @@ function Login({ navigation }) {
   }
 
 
+  ///////////로그인 안될때 들어가는 버튼 - button_of_escape////////////
   return (
     <View style={styles.container}>
       <Text style={styles.title} >Start with Blocker</Text>
@@ -52,6 +53,10 @@ function Login({ navigation }) {
         source={require("./image/Logo.png")}
         style={{ position: 'absolute', width: 130, height: 130, top: 250 }}>
       </Image>
+      
+      <TouchableOpacity style={styles.button_of_escape} onPress={() => navigation.navigate("Notice_board")}>
+        <Text>바로넘어가는 버튼</Text>
+      </TouchableOpacity>
 
       <TouchableOpacity style={styles.button_1} onPress={() => setLoginModalVisible(true)}>
         <Text style={styles.title_1} >Log in</Text>
@@ -195,6 +200,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+//긴급탈출버튼
+  button_of_escape: {
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#FFFFFF',
+    width: 150,
+    height: 40,
+    top: 700,
+    borderRadius: 10,
   },
 
   button_1: {
