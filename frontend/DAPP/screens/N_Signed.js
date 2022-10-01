@@ -1,22 +1,66 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-class N_Signed extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>N_Signed</Text>
+function N_Signed({navigation}) {
+  return (
+    <View style={styles.container}>
+      <View style={styles.container2}>
+        <TouchableOpacity style={styles.button_of_del} onPress={() => alert("삭제")}>
+          <Text style={styles.del}>DEL</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.space}></TouchableOpacity>    
+        <TouchableOpacity style={styles.button_of_edit} onPress={() => alert("수정")}>
+          <Text style={styles.edit}>EDIT</Text>
+        </TouchableOpacity>
       </View>
-    );
-  }
+    </View>
+
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor:'black',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
+  },
+  container2: {
+    flexDirection:'row',
+    width: 310,
+    height: 50,
+    marginTop:500,
+  },
+  button_of_del: {
+    backgroundColor:"#FFFFFF",
+    width: 130,
+    height: 50,
+    borderRadius:10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  del: {
+    fontSize:23,
+    color: 'black',
+    fontWeight: 'bold',
+  },
+  space: {
+    width: 50,
+    height: 50,
+  },
+  button_of_edit: {
+    backgroundColor:"#FFFFFF",
+    width: 130,
+    height: 50,
+    borderRadius:10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  edit: {
+    fontSize:23,
+    color: 'black',
+    fontWeight: 'bold',
   },
 });
 

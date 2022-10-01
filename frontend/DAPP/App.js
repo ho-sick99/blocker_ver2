@@ -8,6 +8,10 @@ import Notice_board from "./screens/Notice_board";
 import Three_Contracts from "./screens/Three_Contracts";
 import MyPage from "./screens/MyPage";
 import LoginProvider from "./context/LoginProvider";  // <LoginProvider>가져오고 
+
+import N_Signed from './screens/N_Signed';
+import Proceeding from './screens/Proceeding';
+import Signed from './screens/Signed';
 const Stack = createNativeStackNavigator();
 
 
@@ -35,6 +39,33 @@ export default function App() {
               name="MyPage"
               component={MyPage}
               options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="N_Signed"
+              component={N_Signed}
+              options={{title: '미체결', headerStyle: { backgroundColor: "black"}, 
+              headerTitleStyle: { color: "white", fontSize: 23 ,},
+              headerTintColor:"white",
+              headerBackTitle:"",
+            }}
+            />
+            <Stack.Screen
+              name="Proceeding"
+              component={Proceeding}
+              options={{title: '진행중', headerStyle: { backgroundColor: "black"}, 
+              headerTitleStyle: { color: "white", fontSize: 23 ,},
+              headerTintColor:"white",
+              headerBackTitle:"",
+            }}
+            />
+            <Stack.Screen
+              name="Signed"
+              component={Signed}
+              options={{title: '체결', headerStyle: { backgroundColor: "black"}, 
+              headerTitleStyle: { color: "white", fontSize: 23 ,},
+              headerTintColor:"white",
+              headerBackTitle:"",
+            }}
             />
           </Stack.Navigator>
         </NavigationContainer>
