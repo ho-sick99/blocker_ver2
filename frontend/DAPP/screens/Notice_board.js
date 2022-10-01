@@ -32,8 +32,8 @@ const Notice_board = () => {
     <Drawer.Navigator
       useLegacyImplementation
       screenOptions={{
-        headerStyle: { height: 110, backgroundColor: "black" },
-        headerTitleStyle: { color: "#0DF9FF", fontSize: 25 ,},
+        headerStyle: { height: 110, backgroundColor: "black", shadowOpacity:0},
+        headerTitleStyle: { color: "white", fontSize: 25 ,},
         drawerPosition:'left',
         headerTintColor:"white",
         drawerActiveBackgroundColor: "#0DF9FF",
