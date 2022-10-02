@@ -12,6 +12,8 @@ import LoginProvider from "./context/LoginProvider";  // <LoginProvider>가져�
 import N_Signed from './screens/N_Signed';
 import Proceeding from './screens/Proceeding';
 import Signed from './screens/Signed';
+
+import PostView from './screens/PostView';
 const Stack = createNativeStackNavigator();
 
 
@@ -62,6 +64,15 @@ export default function App() {
               name="Signed"
               component={Signed}
               options={{title: '체결', headerStyle: { backgroundColor: "black"}, 
+              headerTitleStyle: { color: "white", fontSize: 23 ,},
+              headerTintColor:"white",
+              headerBackTitle:"",
+            }}
+            />
+            <Stack.Screen
+              name="PostView"
+              component={PostView}
+              options={{title: '포스트뷰', headerStyle: { backgroundColor: "black"}, 
               headerTitleStyle: { color: "white", fontSize: 23 ,},
               headerTintColor:"white",
               headerBackTitle:"",
