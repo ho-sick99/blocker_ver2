@@ -48,6 +48,36 @@ class UserStorage {
       );
     });
   }
+  static  bookmark_info(input_id){
+    return new Promise((resolve, reject) => {
+      db.query(
+        "SELECT bookmark FROM blocker_db.member WHERE id = ?;", 
+        [input_id],
+        (err, result) => {
+          if (err) {
+            reject(`${err}`);
+          } else {
+            resolve(result[0]); // 반환값 배열 형태이므로 첫번째 인덱스에 접근 후 데이터 반환
+          }
+        }
+      );
+    });
+  }
+  static my_contract_info(input_id){
+    return new Promise((resolve, reject) => {
+      db.query(
+        "SELECT mycontract FROM blocker_db.member WHERE id = ?;", 
+        [input_id],
+        (err, result) => {
+          if (err) {
+            reject(`${err}`);
+          } else {
+            resolve(result[0]); // 반환값 배열 형태이므로 첫번째 인덱스에 접근 후 데이터 반환
+          }
+        }
+      );
+    });  
+  }
 
 }
 

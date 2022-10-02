@@ -1,5 +1,6 @@
 "use strict";
 
+const { bookmark_info } = require("./UserStorage");
 const UserStorage = require("./UserStorage");
 
 class User {
@@ -57,6 +58,39 @@ class User {
       return { is_signin: true };
     }
   }
+
+  
+  async bookmark_info() {
+    const input_id = this.body;
+    try {
+      const response = await UserStorage.bookmark_info(input_id.id)
+      const res_obj = JSON.parse(response.bookmark);
+      return {length: res_obj.length, data: JSON.parse(res_obj.data)};
+    } catch (err) {
+      console.log(err);
+      return { err: false };
+    }
+  }
+
+  async my_contract_info() {
+    const input_id = this.body;
+    try {
+      const response = await UserStorage.my_contract_info(input_id.id)
+      const res_obj = JSON.parse(response.mycontract);
+      return {
+        contract_length: res_obj.contract_length, 
+        contract_lst: JSON.parse(res_obj.contract_lst),
+        signing_contract_length: res_obj.signing_contract_length, 
+        signing_contract_lst: JSON.parse(res_obj.signing_contract_lst),
+        signed_contract_length: res_obj.signed_contract_length, 
+        signed_contract_lst: JSON.parse(res_obj.signed_contract_lst),
+      };
+    } catch (err) {
+      console.log(err);
+      return { err: false };
+    }
+  }
+
 }
 
 module.exports = User;
