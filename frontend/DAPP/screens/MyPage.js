@@ -25,8 +25,13 @@ function MyPage({navigation}) {
   }
 
   const set_user_info = () => {
-    // ver.test => API 만들어지면 json으로 끌어와서 대입 
-    
+    // 아이디 중복 확인
+    const my_bookmark = async (id_input) => {
+    const { data: result } = await Axios.post(local_host + '/bookmark', { id: id_input})
+    console.log(result);
+    return result;
+  }
+    console.log(my_bookmark);
   
     user_info.user_name = login_data.name;
     user_info.user_save_contracts = 1;
