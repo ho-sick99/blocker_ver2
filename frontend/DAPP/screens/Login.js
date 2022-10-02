@@ -43,7 +43,14 @@ function Login({ navigation }) {
     console.log(result);
     return result;
   }
-
+  // 아이디 중복 확인
+  const chk_id = async (id_input) => {
+    const { data: result } = await Axios.post(local_host + '/chk_id', { id: id_input})
+    console.log(result);
+    return result;
+  }
+  // 회원 가입 제어 변수 
+  const is_sign_in = false;
 
   ///////////로그인 안될때 들어가는 버튼 - button_of_escape////////////
   return (
@@ -141,6 +148,7 @@ function Login({ navigation }) {
               onChangeText={_handleNAMETextChange}
             >
             </TextInput>
+
             <TextInput
               style={[styles.TextInput]}
               placeholder=' ID'
@@ -148,6 +156,22 @@ function Login({ navigation }) {
               onChangeText={_handleIDTextChange}
             >
             </TextInput>
+            
+            <Pressable
+                style={[styles.modal_btn_chk_id]}
+                onPress={async() =>{
+                  const chk_id_res = await chk_id(input_id);
+                  if(chk_id_res.is_sign_in){
+                    is_sign_in = true;
+                  }
+                  else{
+                    alert("해당 ID는 이미 사용 중");
+                  }
+                }}
+              >
+                <Text style={styles.textStyle}>중복확인</Text>
+            </Pressable>
+
             <TextInput style={styles.TextInput}
               placeholder=' PASSWORD'
               secureTextEntry={true}
@@ -159,17 +183,21 @@ function Login({ navigation }) {
               <Pressable
                 style={[styles.button_modal, styles.button_login]}
                 onPress={async () => {
-                  const res = await req_register(input_id, input_pw, input_name);
-                  if (res.success === "success") {
-                    console.log("success")
-                    setRegisterModalVisible(!modalVisible_register)
-                    setLoginModalVisible(true)
+                  if(is_sign_in){
+                    const res = await req_register(input_id, input_pw, input_name);
+                    if (res.success === "success") {
+                      console.log("success")
+                      setRegisterModalVisible(!modalVisible_register)
+                      setLoginModalVisible(true)
+                    }
+                    else {
+                      console.log("fail")
+                    }
+                    reset_input();
                   }
                   else {
-                    console.log("fail")
+                    alert("ID 중복 확인 필요")
                   }
-                  reset_input();
-                  
                   // setRegisterModalVisible(!modalVisible_register)
                   // setLoginModalVisible(true)
                 }}
@@ -318,6 +346,17 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: 'row', // 혹은 'column'
     justifyContent: 'space-between',
+  },
+  modal_btn_chk_id: {
+    justifyContent: 'center',
+    width: "20%",
+    height: 40,
+    backgroundColor: '#D0CECE',
+    position: 'absolute',
+    top:  50,
+    right: -7,
+    margin: 30,
+    borderRadius: 5,
   },
 
 });
