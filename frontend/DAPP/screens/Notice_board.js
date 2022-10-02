@@ -1,27 +1,29 @@
 import React, { useEffect } from "react";
 import { createDrawerNavigator,DrawerActions } from "@react-navigation/drawer";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import Icon from "@expo/vector-icons/Ionicons";
 import Three_Contracts from "./Three_Contracts";
 import MyPage from "./MyPage";
-import { 
-  View, 
-  Text, 
-  StyleSheet 
-} from "react-native";
+import { View, Text, StyleSheet , FlatList, TouchableOpacity} from "react-native";
 
 const Drawer = createDrawerNavigator();
 
-function Main() {
+const DATA1 = [ '1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20']
+const icon_color = '#000000';
+const icon_size = "50";
+
+function Main({navigation}) {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "lightgrey",
-      }}
-    >
-      <Text>게시판</Text>
+    <View style={styles.container}>
+      <Text style={styles.h_text_style}>Contracts</Text>
+      <FlatList data={DATA1}  numColumns={2}  showsVerticalScrollIndicator={false} renderItem={({item}) => (   
+        <View style={styles.view_style} columnWrapperStyle={styles.row}>   
+          <TouchableOpacity style={styles.contract_click_style} onPress={() => navigation.push('PostView')}> 
+            <Icon name="rocket" color={icon_color} size={icon_size}/>
+            <Text style={styles.text_style}>{item}</Text>
+          </TouchableOpacity> 
+        </View>    
+      )}>
+      </FlatList>
     </View>
   );
 }
@@ -43,19 +45,19 @@ const Notice_board = () => {
       }}
     >
       <Drawer.Screen name="Notice Board" component={Main} options={{drawerIcon:({color,size,focuced})=>( 
-          <Ionicons
+          <Icon
             name={"home"}
             size={size}
             color={color}
           />),}} />
       <Drawer.Screen name="Contracts" component={Three_Contracts} options={{drawerIcon:({color,size,focuced})=>( 
-          <Ionicons
+          <Icon
             name={"rocket"}
             size={size}
             color={color}
           />),}} />
       <Drawer.Screen name="MyPage" component={MyPage} options={{drawerIcon:({color,size,focuced})=>( 
-          <Ionicons
+          <Icon
             name={"pause"}
             size={size}
             color={color}
@@ -65,3 +67,52 @@ const Notice_board = () => {
 }
 
 export default Notice_board;
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#000000',
+  },
+  h_text_style: {
+    backgroundColor: '#000000',
+    width: 390,
+    height:30,
+    color: '#ffffff',
+    fontSize:15,
+    textAlign:'center',
+    color: '#ffffff',
+  },
+  view_style: {
+    backgroundColor: '#ffffff',
+    borderRadius: 10,
+    width: 170,
+    height:170,
+    marginVertical: 9,
+    color: '#ffffff',
+    justifyContent : 'center',
+    borderColor: '#ffffff',
+    borderWidth:10,
+    margin: 9,
+  },
+  row: {
+    flex: 1,
+    justifyContent: "space-around"
+  },
+  contract_click_style: {
+    padding:4,
+    alignItems: 'center',
+    flexDirection:"column",
+    flex:1,
+    marginTop: 30,
+  },
+  text_style: {
+    width: 370,
+    height:80,
+    fontSize:20,
+    marginTop: 25,
+    color: 'black',
+    fontWeight: 'bold',
+    marginLeft: 355,
+  },
+});
