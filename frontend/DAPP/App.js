@@ -72,10 +72,11 @@ export default function App() {
             <Stack.Screen
               name="PostView"
               component={PostView}
-              options={{title: '포스트뷰', headerStyle: { backgroundColor: "black"}, 
+              options={{title: 'POSTVIEW', headerStyle: { backgroundColor: "black"}, 
               headerTitleStyle: { color: "white", fontSize: 23 ,},
               headerTintColor:"white",
               headerBackTitle:"",
+              headerBackVisible: false,
             }}
             />
           </Stack.Navigator>
