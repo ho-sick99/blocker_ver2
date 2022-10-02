@@ -14,6 +14,7 @@ import {
 function MyPage({navigation}) {
 
   const {login_data} = useContext(LoginContext);
+  
   const user_info = {
     user_name: 'name',
     user_save_contracts: 0,
@@ -24,7 +25,9 @@ function MyPage({navigation}) {
   }
 
   const set_user_info = () => {
-    // ver.test => API 만들어지면 json으로 끌어와서 대입  
+    // ver.test => API 만들어지면 json으로 끌어와서 대입 
+    
+  
     user_info.user_name = login_data.name;
     user_info.user_save_contracts = 1;
     user_info.user_ing_contracts = 1;

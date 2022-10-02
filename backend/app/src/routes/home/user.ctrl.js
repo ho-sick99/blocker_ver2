@@ -29,6 +29,8 @@ const process = {
 
     return res.send(registerRes);
   }
+
+  
 };
 
 module.exports = {
