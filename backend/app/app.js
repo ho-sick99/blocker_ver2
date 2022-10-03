@@ -26,42 +26,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // 미들웨어 등록
 app.use("/", home); // use -> 미들 웨어를 등록해주는 메서드.
 
+app.use(express.json({
+    limit : "50mb"
+}));
+app.use(express.urlencoded({
+    limit:"50mb",
+    extended: false
+}));
+
 
 module.exports = app;
 
-// 컨트롤러
-// app.get("/", (req, res) => {
-//   return res.send("hi");
-//   // return new Promise((resolve, reject) => {
-//   //     db.query("SELECT * FROM blocker_db.member", (err, result) => {
-//   //         if (err) {
-//   //             console.log(err);
-//   //         } else {
-//   //             res.send(result);
-//   //         }
-//   //     });
-//   // })
-// });
-
-// app.post("/login", (req, res) => {
-//   const query = "SELECT * FROM blocker_db.member WHERE id = ?;";
-//   db.query(query, [req.body.id], (err, result) => {
-//     if (err) {
-//       res.send({ success: "fail: id does't exit" });
-//     } else {
-//       if (req.body.pw === result[0].pw) res.send({ success: "success" });
-//       else res.send({ success: "fail: pw was wrong" });
-//     }
-//   });
-// });
-
-// app.post("/register", (req, res) => {
-//   const query = "INSERT INTO blocker_db.member(id, pw, name) VALUES(?, ?, ?);";
-//   db.query(query, [req.body.id, req.body.pw, req.body.name], (err) => {
-//     if (err) {
-//       res.send({ success: "fail: id does't exit" });
-//     } else {
-//       res.send({ success: "success" });
-//     }
-//   });
-// });
