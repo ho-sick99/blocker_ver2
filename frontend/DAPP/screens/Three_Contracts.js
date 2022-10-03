@@ -1,4 +1,7 @@
-import React from 'react';
+import React, {
+  useState,
+  useEffect,
+} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
   StyleSheet, 
@@ -136,33 +139,35 @@ function N_Signed({ navigation }) {
   };
 
   useEffect(() => {
-    loadContracts();
+    //loadContracts();
   }, []);
 
   return (
     <View style={styles.container}>
       <Text style={styles.h_text_style}>미체결계약서</Text>
-      <FlatList
-        data={contracts}
-        showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <View style={styles.view_style}>
-            <TouchableOpacity
-              style={styles.contract_click_style}
-              onPress={() =>
-                navigation.push("N_Signed", {
-                  title: item.title,
-                  content: item.content,
-                  id: item.id
-                })
-              }
-            >
-              <Icon name="rocket" color={icon_color} size={icon_size} />
-              <Text style={styles.text_style}>{item.title}</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      ></FlatList>
+        <View>
+          <FlatList
+            data={contracts}
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <View style={styles.view_style}>
+                <TouchableOpacity
+                  style={styles.contract_click_style}
+                  onPress={() =>
+                    navigation.push("N_Signed", {
+                      title: item.title,
+                      content: item.content,
+                      id: item.id
+                    })
+                  }
+                >
+                  <Icon name="rocket" color={icon_color} size={icon_size} />
+                  <Text style={styles.text_style}>{item.title}</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          ></FlatList>
+        </View>
     </View>
   );
 }
@@ -171,6 +176,7 @@ function Proceeding({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.h_text_style2}>진행중계약서</Text>
+      <View>
       <FlatList
         data={DATA2}
         showsVerticalScrollIndicator={false}
@@ -186,6 +192,7 @@ function Proceeding({ navigation }) {
           </View>
         )}
       ></FlatList>
+      </View>
     </View>
   );
 }
@@ -271,7 +278,7 @@ const styles = StyleSheet.create({
   view_style3: {
     backgroundColor: "#007376",
     borderRadius: 10,
-    width: 380,
+    width: "100%",
     height: 80,
     marginVertical: 4,
     color: "#ffffff",
