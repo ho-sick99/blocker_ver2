@@ -1,6 +1,7 @@
 import React, {
   useContext,
   useState,
+  useEffect ,
 } from 'react';
 import LoginContext from '../context/LoginContext';
 import user_info_img_d from './image/user_info_img_d.png'
@@ -26,38 +27,48 @@ function MyPage({navigation}) {
   const [user_post, set_user_post] = useState(0);
   const [user_post_lst, set_user_post_lst] = useState(0);
 
-  const user_info = {
-    user_save_contracts: 0,
-    user_ing_contracts: 0,
-    user_ed_contracts: 0,
-  }
-    
+  const [user_save_contracts, set_user_save_contracts] = useState(0);
+  const [user_save_contracts_lst, set_user_save_contracts_lst] = useState(0);
+  const [user_ing_contracts, set_user_ing_contracts] = useState(0);
+  const [user_ing_contracts_lst, set_user_ing_contracts_lst] = useState(0);
+  const [user_ed_contracts, set_user_ed_contracts] = useState(0);
+  const [user_ed_contracts_lst, set_user_ed_contracts_lst] = useState(0);
 
-  const my_bookmark = async (id_input) => {
-    const { data: result } = await Axios.post(HOSTNAME + '/bookmark', { id: "yohan123"})
+  const my_bookmark = async () => {
+    const { data: result } = await Axios.post(HOSTNAME + '/bookmark', { id: login_data.id})
     set_user_bmark(result.length);
     set_user_bmark_lst(result.data);
-    return {length: result.length, data: result.data};
   }
 
-  const my_post = async (id_input) => {
-    const { data: result } = await Axios.post(HOSTNAME + '/bookmark', { id: "yohan123"})
-    set_user_bmark(result.length);
-    set_user_bmark_lst(result.data);
-    return {length: result.length, data: result.data};
+  const my_post = async () => {
+    const { data: result } = await Axios.post(HOSTNAME + '/my_post', { id: login_data.id})
+    set_user_post(result.length);
+    set_user_post_lst(result.data);
 
+  }
+
+  const my_contract = async () => {
+    const { data: result } = await Axios.post(HOSTNAME + '/my_contract', { id: login_data.id})
+    set_user_save_contracts(result.contract_length);
+    set_user_save_contracts_lst(result.contract_lst);
+    set_user_ing_contracts(result.signing_contract_length);
+    set_user_ing_contracts_lst(result.signing_contract_lst);
+    set_user_ed_contracts(result.signed_contract_length);
+    set_user_ed_contracts_lst(result.signed_contract_lst);
   }
 
   const set_user_info = () => {
-    user_info.user_save_contracts = 1;
-    user_info.user_ing_contracts = 1;
-    user_info.user_ed_contracts = 1;
-    user_info.user_post = 1;
-    user_info.user_bmark =1;
+    my_contract()
+    my_post();
     my_bookmark();
   }
 
-  set_user_info();
+  useEffect(() => {
+    console.log("마이 페이지 데이터 불러오기");
+    
+    set_user_info();
+  }, []);
+  
 
   return (
     <View style={styles.mypage_container}>
@@ -72,7 +83,7 @@ function MyPage({navigation}) {
             {user_name}님의 계정
           </Text>
           <Text style={styles.use_user_info_text_info}> 
-            현재 체결된 계약 {user_info.user_ed_contracts}
+            현재 체결된 계약 {user_ed_contracts}
           </Text>
         </View>
           <Pressable 
@@ -96,15 +107,15 @@ function MyPage({navigation}) {
             <View style={styles.contracts_bar}>
               <View style={styles.contracts_bar_item}> 
                 <Text style={styles.textStyle_3}>미체결</Text>
-                <Text style={styles.textStyle_3}>{user_info.user_save_contracts}</Text>
+                <Text style={styles.textStyle_3}>{user_save_contracts}</Text>
               </View>
               <View style={styles.contracts_bar_item}> 
                 <Text style={styles.textStyle_3}>진행중</Text>
-                <Text style={styles.textStyle_3}>{user_info.user_ing_contracts}</Text>
+                <Text style={styles.textStyle_3}>{user_ing_contracts}</Text>
               </View>
               <View style={styles.contracts_bar_item}> 
                 <Text style={styles.textStyle_3}>체결</Text>
-                <Text style={styles.textStyle_3}>{user_info.user_ed_contracts}</Text>
+                <Text style={styles.textStyle_3}>{user_ed_contracts}</Text>
               </View>
             </View>
           </View>
@@ -115,7 +126,7 @@ function MyPage({navigation}) {
             <View style={styles.contracts_bar}>
               <View style={styles.contracts_bar_item}> 
                 <Text style={styles.textStyle_3}>작성 게시글</Text>
-                <Text style={styles.textStyle_3}>{user_info.user_post}</Text>
+                <Text style={styles.textStyle_3}>{user_post}</Text>
               </View>
               <View style={styles.contracts_bar_item}> 
                 <Text style={styles.textStyle_3}>즐겨찾기</Text>
