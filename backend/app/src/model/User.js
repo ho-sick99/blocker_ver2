@@ -91,6 +91,18 @@ class User {
     }
   }
 
+  async my_post_info() {
+    const input_id = this.body;
+    try {
+      const response = await UserStorage.my_post_info(input_id.id)
+      const res_obj = JSON.parse(response.mypost);
+      return {length: res_obj.length, data: JSON.parse(res_obj.data)};
+    } catch (err) {
+      console.log(err);
+      return { err: false };
+    }
+  }
+
 }
 
 module.exports = User;

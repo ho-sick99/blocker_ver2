@@ -9,6 +9,8 @@ const local_host = HOSTNAME
 
 
 function Login({ navigation }) {
+  // 회원 가입 제어 변수 
+  const [is_sign_in, set_is_sign_in] = useState(false);
   const [modalVisible_login, setLoginModalVisible] = useState(false);
   const [modalVisible_register, setRegisterModalVisible] = useState(false);
   const [input_id, set_id] = useState('');
@@ -46,11 +48,8 @@ function Login({ navigation }) {
   // 아이디 중복 확인
   const chk_id = async (id_input) => {
     const { data: result } = await Axios.post(local_host + '/chk_id', { id: id_input})
-    console.log(result);
     return result;
   }
-  // 회원 가입 제어 변수 
-  const is_sign_in = false;
 
   ///////////로그인 안될때 들어가는 버튼 - button_of_escape////////////
   return (
@@ -161,8 +160,9 @@ function Login({ navigation }) {
                 style={[styles.modal_btn_chk_id]}
                 onPress={async() =>{
                   const chk_id_res = await chk_id(input_id);
-                  if(chk_id_res.is_sign_in){
-                    is_sign_in = true;
+                  if(chk_id_res.is_signin){
+                    set_is_sign_in(true);
+                    alert("회원 가입 가능");
                   }
                   else{
                     alert("해당 ID는 이미 사용 중");
@@ -198,8 +198,8 @@ function Login({ navigation }) {
                   else {
                     alert("ID 중복 확인 필요")
                   }
-                  // setRegisterModalVisible(!modalVisible_register)
-                  // setLoginModalVisible(true)
+                  setRegisterModalVisible(!modalVisible_register)
+                  setLoginModalVisible(true)
                 }}
               >
                 <Text style={styles.textStyle}>Sign in</Text>

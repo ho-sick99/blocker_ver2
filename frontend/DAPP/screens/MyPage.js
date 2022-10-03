@@ -1,6 +1,6 @@
 import React, {
   useContext,
-  useEffect,
+  useState,
 } from 'react';
 import LoginContext from '../context/LoginContext';
 import user_info_img_d from './image/user_info_img_d.png'
@@ -11,34 +11,50 @@ import {
   Image,
   Pressable,
  } from "react-native";
+ import Axios from 'axios';
+ import { HOSTNAME } from "@env";
+
 function MyPage({navigation}) {
 
   const {login_data} = useContext(LoginContext);
-  
+  const [user_name, set_user_name] = useState(login_data.name);
+
+
+  const [user_bmark, set_user_bmark] = useState(0);
+  const [user_bmark_lst, set_user_bmark_lst] = useState(0);
+
+  const [user_post, set_user_post] = useState(0);
+  const [user_post_lst, set_user_post_lst] = useState(0);
+
   const user_info = {
-    user_name: 'name',
     user_save_contracts: 0,
     user_ing_contracts: 0,
     user_ed_contracts: 0,
-    user_post: 0,
-    user_bmark: 0
+  }
+    
+
+  const my_bookmark = async (id_input) => {
+    const { data: result } = await Axios.post(HOSTNAME + '/bookmark', { id: "yohan123"})
+    set_user_bmark(result.length);
+    set_user_bmark_lst(result.data);
+    return {length: result.length, data: result.data};
+  }
+
+  const my_post = async (id_input) => {
+    const { data: result } = await Axios.post(HOSTNAME + '/bookmark', { id: "yohan123"})
+    set_user_bmark(result.length);
+    set_user_bmark_lst(result.data);
+    return {length: result.length, data: result.data};
+
   }
 
   const set_user_info = () => {
-    // 아이디 중복 확인
-    const my_bookmark = async (id_input) => {
-    const { data: result } = await Axios.post(local_host + '/bookmark', { id: id_input})
-    console.log(result);
-    return result;
-  }
-    console.log(my_bookmark);
-  
-    user_info.user_name = login_data.name;
     user_info.user_save_contracts = 1;
     user_info.user_ing_contracts = 1;
     user_info.user_ed_contracts = 1;
     user_info.user_post = 1;
-    user_info.user_bmark = 1;
+    user_info.user_bmark =1;
+    my_bookmark();
   }
 
   set_user_info();
@@ -53,7 +69,7 @@ function MyPage({navigation}) {
         <Image source = {user_info_img_d} style={styles.user_info_img}/>
         <View style={styles.user_info_text}>
           <Text style={styles.use_user_info_text_name}> 
-            {user_info.name}님의 계정
+            {user_name}님의 계정
           </Text>
           <Text style={styles.use_user_info_text_info}> 
             현재 체결된 계약 {user_info.user_ed_contracts}
@@ -103,7 +119,7 @@ function MyPage({navigation}) {
               </View>
               <View style={styles.contracts_bar_item}> 
                 <Text style={styles.textStyle_3}>즐겨찾기</Text>
-                <Text style={styles.textStyle_3}>{user_info.user_bmark}</Text>
+                <Text style={styles.textStyle_3}>{user_bmark}</Text>
               </View>
             </View>
           </View>
