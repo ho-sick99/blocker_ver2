@@ -122,7 +122,6 @@ function N_Signed({ navigation }) {
   const loadContracts = async () => {
     // 계약서 데이터 로드함수
     try {
-      console.log("a");
       setContracts( // 현재 유저정보 기반으로 계약서 검색(POST)으로 수정해야함
         await (
           await fetch(HOSTNAME + "/contract_load", {
@@ -138,7 +137,8 @@ function N_Signed({ navigation }) {
       ); // 로드한 계약서들 정보 반영
     } catch (err) {
       console.error(err);
-    }console.log(contracts);
+    }
+    console.log(contracts);
   };
 
   useEffect(() => {
@@ -178,7 +178,8 @@ function N_Signed({ navigation }) {
                     navigation.push("N_Signed", {
                       title: item.title,
                       content: item.content,
-                      id: item.id
+                      id: item.id,
+                      contract_id: item.contract_id,
                     })
                   }
                 >
