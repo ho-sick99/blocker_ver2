@@ -3,7 +3,14 @@ import { createDrawerNavigator,DrawerActions } from "@react-navigation/drawer";
 import Icon from "@expo/vector-icons/Ionicons";
 import Three_Contracts from "./Three_Contracts";
 import MyPage from "./MyPage";
-import { View, Text, StyleSheet , FlatList, TouchableOpacity} from "react-native";
+import { 
+  View, 
+  Text, 
+  StyleSheet , 
+  FlatList, 
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 
 const Drawer = createDrawerNavigator();
 
@@ -11,19 +18,25 @@ const DATA = [ '1','2','3','4','5','6','7','8','9','10','11','12','13','14','15'
 const icon_color = '#000000';
 const icon_size = "50";
 
+const Width = Dimensions.get('window').width;    //스크린 너비 초기화
+const Height = Dimensions.get('window').height;  //스크린 높이 초기화
+
+
 function Main({navigation}) {
   return (
     <View style={styles.container}>
       <Text style={styles.h_text_style}>Contracts</Text>
-      <FlatList data={DATA}  numColumns={2}  showsVerticalScrollIndicator={false} renderItem={({item}) => (   
-        <View style={styles.view_style} columnWrapperStyle={styles.row}>   
-          <TouchableOpacity style={styles.contract_click_style} onPress={() => navigation.push('PostView', {id : item})}> 
-            <Icon name="rocket" color={icon_color} size={icon_size}/>
-            <Text style={styles.text_style}>{item}</Text>
-          </TouchableOpacity> 
-        </View>    
-      )}>
-      </FlatList>
+        <View>
+          <FlatList data={DATA}  numColumns={2}  showsVerticalScrollIndicator={false} renderItem={({item}) => (   
+            <View style={styles.view_style} columnWrapperStyle={styles.row}>   
+              <TouchableOpacity style={styles.contract_click_style} onPress={() => navigation.push('PostView', {id : item})}> 
+                <Icon name="rocket" color={icon_color} size={icon_size}/>
+                <Text style={styles.text_style}>{item}</Text>
+              </TouchableOpacity> 
+            </View>    
+          )}>
+          </FlatList>
+        </View>
     </View>
   );
 }
@@ -86,8 +99,8 @@ const styles = StyleSheet.create({
   view_style: {
     backgroundColor: '#ffffff',
     borderRadius: 10,
-    width: 170,
-    height:170,
+    width: Width*0.45,
+    height:  Width*0.45,
     marginVertical: 9,
     color: '#ffffff',
     justifyContent : 'center',

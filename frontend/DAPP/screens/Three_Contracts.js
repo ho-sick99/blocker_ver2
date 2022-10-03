@@ -1,9 +1,20 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {StyleSheet, View, Button, Text,FlatList,TouchableOpacity} from 'react-native';
+import {
+  StyleSheet, 
+  View, 
+  Button, 
+  Text,
+  FlatList,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
 import Icon from "@expo/vector-icons/Ionicons";
 
 const Tab = createBottomTabNavigator();
+
+const Width = Dimensions.get('window').width;    //스크린 너비 초기화
+const Height = Dimensions.get('window').height;  //스크린 높이 초기화
 
 //벡엔드는 여기서 진행하면 됨
 const DATA1 = [ '미체결계약서_1','미체결계약서_2','미체결계약서_3','미체결계약서_4','미체결계약서_5','미체결계약서_6','미체결계약서_7','미체결계약서_8','미체결계약서_9','미체결계약서_10']
@@ -72,15 +83,17 @@ function N_Signed({navigation}) {
   return (
     <View style={styles.container}>
       <Text style={styles.h_text_style}>미체결계약서</Text>
-      <FlatList data={DATA1} showsVerticalScrollIndicator={false} renderItem={({item}) => (   
-        <View style={styles.view_style}>   
-          <TouchableOpacity style={styles.contract_click_style} onPress={() => navigation.push('N_Signed')}> 
-            <Icon name="rocket" color={icon_color} size={icon_size}/>
-            <Text style={styles.text_style}>{item}</Text>
-          </TouchableOpacity> 
-        </View>    
-      )}>
-      </FlatList>
+      <View>
+        <FlatList data={DATA1} showsVerticalScrollIndicator={false} renderItem={({item}) => (   
+          <View style={styles.view_style}>   
+            <TouchableOpacity style={styles.contract_click_style} onPress={() => navigation.push('N_Signed')}> 
+              <Icon name="rocket" color={icon_color} size={icon_size}/>
+              <Text style={styles.text_style}>{item}</Text>
+            </TouchableOpacity> 
+          </View>    
+        )}>
+        </FlatList>
+      </View>
     </View>
   );
 }
@@ -89,15 +102,17 @@ function Proceeding({navigation}) {
   return (
     <View style={styles.container}>
       <Text style={styles.h_text_style2}>진행중계약서</Text>
-      <FlatList data={DATA2} showsVerticalScrollIndicator={false} renderItem={({item}) => (   
-        <View style={styles.view_style2}>   
-          <TouchableOpacity style={styles.contract_click_style} onPress={() => navigation.push('Proceeding')}> 
-            <Icon name="rocket" color={icon_color2} size={icon_size}/>
-            <Text style={styles.text_style2}>{item}</Text>
-          </TouchableOpacity> 
-        </View>    
-      )}>
-      </FlatList>
+      <View>
+        <FlatList data={DATA2} showsVerticalScrollIndicator={false} renderItem={({item}) => (   
+          <View style={styles.view_style2}>   
+            <TouchableOpacity style={styles.contract_click_style} onPress={() => navigation.push('Proceeding')}> 
+              <Icon name="rocket" color={icon_color2} size={icon_size}/>
+              <Text style={styles.text_style2}>{item}</Text>
+            </TouchableOpacity> 
+          </View>    
+        )}>
+        </FlatList>
+      </View>
     </View>
   );
 }
@@ -106,15 +121,17 @@ function Signed({navigation}) {
   return (
     <View style={styles.container}>
       <Text style={styles.h_text_style3}>체결계약서</Text>
-      <FlatList data={DATA3} showsVerticalScrollIndicator={false} renderItem={({item}) => (   
-        <View style={styles.view_style3}>   
-          <TouchableOpacity style={styles.contract_click_style} onPress={() => navigation.push('Signed')}> 
-            <Icon name="rocket" color={icon_color3} size={icon_size}/>
-            <Text style={styles.text_style3}>{item}</Text>
-          </TouchableOpacity> 
-        </View>    
-      )}>
-      </FlatList>
+        <View>
+          <FlatList data={DATA3} showsVerticalScrollIndicator={false} renderItem={({item}) => (   
+            <View style={styles.view_style3}>   
+              <TouchableOpacity style={styles.contract_click_style} onPress={() => navigation.push('Signed')}> 
+                <Icon name="rocket" color={icon_color3} size={icon_size}/>
+                <Text style={styles.text_style3}>{item}</Text>
+              </TouchableOpacity> 
+            </View>    
+          )}>
+          </FlatList>
+        </View>
     </View>
   );
 }
@@ -124,6 +141,8 @@ export default Three_Contracts;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    width: "100%",
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#000000',
@@ -158,7 +177,7 @@ const styles = StyleSheet.create({
   view_style: {
     backgroundColor: '#ffffff',
     borderRadius: 10,
-    width: 380,
+    width: "100%",
     height:80,
     marginVertical: 4,
     color: '#ffffff',
@@ -169,7 +188,7 @@ const styles = StyleSheet.create({
   view_style2: {
     backgroundColor: "#0DF9FF",
     borderRadius: 10,
-    width: 380,
+    width: "100%",
     height:80,
     marginVertical: 4,
     color: '#ffffff',

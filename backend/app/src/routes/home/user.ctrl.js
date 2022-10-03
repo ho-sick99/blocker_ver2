@@ -33,7 +33,13 @@ const process = {
     const registerRes = await bodyData.my_contract_info();
 
     return res.send(registerRes);
-  }
+  },
+  my_post_info : async (req, res) => {
+    const bodyData = new User(req.body); 
+    const registerRes = await bodyData.my_post_info();
+
+    return res.send(registerRes);
+  }, 
 };
 
 module.exports = {
