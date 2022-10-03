@@ -2,9 +2,9 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-function N_Signed({navigation}) {
-  return (
-    <View style={styles.container}>
+function N_Signed({route}) {
+  return ( // 'route.params.파라미터'로 접근 가능. ex) route.params.title
+      <View style={styles.container}>
       <View style={styles.container2}>
         <TouchableOpacity style={styles.button_of_del} onPress={() => alert("삭제")}>
           <Text style={styles.del}>DEL</Text>
