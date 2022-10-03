@@ -55,15 +55,20 @@ function Login({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title} >Start with Blocker</Text>
+
+      <TouchableOpacity style={styles.button_of_escape} onPress={() => navigation.navigate("Notice_board")}>
+        <Text>바로넘어가는 버튼</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button_of_escape} onPress={() => navigation.navigate("Notice_board")}>
+        <Text>바로넘어가는 버튼</Text>
+      </TouchableOpacity>
+
       <Image
         source={require("./image/Logo.png")}
         style={{ position: 'absolute', width: 130, height: 130, top: 250 }}>
       </Image>
       
-      <TouchableOpacity style={styles.button_of_escape} onPress={() => navigation.navigate("Notice_board")}>
-        <Text>바로넘어가는 버튼</Text>
-      </TouchableOpacity>
-
       <TouchableOpacity style={styles.button_1} onPress={() => setLoginModalVisible(true)}>
         <Text style={styles.title_1} >Log in</Text>
       </TouchableOpacity>

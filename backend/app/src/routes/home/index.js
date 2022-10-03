@@ -24,6 +24,7 @@ router.post("/post_upd", postCtrl.post_sys.post_upd);
 router.post("/post_del", postCtrl.post_sys.post_del);
 
 // contract 관련 api 라우팅
+router.post("/contract_load", contractCtrl.process.contract_load);
 router.post("/contract_view", contractCtrl.process.contract_view);
 router.post("/contract_add", contractCtrl.process.contract_add);
 router.post("/contract_upd", contractCtrl.process.contract_upd);
