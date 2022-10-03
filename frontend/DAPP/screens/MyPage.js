@@ -20,7 +20,6 @@ function MyPage({navigation}) {
   const {login_data} = useContext(LoginContext);
   const [user_name, set_user_name] = useState(login_data.name);
 
-
   const [user_bmark, set_user_bmark] = useState(0);
   const [user_bmark_lst, set_user_bmark_lst] = useState(0);
 
@@ -44,7 +43,6 @@ function MyPage({navigation}) {
     const { data: result } = await Axios.post(HOSTNAME + '/my_post', { id: login_data.id})
     set_user_post(result.length);
     set_user_post_lst(result.data);
-
   }
 
   const my_contract = async () => {
@@ -134,12 +132,7 @@ function MyPage({navigation}) {
               </View>
             </View>
           </View>
-
-
-
-
       </View>
-    
     </View>
   );
 }

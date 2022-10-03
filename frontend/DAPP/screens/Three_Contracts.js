@@ -11,9 +11,11 @@ import {
   FlatList,
   TouchableOpacity,
   Dimensions,
+  TextInput,
 } from 'react-native';
 import Icon from "@expo/vector-icons/Ionicons";
 import { HOSTNAME } from "@env";
+import Notice_board from './Notice_board';
 
 const Tab = createBottomTabNavigator();
 
@@ -114,12 +116,13 @@ function Three_Contracts() {
   );
 }
 
-/////////
+/////////미체결////////////
 function N_Signed({ navigation }) {
   const [contracts, setContracts] = useState([]); // 계약서 배열
   const loadContracts = async () => {
     // 계약서 데이터 로드함수
     try {
+      console.log("a");
       setContracts( // 현재 유저정보 기반으로 계약서 검색(POST)으로 수정해야함
         await (
           await fetch(HOSTNAME + "/contract_load", {
@@ -135,16 +138,34 @@ function N_Signed({ navigation }) {
       ); // 로드한 계약서들 정보 반영
     } catch (err) {
       console.error(err);
-    }
+    }console.log(contracts);
   };
 
   useEffect(() => {
-    //loadContracts();
+    loadContracts();
   }, []);
 
+  //검색입력은 useState사용
+  const [inputText, setInputText] = useState('');
   return (
     <View style={styles.container}>
-      <Text style={styles.h_text_style}>미체결계약서</Text>
+      {/*검색창*/}
+          <View style={styles.searchcontainer}>
+            {/*import component*/}
+            <TextInput 
+              style = {styles.textInput}
+              placeholder = "미체결 계약서 검색_"
+              value = {inputText}
+              onChangeText={setInputText}
+            />
+            {/*List of Component */}
+            <TouchableOpacity style={styles.searchBtn} onPress>
+              <Text style={styles.text_style4}>검색</Text>
+            </TouchableOpacity>
+        </View>
+      {/* <Text style={styles.h_text_style}>미체결계약서</Text> */}
+      {/* Notice_board->dDrawer.Screen name="Contracts" 상단바 이름 바꾸고싶음*/}
+      
         <View>
           <FlatList
             data={contracts}
@@ -172,10 +193,27 @@ function N_Signed({ navigation }) {
   );
 }
 
+/////////진행중////////////
 function Proceeding({ navigation }) {
+  //검색입력은 useState사용
+  const [inputText, setInputText] = useState('');
   return (
     <View style={styles.container}>
-      <Text style={styles.h_text_style2}>진행중계약서</Text>
+      {/*검색창*/}
+      <View style={styles.searchcontainer}>
+            {/*import component*/}
+            <TextInput 
+              style = {styles.textInput}
+              placeholder = "진행중 계약서 검색_"
+              value = {inputText}
+              onChangeText={setInputText}
+            />
+            {/*List of Component */}
+            <TouchableOpacity style={styles.searchBtn} onPress>
+              <Text style={styles.text_style4}>검색</Text>
+            </TouchableOpacity>
+        </View>
+      {/* <Text style={styles.h_text_style2}>진행중계약서</Text> */}
       <View>
       <FlatList
         data={DATA2}
@@ -197,10 +235,28 @@ function Proceeding({ navigation }) {
   );
 }
 
+/////////체결////////////
 function Signed({ navigation }) {
+   //검색입력은 useState사용
+   const [inputText, setInputText] = useState('');
   return (
     <View style={styles.container}>
-      <Text style={styles.h_text_style3}>체결계약서</Text>
+      {/*검색창*/}
+      <View style={styles.searchcontainer}>
+            {/*import component*/}
+            <TextInput 
+              style = {styles.textInput}
+              placeholder = "체결 계약서 검색_"
+              value = {inputText}
+              onChangeText={setInputText}
+            />
+            {/*List of Component */}
+            <TouchableOpacity style={styles.searchBtn} onPress>
+              <Text style={styles.text_style4}>검색</Text>
+            </TouchableOpacity>
+        </View>
+
+      {/* <Text style={styles.h_text_style3}>체결계약서</Text> */}
         <View>
           <FlatList data={DATA3} showsVerticalScrollIndicator={false} renderItem={({item}) => (   
             <View style={styles.view_style3}>   
@@ -319,4 +375,35 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     fontWeight: "bold",
   },
+  text_style4:{
+    fontSize: 20,
+    textAlign:"center",
+    marginTop:9,
+  },
+  searchcontainer:{
+    display:"flex",
+    width: "100%",
+    flexDirection :"row",
+  },
+  textInput : {
+    fontSize : 20,
+    textAlign: "right",
+    paddingRight:20,
+    marginRight:2,
+    width: "80%",
+    height:40,
+    borderTopLeftRadius:10,
+    borderBottomLeftRadius:10,
+    backgroundColor: "#ffffff",
+    marginTop : 40,
+    flexGrow:1,
+  },
+  searchBtn:{
+    width: "18%",
+    height:40,
+    borderTopRightRadius:10,
+    borderBottomRightRadius:10,
+    backgroundColor: "#4682B4",
+    marginTop : 40,
+  }
 });
