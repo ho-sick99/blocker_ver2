@@ -33,10 +33,16 @@ function Main({navigation}) {
                 <Icon name="rocket" color={icon_color} size={icon_size}/>
                 <Text style={styles.text_style}>{item}</Text>
               </TouchableOpacity> 
+              
             </View>    
           )}>
+        
           </FlatList>
+        <TouchableOpacity style={styles.postBtn} onPress={() => navigation.push('PostWrite')}> 
+          <Text style={styles.text_style2}>POST</Text>
+        </TouchableOpacity> 
         </View>
+        
     </View>
   );
 }
@@ -128,4 +134,23 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 355,
   },
+  text_style2:{
+    color:"#000000",
+    fontSize:30,
+    fontWeight:"bold",
+  },
+  postBtn:{
+    justifyContent:"center",
+    alignItems:"center",
+    position:"absolute",
+    width:"30%",
+    height:"8%",
+    top:"80%",
+    left:"35%",
+    borderRadius:10,
+    borderColor:"black",
+    borderStyle:"dotted",
+    borderWidth:5,
+    backgroundColor:"#0DF9FF",
+  }
 });

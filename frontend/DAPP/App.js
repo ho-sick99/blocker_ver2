@@ -14,6 +14,7 @@ import Proceeding from './screens/Proceeding';
 import Signed from './screens/Signed';
 
 import PostView from './screens/PostView';
+import PostWrite from './screens/PostWrite';
 const Stack = createNativeStackNavigator();
 
 
@@ -73,6 +74,16 @@ export default function App() {
               name="PostView"
               component={PostView}
               options={{title: 'POSTVIEW', headerStyle: { backgroundColor: "black"}, 
+              headerTitleStyle: { color: "white", fontSize: 23 ,},
+              headerTintColor:"white",
+              headerBackTitle:"",
+              headerBackVisible: false,
+            }}
+            />
+            <Stack.Screen
+              name="PostWrite"
+              component={PostWrite}
+              options={{title: 'PostWrite', headerStyle: { backgroundColor: "black"}, 
               headerTitleStyle: { color: "white", fontSize: 23 ,},
               headerTintColor:"white",
               headerBackTitle:"",
