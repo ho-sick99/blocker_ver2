@@ -178,7 +178,8 @@ function N_Signed({ navigation }) {
                     navigation.push("N_Signed", {
                       title: item.title,
                       content: item.content,
-                      id: item.id
+                      id: item.id,
+                      contract_id: item.contract_id,
                     })
                   }
                 >

@@ -1,10 +1,17 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, TextInput} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 function N_Signed({route}) {
-  return ( // 'route.params.파라미터'로 접근 가능. ex) route.params.title
+  return ( // 'route.params.파라미터'로 접근 가능. ex) route.params.title //title, content, id, contract_id
       <View style={styles.container}>
+        <View style={styles.container3}>
+          <Text style={styles.textbox}>타이틀 : {route.params.title}</Text>
+          <Text style={styles.textbox}>아이디 : {route.params.id}</Text>
+          <Text style={styles.textbox}>콘텐츠 : {route.params.content}</Text>
+          <Text style={styles.textbox}>계약서 ID : {route.params.contract_id}</Text>
+          <TextInput style={styles.textbox} placeholder="계약서 내용 입력"></TextInput>
+        </View>
       <View style={styles.container2}>
         <TouchableOpacity style={styles.button_of_del} onPress={() => alert("삭제")}>
           <Text style={styles.del}>DEL</Text>
@@ -28,9 +35,27 @@ const styles = StyleSheet.create({
   },
   container2: {
     flexDirection:'row',
-    width: 310,
-    height: 50,
-    marginTop:500,
+    justifyContent:'center',
+    width: "100%",
+    height: "20%",
+    backgroundColor:"#000000"
+  },
+  container3:{
+    flexDirection:'column',
+    justifyContent:'flex-start',
+    paddingLeft:"5%",
+    padding:"10%",
+    width:"100%",
+    height:"80%",
+    margin: "3%",
+    borderRadius:10,
+    backgroundColor:"#FFFFFF",
+  },
+  textbox:{
+    margin:"5%",
+    fontsize:23,
+    fontWeight: 'bold',
+    borderColor:"#FFAF00",
   },
   button_of_del: {
     backgroundColor:"#FFFFFF",
