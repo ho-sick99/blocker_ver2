@@ -16,7 +16,7 @@ const Drawer = createDrawerNavigator();
 
 const DATA = [ '1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20']
 const icon_color = '#000000';
-const icon_size = "50";
+const icon_size = 50;
 
 const Width = Dimensions.get('window').width;    //스크린 너비 초기화
 const Height = Dimensions.get('window').height;  //스크린 높이 초기화
