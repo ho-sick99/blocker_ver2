@@ -76,6 +76,7 @@ function Login({ navigation }) {
       <TouchableOpacity style={styles.button_2} onPress={() => setRegisterModalVisible(true)}>
         <Text style={styles.title_2}>Sign up</Text>
       </TouchableOpacity>
+      
       <Modal
         animationType="slide"
         transparent={true}

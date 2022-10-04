@@ -5,12 +5,15 @@ import React, {
 } from 'react';
 import LoginContext from '../context/LoginContext';
 import user_info_img_d from './image/user_info_img_d.png'
+import user_info_img_sign from './image/user_info_img_sign.png'
 import { 
   StyleSheet, 
   View,
   Text,
   Image,
   Pressable,
+  Modal,
+  TouchableOpacity,
  } from "react-native";
  import Axios from 'axios';
  import { HOSTNAME } from "@env";
@@ -32,6 +35,9 @@ function MyPage({navigation}) {
   const [user_ing_contracts_lst, set_user_ing_contracts_lst] = useState(0);
   const [user_ed_contracts, set_user_ed_contracts] = useState(0);
   const [user_ed_contracts_lst, set_user_ed_contracts_lst] = useState(0);
+
+  const [modalVisible_sign_view, setSignViewModalVisible] = useState(false);
+  const [modalVisible_sign_edit_view, setSignEditViewModalVisible] = useState(false);
 
   const my_bookmark = async () => {
     const { data: result } = await Axios.post(HOSTNAME + '/bookmark', { id: login_data.id})
@@ -132,7 +138,79 @@ function MyPage({navigation}) {
               </View>
             </View>
           </View>
+          {/* 서명 */}
+          <View style={styles.setting_item}>
+            <Text style={styles.textStyle_2}>서명 관리</Text>
+            <View style={styles.contracts_bar}>
+              <View style={styles.contracts_bar_item}> 
+                <TouchableOpacity style={[styles.btn_sign, styles.textStyle_3]} onPress={() => setSignViewModalVisible(true)}>
+                  <Text style={styles.textStyle_3} >서명</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.contracts_bar_item}> 
+                <TouchableOpacity style={[styles.btn_sign, styles.textStyle_3]} onPress={() => setSignEditViewModalVisible(true)}>
+                  <Text style={styles.textStyle_3} >서명 수정</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+
       </View>
+
+      {/* 서명 확인 모달  */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible_sign_view}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setSignViewModalVisible(!modalVisible_sign_view);
+        }}
+      >
+        <View style={styles.sign_view_container}>
+          <Image source = {user_info_img_sign} style={styles.user_sign_img}/>          
+          <Pressable
+            style={[styles.button_modal]}
+            onPress={() => setSignViewModalVisible(!modalVisible_sign_view)}
+            >
+            <Text style={styles.textStyle_4}>Close</Text>
+          </Pressable>
+        </View>
+      </Modal> 
+
+      {/* 서명 편집 모달  */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible_sign_edit_view}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setSignEditViewModalVisible(!modalVisible_sign_edit_view);
+        }}
+      >
+        <View style={styles.sign_view_container}>   
+          <View style={[styles.sign_edit_view_container]}>
+          </View>   
+          <View style={[styles.sign_edit_btn_view]}>
+            <Pressable
+              style={[styles.button_modal]}
+              onPress={() => setSignEditViewModalVisible(!modalVisible_sign_edit_view)}
+              >
+              <Text style={styles.textStyle_4}>Save</Text>
+            </Pressable>
+            
+            <Pressable
+              style={[styles.button_modal]}
+              onPress={() => setSignEditViewModalVisible(!modalVisible_sign_edit_view)}
+              >
+              <Text style={styles.textStyle_4}>Close</Text>
+            </Pressable>
+          </View>
+
+          
+        </View>
+      </Modal> 
+
     </View>
   );
 }
@@ -160,7 +238,13 @@ const styles = StyleSheet.create({
     paddingLeft: 30,
     paddingRight: 30,
   },
-
+  textStyle_4: {
+    fontSize: 20,
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+    margin: 10,
+  },
   mypage_container:{
     flex: 1,
     alignItems: 'center',
@@ -229,7 +313,7 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 10, 
     backgroundColor: 'white',
-    height: '33%',
+    height: '60%',
     justifyContent: 'space-between',
   },
   contracts_bar_item:{
@@ -237,6 +321,77 @@ const styles = StyleSheet.create({
   },
   setting_item:{
     padding: 10,
+    height: "30%",
+  },
+  btn_sign:{
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+  },
+  
+  modalView: {
+    margin: 20,
+    width: "95%",
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 25,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 0
+  },
+
+  modal_btn_view: {
+    width: "100%",
+    flexDirection: 'row', // 혹은 'column'
+    justifyContent: 'space-between',
+  },
+  sign_view_container: {
+    width: "100%",
+    height: "35%",
+    justifyContent: "start",
+    alignItems: "center",
+    marginTop: "50%",
+    borderColor: "#2196F3",
+    borderWidth: 3,
+    backgroundColor: "white",
+    borderRadius: 10,
+  },
+  button_modal: {
+    width: "45%",
+    margin: 10,
+    backgroundColor: "#2196F3",
+    borderRadius: 10,
+  },
+  user_sign_img : {
+    width: "95%",
+    height: "60%",
+    borderRadius: 10, 
+    borderColor: "#939393",
+    borderWidth: 1,
+    margin: 10,
+    backgroundColor: "white",
+  },
+  sign_edit_view_container: {
+    width: "95%",
+    height: "60%",
+    margin: 10,
+    justifyContent: "start",
+    alignItems: "center",
+    borderColor: "#939393",
+    backgroundColor: "white",
+    borderRadius: 10,
+    borderWidth: 1,
+  },
+  sign_edit_btn_view: {
+    width: "100%",
+    flexDirection: 'row', // 혹은 'column'
+    justifyContent: 'space-between',
   }
 });
 
