@@ -67,11 +67,11 @@ function MyPage({navigation}) {
     my_bookmark();
   }
 
-  useEffect(() => {
-    console.log("마이 페이지 데이터 불러오기");
+  // useEffect(() => {
+  //   console.log("마이 페이지 데이터 불러오기");
     
-    set_user_info();
-  }, []);
+  //   set_user_info();
+  // }, []);
   
 
   return (
@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
   },
   user_info_text: {
     margin: '5%',
-    flexDirection:'col',
+    flexDirection:'column',
   },
   use_user_info_text_name: {
     fontSize: 20,
@@ -354,7 +354,6 @@ const styles = StyleSheet.create({
   sign_view_container: {
     width: "100%",
     height: "35%",
-    justifyContent: "start",
     alignItems: "center",
     marginTop: "50%",
     borderColor: "#2196F3",
@@ -381,7 +380,6 @@ const styles = StyleSheet.create({
     width: "95%",
     height: "60%",
     margin: 10,
-    justifyContent: "start",
     alignItems: "center",
     borderColor: "#939393",
     backgroundColor: "white",
