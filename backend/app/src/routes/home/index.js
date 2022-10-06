@@ -16,6 +16,9 @@ router.post("/chk_id", userCtrl.process.chk_id);
 router.post("/bookmark", userCtrl.process.bookmark_info);
 router.post("/my_contract", userCtrl.process.my_contract_info);
 router.post("/my_post", userCtrl.process.my_post_info);
+router.post("/get_sign_info", userCtrl.process.get_sign_info);
+router.post("/set_sign_info", userCtrl.process.set_sign_info);
+
 
 // post 관련 api 라우팅
 router.post("/post_view", postCtrl.post_sys.post_view);

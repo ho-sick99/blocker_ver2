@@ -1,7 +1,8 @@
 import React, {
   useContext,
   useState,
-  useEffect ,
+  useEffect,
+  useRef,
 } from 'react';
 import LoginContext from '../context/LoginContext';
 import user_info_img_d from './image/user_info_img_d.png'
@@ -17,6 +18,8 @@ import {
  } from "react-native";
  import Axios from 'axios';
  import { HOSTNAME } from "@env";
+ import Signature from 'react-native-canvas-signature';
+ 
 
 function MyPage({navigation}) {
 
@@ -38,6 +41,8 @@ function MyPage({navigation}) {
 
   const [modalVisible_sign_view, setSignViewModalVisible] = useState(false);
   const [modalVisible_sign_edit_view, setSignEditViewModalVisible] = useState(false);
+  const [sign_img_data, setSignImgData] = useState("");
+  const [SignImgBase64, setSignImgBase64] = useState(0);
 
   const my_bookmark = async () => {
     const { data: result } = await Axios.post(HOSTNAME + '/bookmark', { id: login_data.id})
@@ -61,19 +66,30 @@ function MyPage({navigation}) {
     set_user_ed_contracts_lst(result.signed_contract_lst);
   }
 
+  const my_sign = async () => {
+    const { data: result } = await Axios.post(HOSTNAME + '/get_sign_info', { id: login_data.id})
+    setSignImgBase64(result);
+  }
+
+  const edit_my_sign = async () => {
+    const { data: result } = await Axios.post(HOSTNAME + '/set_sign_info', { id: login_data.id, sign: sign_img_data})
+    my_sign();
+  }
+
   const set_user_info = () => {
     my_contract()
     my_post();
     my_bookmark();
   }
 
-  // useEffect(() => {
-  //   console.log("마이 페이지 데이터 불러오기");
-    
-  //   set_user_info();
-  // }, []);
-  
+  const ref = useRef();
 
+
+  useEffect(() => {
+    console.log("마이 페이지 데이터 불러오기");
+    set_user_info();
+  }, []);
+  
   return (
     <View style={styles.mypage_container}>
       {/* <Text>{login_data.name}, {login_data.id}, {login_data.login_state}</Text> */}
@@ -143,7 +159,11 @@ function MyPage({navigation}) {
             <Text style={styles.textStyle_2}>서명 관리</Text>
             <View style={styles.contracts_bar}>
               <View style={styles.contracts_bar_item}> 
-                <TouchableOpacity style={[styles.btn_sign, styles.textStyle_3]} onPress={() => setSignViewModalVisible(true)}>
+                <TouchableOpacity style={[styles.btn_sign, styles.textStyle_3]} onPress={() => {
+                  my_sign();
+                  setSignViewModalVisible(true)
+
+                  }}>
                   <Text style={styles.textStyle_3} >서명</Text>
                 </TouchableOpacity>
               </View>
@@ -168,7 +188,7 @@ function MyPage({navigation}) {
         }}
       >
         <View style={styles.sign_view_container}>
-          <Image source = {user_info_img_sign} style={styles.user_sign_img}/>          
+          <Image source = {{url: SignImgBase64}} style={styles.user_sign_img}/>          
           <Pressable
             style={[styles.button_modal]}
             onPress={() => setSignViewModalVisible(!modalVisible_sign_view)}
@@ -190,13 +210,43 @@ function MyPage({navigation}) {
       >
         <View style={styles.sign_view_container}>   
           <View style={[styles.sign_edit_view_container]}>
+            <Signature
+              containerStyle = {[styles.sign_canvas_container]}
+              ref={ref}
+              lineWidth={3}
+              lineColor="blue"
+              canvasStyle={{ 
+                borderWidth: 1, 
+                borderColor: 'grey',
+                width: "100%",
+                height: "100%",
+                borderRadius: 10, 
+              }}
+              onBegin={() => console.log('begin')}
+              onEnd={() => console.log('end')}
+              onChange={(signature) =>{
+                console.log(signature)
+                setSignImgData(signature)
+              }}
+            />
           </View>   
           <View style={[styles.sign_edit_btn_view]}>
             <Pressable
               style={[styles.button_modal]}
-              onPress={() => setSignEditViewModalVisible(!modalVisible_sign_edit_view)}
+              onPress={() => {
+                // alert(sign_img_data)
+                setSignEditViewModalVisible(!modalVisible_sign_edit_view)
+                setSignImgBase64(sign_img_data)
+                edit_my_sign()
+              }}
               >
               <Text style={styles.textStyle_4}>Save</Text>
+            </Pressable>
+            <Pressable
+              style={[styles.button_modal]}
+              onPress={() => ref.current?.clearSignature?.()}
+              >
+              <Text style={styles.textStyle_4}>Clear</Text>
             </Pressable>
             
             <Pressable
@@ -362,7 +412,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   button_modal: {
-    width: "45%",
+    width: "28%",
     margin: 10,
     backgroundColor: "#2196F3",
     borderRadius: 10,
@@ -390,6 +440,10 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: 'row', // 혹은 'column'
     justifyContent: 'space-between',
+  },
+  sign_canvas_container: {
+    width: "100%",
+    height: "100%"
   }
 });
 

@@ -2,7 +2,6 @@
 
 const { bookmark_info } = require("./UserStorage");
 const UserStorage = require("./UserStorage");
-
 class User {
   constructor(body) {
     this.body = body;
@@ -103,6 +102,26 @@ class User {
     }
   }
 
+  async get_user_sign() {
+    const input_id = this.body;
+    try {
+      const response = await UserStorage.get_user_sign(input_id.id)
+      console.log(response);
+      return response;
+    } catch (err) {
+      console.log(err);
+      return { err: false };
+    }
+  }
+  async set_sign_info(){
+    const clientData = this.body;
+    try {
+      const response = await UserStorage.set_user_sign(clientData)
+      return response;
+    } catch (err) {
+      return { err: false };
+    }
+  }
 }
 
 module.exports = User;
