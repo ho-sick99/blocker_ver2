@@ -30,6 +30,7 @@ function Login({ navigation }) {
     set_pw("");
     set_name("");
   }
+
   // 로그인 Context 관리 함수 
   const { set_login_data } = useContext(LoginContext);
 
@@ -76,12 +77,12 @@ function Login({ navigation }) {
       <TouchableOpacity style={styles.button_2} onPress={() => setRegisterModalVisible(true)}>
         <Text style={styles.title_2}>Sign up</Text>
       </TouchableOpacity>
+      
       <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible_login}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
           setLoginModalVisible(!modalVisible_login);
         }}
       >
@@ -290,7 +291,6 @@ const styles = StyleSheet.create({
 
   centeredView: {
     flex: 1,
-    justifyContent: "start",
     alignItems: "center",
     marginTop: 150
   },

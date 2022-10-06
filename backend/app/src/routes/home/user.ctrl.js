@@ -40,6 +40,18 @@ const process = {
 
     return res.send(registerRes);
   }, 
+  get_sign_info : async (req, res) => {
+    const bodyData = new User(req.body); 
+    const singRes = await bodyData.get_user_sign();
+
+    return res.send(singRes.sign);
+  }, 
+  set_sign_info : async (req, res) => {
+    const bodyData = new User(req.body); 
+    const singRes = await bodyData.set_sign_info();
+
+    return res.send(singRes.sign);
+  }, 
 };
 
 module.exports = {

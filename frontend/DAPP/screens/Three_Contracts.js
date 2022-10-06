@@ -15,7 +15,6 @@ import {
 } from 'react-native';
 import Icon from "@expo/vector-icons/Ionicons";
 import { HOSTNAME } from "@env";
-import Notice_board from './Notice_board';
 
 const Tab = createBottomTabNavigator();
 
