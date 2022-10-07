@@ -9,31 +9,25 @@ const output = {};
 const process = {
   contract_load: async (req, res) => {
     // 계약서들 정보 로드
-    const contractData = new Contract(req.body); // 유저 정보 객체 생성 -> 나중에 User 클래스 내부에서 getter로 수행해야함
+    console.log(req.body);
+    const contractData = new Contract(req.body); // 유저 정보 객체 생성
     const contracts = await contractData.load_contract();
     return res.send(contracts); // 계약서 배열 반환
   },
-  contract_view: async (req, res) => {
-    // 계약서 보기
-    const contractData = new Contract(req.body); // 계약서 객체 생성
-    const contract_res = await contractData.view_contract(); // 계약서 데이터 요청
+  // contract_view: async (req, res) => {
+  //   // 계약서 보기
+  //   const contractData = new Contract(req.body); // 계약서 객체 생성
+  //   const contract_res = await contractData.view_contract(); // 계약서 데이터 요청
 
-    return res.send(contract_res); // 계약서 데이터 반환
-  },
-  contract_add: async (req, res) => {
-    // 계약서 작성
-    const contractData = new Contract(req.body); // 계약서 객체 생성
-    const contract_res = await contractData.add_contract(); // 계약서 생성 요청
+  //   return res.send(contract_res); // 계약서 데이터 반환
+  // },
+  // contract_upd: async (req, res) => {
+  //   // 계약서 수정
+  //   const contractData = new Contract(req.body);
+  //   const contract_res = await contractData.update_contract(); // 계약서 수정 요청
 
-    return res.send(contract_res); // 생성 결과 반환
-  },
-  contract_upd: async (req, res) => {
-    // 계약서 수정
-    const contractData = new Contract(req.body);
-    const contract_res = await contractData.update_contract(); // 계약서 수정 요청
-
-    return res.send(contract_res); // 수정 결과 반환
-  },
+  //   return res.send(contract_res); // 수정 결과 반환
+  // },
   contract_del: async (req, res) => {
     // 계약서 삭제
     const contractData = new Contract(req.body);

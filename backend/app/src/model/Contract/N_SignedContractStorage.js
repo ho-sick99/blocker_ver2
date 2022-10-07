@@ -22,8 +22,8 @@ class N_SignedContractStorage {
     });
   }
 
-  // 특정 계약서 정보 로드 메서드
-  static get_contract_info(contractId) {
+  // 특정 미체결 계약서 정보 로드 메서드
+  static view_contract(contractId) {
     // 계약서 id를 매개변수로 받음
     return new Promise((resolve, reject) => {
       db.query(
@@ -41,7 +41,7 @@ class N_SignedContractStorage {
     });
   }
 
-  // 계약서 생성 메서드
+  // 미체결 계약서 생성 메서드
   static insert_contract(contractData) {
     return new Promise((resolve, reject) => {
       db.query(
@@ -59,7 +59,7 @@ class N_SignedContractStorage {
     });
   }
 
-  // 계약서 수정 메서드
+  // 미체결 계약서 수정 메서드
   static update_contract(contractData) {
     return new Promise((resolve, reject) => {
       db.query(
@@ -73,11 +73,11 @@ class N_SignedContractStorage {
     });
   }
 
-  // 계약서 삭제 메서드
+  // 미체결 계약서 삭제 메서드
   static delete_contract(contractId) {
     return new Promise((resolve, reject) => {
       db.query(
-        "delete from contract where contract_id = ?;",
+        "DELETE FROM blocker_db.contract WHERE contract_id = ?;",
         [contractId],
         (err) => {
           if (err) reject(`${err}`);
