@@ -6,8 +6,8 @@ const router = express.Router(); // 라우터 모듈
 // 컨트롤러 로드
 const userCtrl = require("./user.ctrl"); // user 컨트롤러
 const postCtrl = require("./post.ctrl"); // post 컨트롤러
-const contractCtrl = require("./contract.ctrl"); // contract 컨트롤러
-
+const contractCtrl = require("../contracts/contract.ctrl"); // contract 컨트롤러
+const n_signedcontractCtrl = require("../contracts/n_signedContract.ctrl"); // 미체결 계약서 컨트롤러
 
 // process
 router.post("/login", userCtrl.process.login);
@@ -27,10 +27,22 @@ router.post("/post_upd", postCtrl.post_sys.post_upd);
 router.post("/post_del", postCtrl.post_sys.post_del);
 
 // contract 관련 api 라우팅
+// 공통
 router.post("/contract_load", contractCtrl.process.contract_load);
+
+// 미체결
 router.post("/contract_view", contractCtrl.process.contract_view);
 router.post("/contract_add", contractCtrl.process.contract_add);
 router.post("/contract_upd", contractCtrl.process.contract_upd);
 router.post("/contract_del", contractCtrl.process.contract_del);
+
+router.post("/share_contract", n_signedcontractCtrl.process.share_contract);
+
+
+// 진행중
+
+// 체결
+
+
 
 module.exports = router;

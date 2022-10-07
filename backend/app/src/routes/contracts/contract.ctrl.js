@@ -1,7 +1,6 @@
 "use strict";
 
-const Contract = require("../../model/Contract"); // 계약서 클래스 로드
-const ContractStorage = require("../../model/ContractStorage"); // 계약서 저장소 로드
+const Contract = require("../../model/Contract/Contract"); // 계약서 클래스 로드
 
 // GET 요청
 const output = {};
