@@ -1,6 +1,6 @@
 "use strict";
 
-const SigningContract = require("../../model/Contract/SigningContract"); // 미체결 계약서 클래스 로드
+const SigningContract = require("../../model/Contract/SigningContract"); // 진행중 계약서 클래스 로드
 
 const process = {
   // 계약 성립 (진행중 -> 체결)

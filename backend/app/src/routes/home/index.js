@@ -9,6 +9,8 @@ const postCtrl = require("./post.ctrl"); // post 컨트롤러
 const contractCtrl = require("../contracts/contract.ctrl"); // contract 컨트롤러
 const n_signedContractCtrl = require("../contracts/n_signedContract.ctrl"); // 미체결 계약서 컨트롤러
 const signingContractCtrl = require("../contracts/signingContract.ctrl"); // 진행중 계약서 컨트롤러
+const signedContractCtrl = require("../contracts/signedContract.ctrl"); // 체결 계약서 컨트롤러
+
 
 // process
 router.post("/login", userCtrl.process.login);
@@ -45,6 +47,6 @@ router.post(
 router.post("/cancle_progress_contract", signingContractCtrl.process.cancle_progress_contract);
 
 // 체결
-//router.post("/cancle_contract")
+//router.post("/cancle_contract", signedContractCtrl.process.)
 
 module.exports = router;
