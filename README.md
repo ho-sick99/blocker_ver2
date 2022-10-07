@@ -19,3 +19,6 @@ back
     DB_DATABASE = 'blocker_db'
 3. nodemodule 설치 -> cmd: "npm i"로 
 4. 서버 실행 -> cmd: "npm start" 
+
+
+new start
