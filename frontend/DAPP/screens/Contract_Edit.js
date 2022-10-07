@@ -1,33 +1,30 @@
-import React from 'react';
+import React, {useState,Component} from 'react';
 import {StyleSheet, Text, View, TextInput} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-function N_Signed({navigation, route}) {
-  return ( // 'route.params.파라미터'로 접근 가능. ex) route.params.title //title, content, id, contract_id
+function Contract_Eidt({navigation, route}) {
+
+  return ( 
       <View style={styles.container}>
         <View style={styles.container3}>
-          <Text style={styles.textbox}>타이틀 : {route.params.title}</Text>
-          <Text style={styles.textbox}>아이디 : {route.params.id}</Text>
-          <Text style={styles.textbox}>콘텐츠 : {route.params.content}</Text>
-          <Text style={styles.textbox}>계약서 ID : {route.params.contract_id}</Text>
-          {/* <TextInput style={styles.textbox} placeholder="계약서 내용 입력"></TextInput> */}
+          <TextInput style={styles.textbox}>타이틀 : {route.params.title}</TextInput>
+          <TextInput style={styles.textbox}>아이디 : {route.params.id}</TextInput>
+          <TextInput style={styles.textbox}>콘텐츠 : {route.params.content}</TextInput>
+          <TextInput style={styles.textbox}>계약서 ID : {route.params.contract_id}</TextInput>
         </View>
       <View style={styles.container2}>
-        <TouchableOpacity style={styles.button_of_del} onPress={() => alert("삭제")}>
-          <Text style={styles.del}>DEL</Text>
-        </TouchableOpacity>
         <TouchableOpacity style={styles.space}></TouchableOpacity>    
-        <TouchableOpacity style={styles.button_of_edit} onPress={() => navigation.push("Contract_Edit", {
+        <TouchableOpacity style={styles.button_of_edit} onPress={() => navigation.navigate("N_Signed", {
                       title: route.params.title,
                       id: route.params.id,
                       content: route.params.content,
                       contract_id: route.params.contract_id,
         })}>
-          <Text style={styles.edit}>EDIT</Text>
+          <Text style={styles.edit}>COMPLETION</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.space}></TouchableOpacity>    
       </View>
     </View>
-
   );
 }
 
@@ -80,7 +77,7 @@ const styles = StyleSheet.create({
     height: 50,
   },
   button_of_edit: {
-    backgroundColor:"#FFFFFF",
+    backgroundColor:"#04B45F",
     width: 130,
     height: 50,
     borderRadius:10,
@@ -88,10 +85,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   edit: {
-    fontSize:23,
+    fontSize:15,
     color: 'black',
     fontWeight: 'bold',
   },
 });
 
-export default N_Signed;
+export default Contract_Eidt;

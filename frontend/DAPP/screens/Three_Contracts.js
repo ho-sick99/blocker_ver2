@@ -4,9 +4,9 @@ import React, {
 } from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
-  StyleSheet,
-  View,
-  Button,
+  StyleSheet, 
+  View, 
+  Button, 
   Text,
   FlatList,
   TouchableOpacity,
@@ -18,8 +18,8 @@ import { HOSTNAME } from "@env";
 
 const Tab = createBottomTabNavigator();
 
-const Width = Dimensions.get("window").width; //스크린 너비 초기화
-const Height = Dimensions.get("window").height; //스크린 높이 초기화
+const Width = Dimensions.get('window').width;    //스크린 너비 초기화
+const Height = Dimensions.get('window').height;  //스크린 높이 초기화
 
 //벡엔드는 여기서 진행하면 됨
 const DATA1 = [
@@ -121,19 +121,19 @@ function N_Signed({ navigation }) {
   const loadContracts = async () => {
     // 계약서 데이터 로드함수
     try {
-      const data = await (
-        await fetch(HOSTNAME + "/contract_load", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            id: "yohan123",
-          }),
-        })
-      ).json();
-      setContracts(data);
-      // 현재 유저정보 기반으로 계약서 검색(POST)으로 수정해야함 // 로드한 계약서들 정보 반영
+      setContracts( // 현재 유저정보 기반으로 계약서 검색(POST)으로 수정해야함
+        await (
+          await fetch(HOSTNAME + "/contract_load", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                id: "yohan123" 
+            })
+          })
+        ).json()
+      ); // 로드한 계약서들 정보 반영
     } catch (err) {
       console.error(err);
     }
@@ -187,7 +187,11 @@ function N_Signed({ navigation }) {
                 </TouchableOpacity>
               </View>
             )}
+
           ></FlatList>
+          <TouchableOpacity style={styles.postBtn1} onPress={() => navigation.push('Contract_Create')}> 
+            <Text style={styles.plus_1}>+</Text>
+          </TouchableOpacity> 
         </View>
     </View>
   );
@@ -263,11 +267,11 @@ function Signed({ navigation }) {
               <TouchableOpacity style={styles.contract_click_style} onPress={() => navigation.push('Signed')}> 
                 <Icon name="rocket" color={icon_color3} size={icon_size}/>
                 <Text style={styles.text_style3}>{item}</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        ></FlatList>
-      </View>
+              </TouchableOpacity> 
+            </View>    
+          )}>
+          </FlatList>
+        </View>
     </View>
   );
 }
@@ -278,9 +282,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#000000",
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#000000',
   },
   h_text_style: {
     backgroundColor: "#000000",
@@ -313,7 +317,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 10,
     width: "100%",
-    height: 80,
+    height:80,
     marginVertical: 4,
     color: "#ffffff",
     justifyContent: "center",
@@ -324,7 +328,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#0DF9FF",
     borderRadius: 10,
     width: "100%",
-    height: 80,
+    height:80,
     marginVertical: 4,
     color: "#ffffff",
     justifyContent: "center",
@@ -403,7 +407,25 @@ const styles = StyleSheet.create({
     height:40,
     borderTopRightRadius:10,
     borderBottomRightRadius:10,
-    backgroundColor: "#4682B4",
+    backgroundColor: "gray",
     marginTop : 40,
+  },
+  plus_1:{
+    color:"black",
+    fontSize:30,
+    fontWeight:"bold",
+  },
+  postBtn1:{
+    justifyContent:"center",
+    alignItems:"center",
+    position:"absolute",
+    width:"17.2%",
+    height:"10%",
+    top:"77%",
+    left:"75%",
+    borderRadius:100,
+    borderColor:"white",
+    borderWidth:5,
+    backgroundColor:"white",
   }
 });
