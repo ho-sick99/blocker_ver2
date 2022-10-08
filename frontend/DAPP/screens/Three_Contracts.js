@@ -405,5 +405,10 @@ const styles = StyleSheet.create({
     borderBottomRightRadius:10,
     backgroundColor: "#4682B4",
     marginTop : 40,
+  },
+  contract_pdf_convert_style: {
+    width: "100%",
+    height:50,
+    backgroundColor: "white"
   }
 });
