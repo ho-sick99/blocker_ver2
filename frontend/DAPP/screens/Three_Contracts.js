@@ -410,11 +410,19 @@ const styles = StyleSheet.create({
     backgroundColor: "gray",
     marginTop : 40,
   },
+  
+  contract_pdf_convert_style: {
+    width: "100%",
+    height:50,
+    backgroundColor: "white"
+  },
+  
   plus_1:{
     color:"black",
     fontSize:30,
     fontWeight:"bold",
   },
+  
   postBtn1:{
     justifyContent:"center",
     alignItems:"center",
