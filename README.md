@@ -4,7 +4,7 @@
 front
 1. DAPP으로 이동하여 ".env" 파일 생성 
 2. env 파일 내부에 다음과 같이 작성
-    HOSTNAME = '자기로컬IP주소'
+    HOSTNAME = 'http://[AWS EC2 주소]:3002'
 3. nodemodule 설치 -> cmd: "npm i"로 
 4. expo 실행 -> cmd: "expo start" ||  "expo start --tunnel"
 

@@ -187,7 +187,11 @@ function N_Signed({ navigation }) {
                 </TouchableOpacity>
               </View>
             )}
+
           ></FlatList>
+          <TouchableOpacity style={styles.postBtn1} onPress={() => navigation.push('Contract_Create')}> 
+            <Text style={styles.plus_1}>+</Text>
+          </TouchableOpacity> 
         </View>
     </View>
   );
@@ -403,7 +407,33 @@ const styles = StyleSheet.create({
     height:40,
     borderTopRightRadius:10,
     borderBottomRightRadius:10,
-    backgroundColor: "#4682B4",
+    backgroundColor: "gray",
     marginTop : 40,
+  },
+  
+  contract_pdf_convert_style: {
+    width: "100%",
+    height:50,
+    backgroundColor: "white"
+  },
+  
+  plus_1:{
+    color:"black",
+    fontSize:30,
+    fontWeight:"bold",
+  },
+  
+  postBtn1:{
+    justifyContent:"center",
+    alignItems:"center",
+    position:"absolute",
+    width:"17.2%",
+    height:"10%",
+    top:"77%",
+    left:"75%",
+    borderRadius:100,
+    borderColor:"white",
+    borderWidth:5,
+    backgroundColor:"white",
   }
 });

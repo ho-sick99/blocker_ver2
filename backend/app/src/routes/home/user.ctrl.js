@@ -1,7 +1,6 @@
 "use strict";
 
 const User = require("../../model/User");
-const UserStorage = require("../../model/UserStorage");
 
 const process = {
   login: async (req, res) => {
