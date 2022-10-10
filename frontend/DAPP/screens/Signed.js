@@ -9,12 +9,10 @@ import {
 } from 'react-native';
 import {printToFileAsync} from 'expo-print';
 import { shareAsync } from 'expo-sharing';
-import * as FileSystem from 'expo-file-system';
-import * as MediaLibrary from 'expo-media-library';
 
 const Width = Dimensions.get('window').width;    //스크린 너비 초기화
 
-function Proceeding({navigation}) {
+function Signed({navigation}) {
   const htmldata = 
   `<html>
     <body>
@@ -28,7 +26,7 @@ function Proceeding({navigation}) {
       html: htmldata,
       base64: true 
     });
-    console.log(file);
+    //console.log(file);
     if(Platform.OS === "ios"){
       // ios인 경우 
       await shareAsync(file.uri, { UTI: '.pdf', mimeType: 'application/pdf' });
@@ -96,4 +94,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Proceeding;
+export default Signed;
