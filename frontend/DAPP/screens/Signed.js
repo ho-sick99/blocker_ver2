@@ -1,4 +1,5 @@
 import React from 'react';
+<<<<<<< HEAD
 import {
   StyleSheet, 
   Text, 
@@ -37,26 +38,19 @@ function Proceeding({navigation}) {
     }
   }
 
+=======
+import {StyleSheet, Text, View} from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
+function Proceeding({navigation}) {
+>>>>>>> parent of 5fcb79e (계약서 pdf 저장 & 파일 불러오기 기능 구현)
   return (
     <View style={styles.container}>
-      <View style={styles.container_contract}>
-        <Text>contarct view</Text>
-      </View>
-      <View style={styles.container_button}>
-        <Pressable
-              style={[styles.btn_contract]}
-              onPress={() => alert("재계약")}
-              >
-          <Text style={styles.textStyle_btn}>Renewal Contract</Text>
-        </Pressable>
-        <Pressable
-              style={[styles.btn_contract]}
-              onPress={() => {
-                generatePdf()
-              }}
-              >
-          <Text style={styles.textStyle_btn}>Conver to PDF</Text>
-        </Pressable>
+      <View style={styles.container2}>
+ 
+        <TouchableOpacity style={styles.button_of_edit} onPress={() => alert("재계약")}>
+          <Text style={styles.edit}>RE-CONTRACT</Text>
+        </TouchableOpacity>
       </View>
     </View>
 
@@ -66,32 +60,29 @@ function Proceeding({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:'white',
+    backgroundColor:'black',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  container_contract: {
-    backgroundColor:'balck',
-    width: "100%",
-    height: "90%",
-  },
-  container_button: {
+  container2: {
     flexDirection:'row',
-    justifyContent: 'space-between',
+    width: 310,
+    height: 50,
+    marginTop:500,
   },
-  textStyle_btn : {
-    fontSize: 20,
+  button_of_edit: {
+    backgroundColor:'#007376',
+    width: 310,
+    height: 50,
+    borderRadius:10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  edit: {
+    fontSize:23,
+    color: '#ffffff',
     fontWeight: 'bold',
   },
-  btn_contract: {
-    width: "45%",
-    height: Width * 0.1,
-    margin: 10,
-    backgroundColor: "#2196F3",
-    borderRadius: 10,
-    justifyContent : 'center',
-    alignItems: 'center', 
-  }
 });
 
 export default Proceeding;

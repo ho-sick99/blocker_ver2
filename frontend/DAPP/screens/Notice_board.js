@@ -3,7 +3,6 @@ import { createDrawerNavigator,DrawerActions } from "@react-navigation/drawer";
 import Icon from "@expo/vector-icons/Ionicons";
 import Three_Contracts from "./Three_Contracts";
 import MyPage from "./MyPage";
-import Verification from "./Verification";
 import { 
   View, 
   Text, 
@@ -82,12 +81,6 @@ const Notice_board = () => {
             size={size}
             color={color}
           />),}} />
-          <Drawer.Screen name="Verification" component={Verification} options={{drawerIcon:({color,size,focuced})=>( 
-              <Icon
-                name={"pause"}
-                size={size}
-                color={color}
-              />),}} />
     </Drawer.Navigator>
   );
 }

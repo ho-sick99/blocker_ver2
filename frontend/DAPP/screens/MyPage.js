@@ -114,7 +114,7 @@ function MyPage({navigation}) {
         >
           <Text style={styles.textStyle}>
             Logout
-          </Text>
+            </Text>
         </Pressable>
       </View>
 
@@ -174,6 +174,7 @@ function MyPage({navigation}) {
               </View>
             </View>
           </View>
+
       </View>
 
       {/* 서명 확인 모달  */}
