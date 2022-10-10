@@ -12,12 +12,18 @@ const process = {
     return res.send(result); // 계약 체결 결과 반환
   },
   // 수정 요청에 의한 계약 취소 (진행중 -> 미체결)
-  cancle_progress_contract: async(req,res) => {
+  cancle_progress_contract: async (req, res) => {
     // 진행중 계약서 id를 받음
     const contractData = new SigningContract(req.body);
     const result = await contractData.cancle_progress_contract(); // 계약 취소
 
     return res.send(result); // 계약 취소 결과 반환
+  },
+  // 서명 기입
+  check_sign: async (req, res) =>{
+    // 진행중 계약서 id와, 현재 사용자의 id를 받음
+    const contractData = new SigningContract(req.body);
+    contractData.check_sign(); // 서명 기입
   }
 };
 

@@ -56,6 +56,17 @@ class SigningContract {
       return { success: false, err };
     }
   }
+
+  // 계약 수락(서명 기입) 메서드
+  async check_sign() {
+    const contractData = this.body;
+    const signedData = await SigningContractStorage.get_check_sign(contractData.contract_id)
+    console.log(signedData);
+    
+    // 현재 서명 정보를 get한다.
+    // 이미 해당 id에 대한 서명이 완료되었다면, (id -> checked: true) 이미 체크되었다는 오류 반환
+    // 해당 id에 대한 서명이 완료되지 않았다면, 현재 sign정보를 수정한 후, set한다.
+  }
 }
 
 module.exports = SigningContract;
