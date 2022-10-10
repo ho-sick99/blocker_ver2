@@ -1,5 +1,6 @@
 import React, {
     useState,
+    useEffect,
 } from 'react';
 import { 
     StyleSheet, 
@@ -9,62 +10,60 @@ import {
     Dimensions,
    } from "react-native";
 import * as DocumentPicker from 'expo-document-picker';
-import * as FileSystem from 'expo-file-system';
-import { Buffer } from "buffer";
+import { HOSTNAME } from "@env";
 
 const Width = Dimensions.get('window').width;    //스크린 너비 초기화
 
 function Verification({navigation}) {
-    const [ vrf_res, set_vrf_res_] = useState("Push the contract");
+    const [ vrf_res, set_vrf_res] = useState("Push the contract");
 
-    const ensureDirExists = async (file_path) => {
-        const dir = file_path;
-        const dirInfo = await FileSystem.getInfoAsync(dir);
-        if (!dirInfo.exists) {
-          console.log("directory doesn't exist, creating...");
-          await FileSystem.makeDirectoryAsync(dir, { intermediates: true });
-        } else {
-          console.log("directory alreay exists");
-        }
-    }
-
-    function atob(data) { return new Buffer(data, "base64").toString("binary"); }
-
-    const base64toBlob = (data) => {
-        // Cut the prefix `data:application/pdf;base64` from the raw base 64
-        const base64WithoutPrefix = data.substr('data:application/pdf;base64,'.length);
-    
-        const bytes = atob(base64WithoutPrefix);
-        let length = bytes.length;
-        let out = new Uint8Array(length);
-    
-        while (length--) {
-            out[length] = bytes.charCodeAt(length);
-        }
-        return new Blob([out], { type: 'application/pdf' });
+    const postDocument = async(param) => {
+      console.log("파일 전송 및 결과 반환")
+      const url = HOSTNAME+"/upload_pdf";
+      const fileUri = param.uri;
+      const formData = new FormData();
+      formData.append('file', param);
+      const options = {
+          method: 'POST',
+          body: formData,
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'multipart/form-data',
+          },
+      };
+      const res = await fetch(url, options).catch((error) => console.log(error));
+      const data = await res.json();
+      console.log(data.hash);
+      set_vrf_res(data.hash);
     };
-    
 
     const pickDocument = async () => {
-        let result = await DocumentPicker.getDocumentAsync({});
-        console.log(result.uri);
-        // ensureDirExists(result.uri)
-        // .then(() =>
-        // FileSystem.readAsStringAsync(result.uri, { encoding: 'base64' })
-        //   .then((contents) => {
-        //     console.log("Read Success");
-        //     //console.log(contents);
-        //     const blob = base64toBlob(contents);
-        //     console.log(blob);
-        //   })
-        //   .catch((e) => console.log(e))
-        // )
-        // .catch((e) => console.log(e));
+      console.log("pdf 파일 불러오기")
+      let result = await DocumentPicker.getDocumentAsync({ type: "*/*", copyToCacheDirectory: true })
+      .then(response => {
+        if (response.type == 'success') {          
+          let { name, size, uri } = response;
+          let nameParts = name.split('.');
+          let fileType = nameParts[nameParts.length - 1];
+          var fileToUpload = {
+            name: name,
+            size: size,
+            uri: uri,
+            type: "application/" + fileType
+          };
+          return fileToUpload;
+        } 
+      })
+      .then(res => {
+        postDocument(res);
+      })
+    };
 
+    useEffect(() => {
+      console.log("계약서(pdf) 검증");
+      set_vrf_res("Push the contract");
 
-
-      };
-
+    }, []);
 
     return(
         <View style={styles.container}>
@@ -72,8 +71,7 @@ function Verification({navigation}) {
                 <Pressable 
                     style={[styles.btn_vrf]}
                     onPress={() => {
-                    pickDocument();
-                    set_vrf_res_("fake")
+                    pickDocument()
                 }}>
                     <Text>
                         Verification

@@ -2,12 +2,14 @@
 
 const express = require("express");
 const router = express.Router(); // 라우터 모듈
+const multer = require("multer");
+var upload = multer();
 
 // 컨트롤러 로드
 const userCtrl = require("./user.ctrl"); // user 컨트롤러
 const postCtrl = require("./post.ctrl"); // post 컨트롤러
 const contractCtrl = require("./contract.ctrl"); // contract 컨트롤러
-
+const pdfCtrl = require("./pdf.crtl")
 
 // process
 router.post("/login", userCtrl.process.login);
@@ -32,5 +34,9 @@ router.post("/contract_view", contractCtrl.process.contract_view);
 router.post("/contract_add", contractCtrl.process.contract_add);
 router.post("/contract_upd", contractCtrl.process.contract_upd);
 router.post("/contract_del", contractCtrl.process.contract_del);
+
+// pdf 처리
+router.post("/upload_pdf", upload.single("file"), pdfCtrl.file_process.hash_pdf);
+
 
 module.exports = router;
