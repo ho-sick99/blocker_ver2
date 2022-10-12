@@ -27,18 +27,20 @@ function Verification({navigation}) {
           method: 'POST',
           body: formData,
           headers: {
-            Accept: 'application/json',
+            Accept: 'application/pdf',
             'Content-Type': 'multipart/form-data',
           },
       };
       const res = await fetch(url, options).catch((error) => console.log(error));
       const data = await res.json();
+      console.log(HOSTNAME);
       console.log(data.hash);
       set_vrf_res(data.hash);
     };
 
     const pickDocument = async () => {
       console.log("pdf 파일 불러오기")
+      console.log("변경 후")
       let result = await DocumentPicker.getDocumentAsync({ type: "*/*", copyToCacheDirectory: true })
       .then(response => {
         if (response.type == 'success') {          
@@ -62,7 +64,6 @@ function Verification({navigation}) {
     useEffect(() => {
       console.log("계약서(pdf) 검증");
       set_vrf_res("Push the contract");
-
     }, []);
 
     return(

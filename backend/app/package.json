@@ -22,6 +22,5 @@
     "mysql": "^2.18.1",
     "nodemon": "^2.0.20",
     "pdf-parse": "^1.1.1",
-    "react-native-platform-searchbar": "^1.2.3"
   }
 }

@@ -1,18 +1,43 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {
+  StyleSheet, 
+  Text, 
+  View,
+  Dimensions,
+  Pressable,
+} from 'react-native';
 
-function Proceeding({navigation}) {
+const Width = Dimensions.get('window').width;    //스크린 너비 초기화
+function Proceeding({navigation, route}) {
   return (
     <View style={styles.container}>
-      <View style={styles.container2}>
-        <TouchableOpacity style={styles.button_of_del} onPress={() => alert("삭제")}>
-          <Text style={styles.del}>DEL</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.space}></TouchableOpacity>    
-        <TouchableOpacity style={styles.button_of_edit} onPress={() => alert("수정")}>
-          <Text style={styles.edit}>EDIT</Text>
-        </TouchableOpacity>
+
+      <View style={styles.container_contract}>
+        <Text>contarct view</Text>
+        <Text>{route.params.title}</Text>
+        <Text>{route.params.content}</Text>
+        <Text>{route.params.contractors}</Text>
+      </View>
+
+      <View style={styles.container_button}>
+        <Pressable style={styles.btn_contract} 
+        onPress={() => {
+          alert("삭제")
+         }}>
+          <Text style={styles.textStyle_btn}>CANCLE</Text>
+        </Pressable> 
+        <Pressable style={styles.btn_contract} 
+        onPress={() => {
+          alert("수정")
+          }}>
+          <Text style={styles.textStyle_btn}>EDIT</Text>
+        </Pressable>
+        <Pressable style={styles.btn_contract} 
+        onPress={() => {
+          alert("사인")
+          }}>
+          <Text style={styles.textStyle_btn}>SIGN</Text>
+        </Pressable>
       </View>
     </View>
   );
@@ -21,46 +46,32 @@ function Proceeding({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:'black',
+    backgroundColor:'white',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  container2: {
+  container_contract: {
+    backgroundColor:'balck',
+    width: "100%",
+    height: "90%",
+  },
+  container_button: {
     flexDirection:'row',
-    width: 310,
-    height: 50,
-    marginTop:500,
+    justifyContent: 'space-between',
   },
-  button_of_del: {
-    backgroundColor:"#0DF9FF",
-    width: 130,
-    height: 50,
-    borderRadius:10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  del: {
-    fontSize:23,
-    color: 'black',
+  textStyle_btn : {
+    fontSize: 20,
     fontWeight: 'bold',
   },
-  space: {
-    width: 50,
-    height: 50,
-  },
-  button_of_edit: {
-    backgroundColor:"#0DF9FF",
-    width: 130,
-    height: 50,
-    borderRadius:10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  edit: {
-    fontSize:23,
-    color: 'black',
-    fontWeight: 'bold',
-  },
+  btn_contract: {
+    width: "30%",
+    height: Width * 0.1,
+    margin: 10,
+    backgroundColor: "#2196F3",
+    borderRadius: 10,
+    justifyContent : 'center',
+    alignItems: 'center', 
+  }
 });
 
 export default Proceeding;

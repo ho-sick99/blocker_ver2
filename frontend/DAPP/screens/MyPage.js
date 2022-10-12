@@ -6,7 +6,6 @@ import React, {
 } from 'react';
 import LoginContext from '../context/LoginContext';
 import user_info_img_d from './image/user_info_img_d.png'
-import user_info_img_sign from './image/user_info_img_sign.png'
 import { 
   StyleSheet, 
   View,
@@ -15,6 +14,7 @@ import {
   Pressable,
   Modal,
   TouchableOpacity,
+  FlatList, 
  } from "react-native";
  import Axios from 'axios';
  import { HOSTNAME } from "@env";
@@ -44,6 +44,9 @@ function MyPage({navigation}) {
   const [sign_img_data, setSignImgData] = useState("");
   const [SignImgBase64, setSignImgBase64] = useState(0);
 
+  const [modal_view_type, setModalViewType] = useState("");
+  const [modalVisible_intergrated_view, setIntergratedViewModalVisible] = useState(false);
+
   const my_bookmark = async () => {
     const { data: result } = await Axios.post(HOSTNAME + '/bookmark', { id: login_data.id})
     set_user_bmark(result.length);
@@ -68,6 +71,7 @@ function MyPage({navigation}) {
 
   const my_sign = async () => {
     const { data: result } = await Axios.post(HOSTNAME + '/get_sign_info', { id: login_data.id})
+    console.log(result);
     setSignImgBase64(result);
   }
 
@@ -145,8 +149,14 @@ function MyPage({navigation}) {
             <Text style={styles.textStyle_2}>게시글</Text>
             <View style={styles.contracts_bar}>
               <View style={styles.contracts_bar_item}> 
+              
+              <Pressable onPress={() => {
+                setModalViewType("작성 게시글");
+                setIntergratedViewModalVisible(true);
+                }}>
                 <Text style={styles.textStyle_3}>작성 게시글</Text>
                 <Text style={styles.textStyle_3}>{user_post}</Text>
+              </Pressable>
               </View>
               <View style={styles.contracts_bar_item}> 
                 <Text style={styles.textStyle_3}>즐겨찾기</Text>
@@ -188,7 +198,7 @@ function MyPage({navigation}) {
         }}
       >
         <View style={styles.sign_view_container}>
-          <Image source = {{url: SignImgBase64}} style={styles.user_sign_img}/>          
+          <Image source = {{uri: SignImgBase64}} style={styles.user_sign_img}/>          
           <Pressable
             style={[styles.button_modal]}
             onPress={() => setSignViewModalVisible(!modalVisible_sign_view)}
@@ -260,6 +270,27 @@ function MyPage({navigation}) {
           
         </View>
       </Modal> 
+
+            {/* 통합 모달 뷰  */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible_intergrated_view}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setIntergratedViewModalVisible(!modalVisible_intergrated_view);
+        }}
+      >
+        <View style={styles.sign_view_container}>
+          <Pressable
+            style={[styles.button_modal]}
+            onPress={() => setIntergratedViewModalVisible(!modalVisible_intergrated_view)}
+            >
+            <Text style={styles.textStyle_4}>Close</Text>
+          </Pressable>
+        </View>
+      </Modal> 
+
 
     </View>
   );
