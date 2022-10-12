@@ -8,7 +8,6 @@ var upload = multer();
 // 컨트롤러 로드
 const userCtrl = require("./user.ctrl"); // user 컨트롤러
 const postCtrl = require("./post.ctrl"); // post 컨트롤러
-const contractCtrl = require("./contract.ctrl"); // contract 컨트롤러
 const pdfCtrl = require("./pdf.crtl")
 const contractCtrl = require("../contracts/contract.ctrl"); // contract 컨트롤러
 const n_signedContractCtrl = require("../contracts/n_signedContract.ctrl"); // 미체결 계약서 컨트롤러

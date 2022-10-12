@@ -129,7 +129,8 @@ function N_Signed({ navigation }) {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                id: "yohan123" 
+                id: "yohan123",
+                contract_type : "n_signed"
             })
           })
         ).json()
@@ -199,6 +200,34 @@ function N_Signed({ navigation }) {
 
 /////////진행중////////////
 function Proceeding({ navigation }) {
+  const [contracts, setContracts] = useState([]); // 계약서 배열
+  const loadContracts = async () => {
+    // 계약서 데이터 로드함수
+    try {
+      setContracts( // 현재 유저정보 기반으로 계약서 검색(POST)으로 수정해야함
+        await (
+          await fetch(HOSTNAME + "/contract_load", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                id: "Tempid2",
+                contract_type : "signing"
+            })
+          })
+        ).json()
+      ); // 로드한 계약서들 정보 반영
+    } catch (err) {
+      console.error(err);
+    }
+    console.log(contracts);
+  };
+
+  useEffect(() => {
+    loadContracts();
+  }, []);
+
   //검색입력은 useState사용
   const [inputText, setInputText] = useState('');
   return (
@@ -219,8 +248,8 @@ function Proceeding({ navigation }) {
         </View>
       {/* <Text style={styles.h_text_style2}>진행중계약서</Text> */}
       <View>
-      <FlatList
-        data={DATA2}
+      {/* <FlatList
+        data={contracts}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <View style={styles.view_style2}>
@@ -233,7 +262,31 @@ function Proceeding({ navigation }) {
             </TouchableOpacity>
           </View>
         )}
-      ></FlatList>
+      ></FlatList> */}
+      <FlatList
+            data={contracts}
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <View style={styles.view_style2}>
+                <TouchableOpacity
+                  style={styles.contract_click_style}
+                  onPress={() =>
+                    navigation.push("Proceeding", {
+                      title: item.title,
+                      content: item.content,
+                      id: item.id,
+                      contractors: item.contractors,
+                    })
+                  }
+                >
+                  <Icon name="rocket" color={icon_color2} size={icon_size} />
+                  <Text style={styles.text_style2}>{item.title}</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+
+          ></FlatList>
+
       </View>
     </View>
   );
@@ -241,6 +294,34 @@ function Proceeding({ navigation }) {
 
 /////////체결////////////
 function Signed({ navigation }) {
+  const [contracts, setContracts] = useState([]); // 계약서 배열
+  const loadContracts = async () => {
+    // 계약서 데이터 로드함수
+    try {
+      setContracts( // 현재 유저정보 기반으로 계약서 검색(POST)으로 수정해야함
+        await (
+          await fetch(HOSTNAME + "/contract_load", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                id: "Tempid2",
+                contract_type : "signed"
+            })
+          })
+        ).json()
+      ); // 로드한 계약서들 정보 반영
+    } catch (err) {
+      console.error(err);
+    }
+    console.log(contracts);
+  };
+
+  useEffect(() => {
+    loadContracts();
+  }, []);
+
    //검색입력은 useState사용
    const [inputText, setInputText] = useState('');
   return (
@@ -262,7 +343,7 @@ function Signed({ navigation }) {
 
       {/* <Text style={styles.h_text_style3}>체결계약서</Text> */}
         <View>
-          <FlatList data={DATA3} showsVerticalScrollIndicator={false} renderItem={({item}) => (   
+          {/* <FlatList data={contracts} showsVerticalScrollIndicator={false} renderItem={({item}) => (   
             <View style={styles.view_style3}>   
               <TouchableOpacity style={styles.contract_click_style} onPress={() => navigation.push('Signed')}> 
                 <Icon name="rocket" color={icon_color3} size={icon_size}/>
@@ -270,7 +351,30 @@ function Signed({ navigation }) {
               </TouchableOpacity> 
             </View>    
           )}>
-          </FlatList>
+          </FlatList> */}
+          <FlatList
+            data={contracts}
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <View style={styles.view_style3}>
+                <TouchableOpacity
+                  style={styles.contract_click_style}
+                  onPress={() =>
+                    navigation.push("Signed", {
+                      title: item.title,
+                      content: item.content,
+                      id: item.id,
+                      contractors: item.contractors,
+                    })
+                  }
+                >
+                  <Icon name="rocket" color={icon_color3} size={icon_size} />
+                  <Text style={styles.text_style3}>{item.title}</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+
+          ></FlatList>
         </View>
     </View>
   );
