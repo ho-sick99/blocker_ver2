@@ -15,11 +15,16 @@ import {
   Modal,
   TouchableOpacity,
   FlatList, 
+  Icon,
+  Dimensions,
  } from "react-native";
  import Axios from 'axios';
  import { HOSTNAME } from "@env";
  import Signature from 'react-native-canvas-signature';
+import { block } from 'react-native-reanimated';
  
+const Width = Dimensions.get('window').width;    //스크린 너비 초기화
+const Height = Dimensions.get('window').height;  //스크린 높이 초기화
 
 function MyPage({navigation}) {
 
@@ -44,13 +49,14 @@ function MyPage({navigation}) {
   const [sign_img_data, setSignImgData] = useState("");
   const [SignImgBase64, setSignImgBase64] = useState(0);
 
-  const [modal_view_type, setModalViewType] = useState("");
-  const [modalVisible_intergrated_view, setIntergratedViewModalVisible] = useState(false);
+  const [modalVisible_mypost_view, setMyPostViewModalVisible] = useState(false);
+  const [modalVisible_bookmark_view, setBookmarkViewModalVisible] = useState(false);
 
   const my_bookmark = async () => {
     const { data: result } = await Axios.post(HOSTNAME + '/bookmark', { id: login_data.id})
     set_user_bmark(result.length);
     set_user_bmark_lst(result.data);
+    console.log(user_bmark);
   }
 
   const my_post = async () => {
@@ -71,7 +77,6 @@ function MyPage({navigation}) {
 
   const my_sign = async () => {
     const { data: result } = await Axios.post(HOSTNAME + '/get_sign_info', { id: login_data.id})
-    console.log(result);
     setSignImgBase64(result);
   }
 
@@ -127,7 +132,7 @@ function MyPage({navigation}) {
 
         {/* 계약서 */}
           <View style={styles.setting_item}>
-            <Text style={styles.textStyle_2}>계약서</Text>
+            <Text style={styles.textStyle_2}>Contract</Text>
             <View style={styles.contracts_bar}>
               <View style={styles.contracts_bar_item}> 
                 <Text style={styles.textStyle_3}>미체결</Text>
@@ -146,35 +151,37 @@ function MyPage({navigation}) {
 
         {/* 게시글 */}
           <View style={styles.setting_item}>
-            <Text style={styles.textStyle_2}>게시글</Text>
+            <Text style={styles.textStyle_2}>Post </Text>
             <View style={styles.contracts_bar}>
               <View style={styles.contracts_bar_item}> 
-              
-              <Pressable onPress={() => {
-                setModalViewType("작성 게시글");
-                setIntergratedViewModalVisible(true);
-                }}>
-                <Text style={styles.textStyle_3}>작성 게시글</Text>
-                <Text style={styles.textStyle_3}>{user_post}</Text>
-              </Pressable>
+                <Pressable onPress={() => {
+                  setMyPostViewModalVisible(true);
+                  }}>
+                  <Text style={styles.textStyle_3}>작성 게시글</Text>
+                  <Text style={styles.textStyle_3}>{user_post}</Text>
+                </Pressable>
               </View>
+              
               <View style={styles.contracts_bar_item}> 
-                <Text style={styles.textStyle_3}>즐겨찾기</Text>
-                <Text style={styles.textStyle_3}>{user_bmark}</Text>
+                  <Pressable onPress={() => {
+                    setBookmarkViewModalVisible(true);
+                  }}>
+                  <Text style={styles.textStyle_3}>즐겨찾기</Text>
+                  <Text style={styles.textStyle_3}>{user_bmark}</Text>
+                  </Pressable>
               </View>
             </View>
           </View>
           {/* 서명 */}
           <View style={styles.setting_item}>
-            <Text style={styles.textStyle_2}>서명 관리</Text>
+            <Text style={styles.textStyle_2}>Sign </Text>
             <View style={styles.contracts_bar}>
               <View style={styles.contracts_bar_item}> 
                 <TouchableOpacity style={[styles.btn_sign, styles.textStyle_3]} onPress={() => {
                   my_sign();
                   setSignViewModalVisible(true)
-
                   }}>
-                  <Text style={styles.textStyle_3} >서명</Text>
+                  <Text style={styles.textStyle_3} >서명 보기</Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.contracts_bar_item}> 
@@ -271,26 +278,85 @@ function MyPage({navigation}) {
         </View>
       </Modal> 
 
-            {/* 통합 모달 뷰  */}
+      {/* 작성글 모달 뷰  */}
       <Modal
         animationType="slide"
         transparent={true}
-        visible={modalVisible_intergrated_view}
+        visible={modalVisible_mypost_view}
         onRequestClose={() => {
           Alert.alert("Modal has been closed.");
-          setIntergratedViewModalVisible(!modalVisible_intergrated_view);
+          setMyPostViewModalVisible(!modalVisible_mypost_view);
         }}
       >
-        <View style={styles.sign_view_container}>
+        <View style={styles.post_view_container}>
+        <FlatList
+            data={user_post_lst}
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <View style={styles.falt_list_item}>
+                <TouchableOpacity
+                style = {styles.falt_list_item_container}
+                onPress={() =>{
+                  setMyPostViewModalVisible(!modalVisible_mypost_view)
+                  navigation.push("PostView", {
+                    id: item
+                  })
+                }}>
+                  <Text>{item[0]}</Text>
+                  <Text>{item[1]}</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+
+          ></FlatList>
           <Pressable
             style={[styles.button_modal]}
-            onPress={() => setIntergratedViewModalVisible(!modalVisible_intergrated_view)}
+            onPress={() => setMyPostViewModalVisible(!modalVisible_mypost_view)}
             >
             <Text style={styles.textStyle_4}>Close</Text>
           </Pressable>
         </View>
       </Modal> 
 
+      {/* 관심목록 모달 뷰  */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible_bookmark_view}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setBookmarkViewModalVisible(!modalVisible_bookmark_view);
+        }}
+      >
+        <View style={styles.post_view_container}>
+        <FlatList
+            data={user_bmark_lst}
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <View style={styles.falt_list_item}>
+                <TouchableOpacity
+                style = {styles.falt_list_item_container}
+                onPress={() =>{
+                  setBookmarkViewModalVisible(!modalVisible_bookmark_view)
+                  navigation.push("PostView", {
+                    id: item
+                  })
+                }}>
+                <Text>{item[0]}</Text>
+                <Text>{item[1]}</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+
+          ></FlatList>
+          <Pressable
+            style={[styles.button_modal]}
+            onPress={() => setBookmarkViewModalVisible(!modalVisible_bookmark_view)}
+            >
+            <Text style={styles.textStyle_4}>Close</Text>
+          </Pressable>
+        </View>
+      </Modal>             
 
     </View>
   );
@@ -442,6 +508,16 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 10,
   },
+  post_view_container: {
+    width: "100%",
+    height: "50%",
+    alignItems: "center",
+    marginTop: "50%",
+    borderColor: "#2196F3",
+    borderWidth: 3,
+    backgroundColor: "white",
+    borderRadius: 10,
+  },
   button_modal: {
     width: "28%",
     margin: 10,
@@ -475,6 +551,23 @@ const styles = StyleSheet.create({
   sign_canvas_container: {
     width: "100%",
     height: "100%"
+  },
+  falt_list_item: {
+    width: Width* 0.9,
+    height: Height*0.1,
+    backgroundColor: "#939393",
+    borderRadius: 10, 
+    margin: 10, 
+    fontWeight: "bold",
+    textAlign: "center",
+    padding: 5
+  },
+  falt_list_item_container: {
+    width: "100%",
+    height: "100%",
+    flexDirection:"row",
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 });
 
