@@ -79,7 +79,7 @@ export default function App() {
               headerTitleStyle: { color: "white", fontSize: 23 ,},
               headerTintColor:"white",
               headerBackTitle:"",
-              headerBackVisible: false,
+              
             }}
             />
             <Stack.Screen
@@ -108,7 +108,6 @@ export default function App() {
               headerTitleStyle: { color: "white", fontSize: 23 ,},
               headerTintColor:"white",
               headerBackTitle:"",
-              headerBackVisible: false,
             }}
             />
           </Stack.Navigator>
