@@ -1,15 +1,31 @@
-import React from 'react';
+import React, {
+  useState,
+  useEffect,
+  CommonActions ,
+} from 'react';
 import {StyleSheet, Text, View, TextInput} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useIsFocused } from '@react-navigation/native';
+
 
 function N_Signed({navigation, route}) {
   return ( // 'route.params.파라미터'로 접근 가능. ex) route.params.title //title, content, id, contract_id
       <View style={styles.container}>
         <View style={styles.container3}>
-          <Text style={styles.textbox}>타이틀 : {route.params.title}</Text>
-          <Text style={styles.textbox}>아이디 : {route.params.id}</Text>
-          <Text style={styles.textbox}>콘텐츠 : {route.params.content}</Text>
-          <Text style={styles.textbox}>계약서 ID : {route.params.contract_id}</Text>
+          <Text style={styles.textframe}>★타이틀★</Text>
+          <Text style={styles.textbox}>{route.params.title}</Text>
+          <Text style={styles.textframe}></Text>
+
+          <Text style={styles.textframe}>★아이디★</Text>
+          <Text style={styles.textbox}>{route.params.id}</Text>
+          <Text style={styles.textframe}></Text>
+
+          <Text style={styles.textframe}>★콘텐츠★</Text>
+          <Text style={styles.textbox}>{route.params.content}</Text>
+          <Text style={styles.textframe}></Text>
+
+          <Text style={styles.textframe}>★계약서 ID★</Text>
+          <Text style={styles.textbox}>{route.params.contract_id}</Text>
           {/* <TextInput style={styles.textbox} placeholder="계약서 내용 입력"></TextInput> */}
         </View>
       <View style={styles.container2}>
@@ -17,7 +33,7 @@ function N_Signed({navigation, route}) {
           <Text style={styles.del}>DEL</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.space}></TouchableOpacity>    
-        <TouchableOpacity style={styles.button_of_edit} onPress={() => navigation.push("Contract_Edit", {
+        <TouchableOpacity style={styles.button_of_edit} onPress={() => navigation.replace("Contract_Edit", {
                       title: route.params.title,
                       id: route.params.id,
                       content: route.params.content,
@@ -55,6 +71,12 @@ const styles = StyleSheet.create({
     margin: "3%",
     borderRadius:10,
     backgroundColor:"#FFFFFF",
+  },
+  textframe:{
+    margin:"2%",
+    fontsize:50,
+    fontWeight: 'bold',
+    borderColor:"#FFAF00",
   },
   textbox:{
     margin:"5%",
