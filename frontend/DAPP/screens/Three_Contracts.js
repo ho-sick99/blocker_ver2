@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import Icon from "@expo/vector-icons/Ionicons";
 import { HOSTNAME } from "@env";
+import { useIsFocused } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
@@ -62,6 +63,10 @@ const icon_size = 50;
 const main_color = "#0DF9FF";
 
 function Three_Contracts() {
+  // React.useEffect(
+  //   () => navigation.addListener('focus', () => alert('Screen was focused')),
+  //   []
+  // );
   return (
     <Tab.Navigator
       initialRouteName="N_Signed"
@@ -114,6 +119,7 @@ function Three_Contracts() {
 
 /////////미체결////////////
 function N_Signed({ navigation }) {
+  const isFocused = useIsFocused() // 리프레쉬
   const [contracts, setContracts] = useState([]); // 계약서 배열
   const loadContracts = async () => {
     // 계약서 데이터 로드함수
@@ -141,7 +147,7 @@ function N_Signed({ navigation }) {
 
   useEffect(() => {
     loadContracts();
-  }, []);
+  }, [isFocused]); // 리프레쉬 인자 전달6 3u
 
   //검색입력은 useState사용
   const [inputText, setInputText] = useState("");
