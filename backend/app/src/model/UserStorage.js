@@ -49,7 +49,8 @@ class UserStorage {
       );
     });
   }
-  static  bookmark_info(input_id){
+
+  static bookmark_info(input_id){
     return new Promise((resolve, reject) => {
       db.query(
         "SELECT bookmark FROM blocker_db.member WHERE id = ?;", 
@@ -64,6 +65,21 @@ class UserStorage {
       );
     });
   }
+
+  static edit_bookmark_info(clientData){
+    return new Promise((resolve, reject) => {
+      console.log(clientData);
+      db.query(
+        "update blocker_db.member set bookmark = json_object( 'data', ?,'length', ?) where id = ?;", 
+        [clientData.bookmark.data, clientData.bookmark.length, clientData.id],
+        (err, result) => {
+          if (err) reject(`${err}`);
+          else resolve({ success: true });
+        }
+      );
+    });
+  }
+
   static my_contract_info(input_id){
     return new Promise((resolve, reject) => {
       db.query(
@@ -79,6 +95,7 @@ class UserStorage {
       );
     });  
   }
+
   static my_post_info(input_id){
     return new Promise((resolve, reject) => {
       db.query(
@@ -94,6 +111,20 @@ class UserStorage {
       );
     });  
   }
+  
+  static edit_my_post_info(clientData){
+    return new Promise((resolve, reject) => {
+      db.query(
+        "update blocker_db.member set mypost = json_object('data', ?,'length', ?) where id = ?;", 
+        [clientData.mypost.data, clientData.mypost.length, clientData.id],
+        (err, result) => {
+          if (err) reject(`${err}`);
+          else resolve({ success: true });
+        }
+      );
+    });  
+  }
+
   static get_user_sign(input_id){
     return new Promise((resolve, reject) => {
       db.query(

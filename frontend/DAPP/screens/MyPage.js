@@ -273,7 +273,6 @@ function MyPage({navigation}) {
               <Text style={styles.textStyle_4}>Close</Text>
             </Pressable>
           </View>
-
           
         </View>
       </Modal> 

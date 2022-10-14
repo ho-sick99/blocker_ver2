@@ -27,6 +27,12 @@ const process = {
 
     return res.send(registerRes);
   },
+  edit_bookmark_info : async (req, res) => {
+    const bodyData = new User(req.body); // body에 유저 데이터(id)를 object 형태로 담아 post 요청
+    const edit_bmark_Res = await bodyData.edit_bookmark_info();
+
+    return res.send(edit_bmark_Res);
+  },
   my_contract_info : async (req, res) => {
     const bodyData = new User(req.body); 
     const registerRes = await bodyData.my_contract_info();
@@ -38,6 +44,12 @@ const process = {
     const registerRes = await bodyData.my_post_info();
 
     return res.send(registerRes);
+  }, 
+  edit_my_post_info : async (req, res) => {
+    const bodyData = new User(req.body); 
+    const edit_mpost_Res = await bodyData.edit_my_post_info();
+
+    return res.send(edit_mpost_Res);
   }, 
   get_sign_info : async (req, res) => {
     const bodyData = new User(req.body); 

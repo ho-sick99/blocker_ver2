@@ -21,7 +21,8 @@ function Signed({navigation, route}) {
   </head>
   <body style="text-align: center;">
     <h1 style="font-size: 50px; font-family: Helvetica Neue; font-weight: normal;">
-      Hello Expo! 안냥하세요
+      한글 인식 테스트
+      한글 추가 
     </h1>
     <img
       src="https://d30j33t1r58ioz.cloudfront.net/static/guides/sdk.png"
@@ -33,7 +34,8 @@ function Signed({navigation, route}) {
   let generatePdf = async () => {
     //console.log(htmldata);
     const file = await printToFileAsync({
-      html
+      html: html,
+      base64 : true
     });
     //console.log(file);
     if(Platform.OS === "ios"){

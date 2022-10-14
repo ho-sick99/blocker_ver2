@@ -19,8 +19,10 @@ router.post("/login", userCtrl.process.login);
 router.post("/register", userCtrl.process.register);
 router.post("/chk_id", userCtrl.process.chk_id);
 router.post("/bookmark", userCtrl.process.bookmark_info);
-router.post("/my_contract", userCtrl.process.my_contract_info);
+router.post("/edit_bookmark", userCtrl.process.edit_bookmark_info);
 router.post("/my_post", userCtrl.process.my_post_info);
+router.post("/edit_my_post", userCtrl.process.edit_my_post_info);
+router.post("/my_contract", userCtrl.process.my_contract_info);
 router.post("/get_sign_info", userCtrl.process.get_sign_info);
 router.post("/set_sign_info", userCtrl.process.set_sign_info);
 
