@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Image, Modal, TextInput, Touchable } from 'react-native';
 import { StyleSheet, Text, View, TouchableOpacity, Alert, Pressable } from 'react-native';
 import { HOSTNAME } from "@env";

@@ -1,25 +1,22 @@
-import React, {
-  useState,
-  useEffect,
-} from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import React, { useState, useEffect } from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
-  StyleSheet, 
-  View, 
-  Button, 
+  StyleSheet,
+  View,
+  Button,
   Text,
   FlatList,
   TouchableOpacity,
   Dimensions,
   TextInput,
-} from 'react-native';
+} from "react-native";
 import Icon from "@expo/vector-icons/Ionicons";
 import { HOSTNAME } from "@env";
 
 const Tab = createBottomTabNavigator();
 
-const Width = Dimensions.get('window').width;    //스크린 너비 초기화
-const Height = Dimensions.get('window').height;  //스크린 높이 초기화
+const Width = Dimensions.get("window").width; //스크린 너비 초기화
+const Height = Dimensions.get("window").height; //스크린 높이 초기화
 
 //벡엔드는 여기서 진행하면 됨
 const DATA1 = [
@@ -121,7 +118,8 @@ function N_Signed({ navigation }) {
   const loadContracts = async () => {
     // 계약서 데이터 로드함수
     try {
-      setContracts( // 현재 유저정보 기반으로 계약서 검색(POST)으로 수정해야함
+      setContracts(
+        // 현재 유저정보 기반으로 계약서 검색(POST)으로 수정해야함
         await (
           await fetch(HOSTNAME + "/contract_load", {
             method: "POST",
@@ -129,9 +127,9 @@ function N_Signed({ navigation }) {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                id: "yohan123",
-                contract_type : "n_signed"
-            })
+              id: "yohan123",
+              contract_type: "n_signed",
+            }),
           })
         ).json()
       ); // 로드한 계약서들 정보 반영
@@ -146,54 +144,56 @@ function N_Signed({ navigation }) {
   }, []);
 
   //검색입력은 useState사용
-  const [inputText, setInputText] = useState('');
+  const [inputText, setInputText] = useState("");
   return (
     <View style={styles.container}>
       {/*검색창*/}
-          <View style={styles.searchcontainer}>
-            {/*import component*/}
-            <TextInput 
-              style = {styles.textInput}
-              placeholder = "미체결 계약서 검색_"
-              value = {inputText}
-              onChangeText={setInputText}
-            />
-            {/*List of Component */}
-            <TouchableOpacity style={styles.searchBtn} onPress>
-              <Text style={styles.text_style4}>검색</Text>
-            </TouchableOpacity>
-        </View>
+      <View style={styles.searchcontainer}>
+        {/*import component*/}
+        <TextInput
+          style={styles.textInput}
+          placeholder="미체결 계약서 검색_"
+          value={inputText}
+          onChangeText={setInputText}
+        />
+        {/*List of Component */}
+        <TouchableOpacity style={styles.searchBtn} onPress>
+          <Text style={styles.text_style4}>검색</Text>
+        </TouchableOpacity>
+      </View>
       {/* <Text style={styles.h_text_style}>미체결계약서</Text> */}
       {/* Notice_board->dDrawer.Screen name="Contracts" 상단바 이름 바꾸고싶음*/}
-      
-        <View>
-          <FlatList
-            data={contracts}
-            showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <View style={styles.view_style}>
-                <TouchableOpacity
-                  style={styles.contract_click_style}
-                  onPress={() =>
-                    navigation.push("N_Signed", {
-                      title: item.title,
-                      content: item.content,
-                      id: item.id,
-                      contract_id: item.contract_id,
-                    })
-                  }
-                >
-                  <Icon name="rocket" color={icon_color} size={icon_size} />
-                  <Text style={styles.text_style}>{item.title}</Text>
-                </TouchableOpacity>
-              </View>
-            )}
 
-          ></FlatList>
-          <TouchableOpacity style={styles.postBtn1} onPress={() => navigation.push('Contract_Create')}> 
-            <Text style={styles.plus_1}>+</Text>
-          </TouchableOpacity> 
-        </View>
+      <View>
+        <FlatList
+          data={contracts}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item }) => (
+            <View style={styles.view_style}>
+              <TouchableOpacity
+                style={styles.contract_click_style}
+                onPress={() =>
+                  navigation.push("N_Signed", {
+                    title: item.title,
+                    content: item.content,
+                    id: item.id,
+                    contract_id: item.contract_id,
+                  })
+                }
+              >
+                <Icon name="rocket" color={icon_color} size={icon_size} />
+                <Text style={styles.text_style}>{item.title}</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        ></FlatList>
+        <TouchableOpacity
+          style={styles.postBtn1}
+          onPress={() => navigation.push("Contract_Create")}
+        >
+          <Text style={styles.plus_1}>+</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -204,7 +204,8 @@ function Proceeding({ navigation }) {
   const loadContracts = async () => {
     // 계약서 데이터 로드함수
     try {
-      setContracts( // 현재 유저정보 기반으로 계약서 검색(POST)으로 수정해야함
+      setContracts(
+        // 현재 유저정보 기반으로 계약서 검색(POST)으로 수정해야함
         await (
           await fetch(HOSTNAME + "/contract_load", {
             method: "POST",
@@ -212,9 +213,9 @@ function Proceeding({ navigation }) {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                id: "Tempid2",
-                contract_type : "signing"
-            })
+              id: "Tempid2",
+              contract_type: "signing",
+            }),
           })
         ).json()
       ); // 로드한 계약서들 정보 반영
@@ -229,26 +230,26 @@ function Proceeding({ navigation }) {
   }, []);
 
   //검색입력은 useState사용
-  const [inputText, setInputText] = useState('');
+  const [inputText, setInputText] = useState("");
   return (
     <View style={styles.container}>
       {/*검색창*/}
       <View style={styles.searchcontainer}>
-            {/*import component*/}
-            <TextInput 
-              style = {styles.textInput}
-              placeholder = "진행중 계약서 검색_"
-              value = {inputText}
-              onChangeText={setInputText}
-            />
-            {/*List of Component */}
-            <TouchableOpacity style={styles.searchBtn} onPress>
-              <Text style={styles.text_style4}>검색</Text>
-            </TouchableOpacity>
-        </View>
+        {/*import component*/}
+        <TextInput
+          style={styles.textInput}
+          placeholder="진행중 계약서 검색_"
+          value={inputText}
+          onChangeText={setInputText}
+        />
+        {/*List of Component */}
+        <TouchableOpacity style={styles.searchBtn} onPress>
+          <Text style={styles.text_style4}>검색</Text>
+        </TouchableOpacity>
+      </View>
       {/* <Text style={styles.h_text_style2}>진행중계약서</Text> */}
       <View>
-      {/* <FlatList
+        {/* <FlatList
         data={contracts}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
@@ -263,30 +264,28 @@ function Proceeding({ navigation }) {
           </View>
         )}
       ></FlatList> */}
-      <FlatList
-            data={contracts}
-            showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <View style={styles.view_style2}>
-                <TouchableOpacity
-                  style={styles.contract_click_style}
-                  onPress={() =>
-                    navigation.push("Proceeding", {
-                      title: item.title,
-                      content: item.content,
-                      id: item.id,
-                      contractors: item.contractors,
-                    })
-                  }
-                >
-                  <Icon name="rocket" color={icon_color2} size={icon_size} />
-                  <Text style={styles.text_style2}>{item.title}</Text>
-                </TouchableOpacity>
-              </View>
-            )}
-
-          ></FlatList>
-
+        <FlatList
+          data={contracts}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item }) => (
+            <View style={styles.view_style2}>
+              <TouchableOpacity
+                style={styles.contract_click_style}
+                onPress={() =>
+                  navigation.push("Proceeding", {
+                    title: item.title,
+                    content: item.content,
+                    id: item.id,
+                    contractors: item.contractors,
+                  })
+                }
+              >
+                <Icon name="rocket" color={icon_color2} size={icon_size} />
+                <Text style={styles.text_style2}>{item.title}</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        ></FlatList>
       </View>
     </View>
   );
@@ -298,7 +297,8 @@ function Signed({ navigation }) {
   const loadContracts = async () => {
     // 계약서 데이터 로드함수
     try {
-      setContracts( // 현재 유저정보 기반으로 계약서 검색(POST)으로 수정해야함
+      setContracts(
+        // 현재 유저정보 기반으로 계약서 검색(POST)으로 수정해야함
         await (
           await fetch(HOSTNAME + "/contract_load", {
             method: "POST",
@@ -306,9 +306,9 @@ function Signed({ navigation }) {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                id: "Tempid2",
-                contract_type : "signed"
-            })
+              id: "Tempid2",
+              contract_type: "signed",
+            }),
           })
         ).json()
       ); // 로드한 계약서들 정보 반영
@@ -322,28 +322,28 @@ function Signed({ navigation }) {
     loadContracts();
   }, []);
 
-   //검색입력은 useState사용
-   const [inputText, setInputText] = useState('');
+  //검색입력은 useState사용
+  const [inputText, setInputText] = useState("");
   return (
     <View style={styles.container}>
       {/*검색창*/}
       <View style={styles.searchcontainer}>
-            {/*import component*/}
-            <TextInput 
-              style = {styles.textInput}
-              placeholder = "체결 계약서 검색_"
-              value = {inputText}
-              onChangeText={setInputText}
-            />
-            {/*List of Component */}
-            <TouchableOpacity style={styles.searchBtn} onPress>
-              <Text style={styles.text_style4}>검색</Text>
-            </TouchableOpacity>
-        </View>
+        {/*import component*/}
+        <TextInput
+          style={styles.textInput}
+          placeholder="체결 계약서 검색_"
+          value={inputText}
+          onChangeText={setInputText}
+        />
+        {/*List of Component */}
+        <TouchableOpacity style={styles.searchBtn} onPress>
+          <Text style={styles.text_style4}>검색</Text>
+        </TouchableOpacity>
+      </View>
 
       {/* <Text style={styles.h_text_style3}>체결계약서</Text> */}
-        <View>
-          {/* <FlatList data={contracts} showsVerticalScrollIndicator={false} renderItem={({item}) => (   
+      <View>
+        {/* <FlatList data={contracts} showsVerticalScrollIndicator={false} renderItem={({item}) => (   
             <View style={styles.view_style3}>   
               <TouchableOpacity style={styles.contract_click_style} onPress={() => navigation.push('Signed')}> 
                 <Icon name="rocket" color={icon_color3} size={icon_size}/>
@@ -352,30 +352,29 @@ function Signed({ navigation }) {
             </View>    
           )}>
           </FlatList> */}
-          <FlatList
-            data={contracts}
-            showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <View style={styles.view_style3}>
-                <TouchableOpacity
-                  style={styles.contract_click_style}
-                  onPress={() =>
-                    navigation.push("Signed", {
-                      title: item.title,
-                      content: item.content,
-                      id: item.id,
-                      contractors: item.contractors,
-                    })
-                  }
-                >
-                  <Icon name="rocket" color={icon_color3} size={icon_size} />
-                  <Text style={styles.text_style3}>{item.title}</Text>
-                </TouchableOpacity>
-              </View>
-            )}
-
-          ></FlatList>
-        </View>
+        <FlatList
+          data={contracts}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item }) => (
+            <View style={styles.view_style3}>
+              <TouchableOpacity
+                style={styles.contract_click_style}
+                onPress={() =>
+                  navigation.push("Signed", {
+                    title: item.title,
+                    content: item.content,
+                    id: item.id,
+                    contractors: item.contractors,
+                  })
+                }
+              >
+                <Icon name="rocket" color={icon_color3} size={icon_size} />
+                <Text style={styles.text_style3}>{item.title}</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        ></FlatList>
+      </View>
     </View>
   );
 }
@@ -386,9 +385,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#000000',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#000000",
   },
   h_text_style: {
     backgroundColor: "#000000",
@@ -421,7 +420,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 10,
     width: "100%",
-    height:80,
+    height: 80,
     marginVertical: 4,
     color: "#ffffff",
     justifyContent: "center",
@@ -432,7 +431,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#0DF9FF",
     borderRadius: 10,
     width: "100%",
-    height:80,
+    height: 80,
     marginVertical: 4,
     color: "#ffffff",
     justifyContent: "center",
@@ -483,61 +482,61 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     fontWeight: "bold",
   },
-  text_style4:{
+  text_style4: {
     fontSize: 20,
-    textAlign:"center",
-    marginTop:9,
+    textAlign: "center",
+    marginTop: 9,
   },
-  searchcontainer:{
-    display:"flex",
+  searchcontainer: {
+    display: "flex",
     width: "100%",
-    flexDirection :"row",
+    flexDirection: "row",
   },
-  textInput : {
-    fontSize : 20,
+  textInput: {
+    fontSize: 20,
     textAlign: "right",
-    paddingRight:20,
-    marginRight:2,
+    paddingRight: 20,
+    marginRight: 2,
     width: "80%",
-    height:40,
-    borderTopLeftRadius:10,
-    borderBottomLeftRadius:10,
+    height: 40,
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
     backgroundColor: "#ffffff",
-    marginTop : 40,
-    flexGrow:1,
+    marginTop: 40,
+    flexGrow: 1,
   },
-  searchBtn:{
+  searchBtn: {
     width: "18%",
-    height:40,
-    borderTopRightRadius:10,
-    borderBottomRightRadius:10,
+    height: 40,
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
     backgroundColor: "gray",
-    marginTop : 40,
+    marginTop: 40,
   },
-  
+
   contract_pdf_convert_style: {
     width: "100%",
-    height:50,
-    backgroundColor: "white"
+    height: 50,
+    backgroundColor: "white",
   },
-  
-  plus_1:{
-    color:"black",
-    fontSize:30,
-    fontWeight:"bold",
+
+  plus_1: {
+    color: "black",
+    fontSize: 30,
+    fontWeight: "bold",
   },
-  
-  postBtn1:{
-    justifyContent:"center",
-    alignItems:"center",
-    position:"absolute",
-    width:"17.2%",
-    height:"10%",
-    top:"77%",
-    left:"75%",
-    borderRadius:100,
-    borderColor:"white",
-    borderWidth:5,
-    backgroundColor:"white",
-  }
+
+  postBtn1: {
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    width: "17.2%",
+    height: "10%",
+    top: "77%",
+    left: "75%",
+    borderRadius: 100,
+    borderColor: "white",
+    borderWidth: 5,
+    backgroundColor: "white",
+  },
 });
