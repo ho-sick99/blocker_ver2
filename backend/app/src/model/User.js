@@ -57,7 +57,6 @@ class User {
       return { is_signin: true };
     }
   }
-
   
   async bookmark_info() {
     const input_id = this.body;
@@ -65,6 +64,17 @@ class User {
       const response = await UserStorage.bookmark_info(input_id.id)
       const res_obj = JSON.parse(response.bookmark);
       return {length: res_obj.length, data: JSON.parse(res_obj.data)};
+    } catch (err) {
+      console.log(err);
+      return { err: false };
+    }
+  }
+
+  async edit_bookmark_info() {
+    const clientData = this.body;
+    try {
+      const response = await UserStorage.edit_bookmark_info(clientData)
+      return response;
     } catch (err) {
       console.log(err);
       return { err: false };
@@ -96,6 +106,17 @@ class User {
       const response = await UserStorage.my_post_info(input_id.id)
       const res_obj = JSON.parse(response.mypost);
       return {length: res_obj.length, data: JSON.parse(res_obj.data)};
+    } catch (err) {
+      console.log(err);
+      return { err: false };
+    }
+  }
+
+  async edit_my_post_info() {
+    const clientData = this.body;
+    try {
+      const response = await UserStorage.edit_my_post_info(clientData)
+      return response;
     } catch (err) {
       console.log(err);
       return { err: false };
