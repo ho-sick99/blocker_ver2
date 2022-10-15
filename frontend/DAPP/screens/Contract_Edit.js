@@ -2,10 +2,18 @@ import React, {
   useState,
   useEffect,
 } from 'react';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { 
+  StyleSheet, 
+  Text, 
+  View, 
+  TextInput,
+  Dimensions, 
+} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { HOSTNAME } from "@env";
-
+import Axios from 'axios';
+const Width = Dimensions.get('window').width;    //스크린 너비 초기화
+const Height = Dimensions.get('window').height;  //스크린 높이 초기화
 
 function Contract_Eidt({ navigation, route }) {
   const [data, setData] = useState({});
@@ -20,71 +28,60 @@ function Contract_Eidt({ navigation, route }) {
   const _handleedit_content_Change = text => {
     setcontent(text);
   }
-  const _handleedit_contract_id_Change = text => {
-    setcontract_id(text);
-  }
 
   const editContracts = async () => {
     setData({
       title: title, //
       content: content,//
-      contract_id: "1",
+      contract_id: contract_id,
     })
-    console.log(setData);
-    // 계약서 데이터 로드함수
-    try {
-      const res = await (
-        await fetch(HOSTNAME + "/contract_upd", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        })
-      ).json()
-      console.log(res);
-    } catch (err) {
-      console.error(err);
-    }
+      const { data: result } = await Axios.post(HOSTNAME + '/contract_upd', data)
+      console.log(result);
   };
 
 
   return (
     <View style={styles.container}>
-      <View style={styles.container3}>
-        <Text style={styles.textframe}>★타이틀★</Text>
+      <View style={styles.container_contract}>
+        
+        <View style={styles.textbox_fix}>
+          <Text style={styles.textframe}>아아디: {route.params.id}</Text>      
+          <Text style={styles.textframe}>계약서 ID: {route.params.contract_id}</Text>
+        </View>
+
+        <Text style={styles.textframe}>타이틀</Text>
         <TextInput style={styles.textbox} value={title} onChangeText={_handleedit_title_Change}></TextInput>
         <Text style={styles.textframe}></Text>
 
-        <Text style={styles.textframe}>★아아디★</Text>       
-        <TextInput style={styles.textbox}>{route.params.id}</TextInput>
-        <Text style={styles.textframe}></Text>
 
-        <Text style={styles.textframe}>★콘텐츠★</Text>       
+        <Text style={styles.textframe}>계약 내용</Text>       
         <TextInput style={styles.textbox} value={content} onChangeText={_handleedit_content_Change}></TextInput>
         <Text style={styles.textframe}></Text>
 
-        <Text style={styles.textframe}>★계약서 ID★</Text>
-        <Text style={styles.textbox} value={contract_id} onChangeText={_handleedit_contract_id_Change}>{route.params.contract_id}</Text>
-        <Text style={styles.textframe}></Text>
-
       </View>
-      <View style={styles.container2}>
-        <TouchableOpacity style={styles.space}></TouchableOpacity>
-        <TouchableOpacity style={styles.button_of_edit} onPress={async () => {
+      <View style={styles.container_button}>
+        <TouchableOpacity style={styles.button_of_back} onPress={async () => {
                     navigation.replace("N_Signed", {
-                      title: title,
+                      title: route.params.title,
                       id: route.params.id,
-                      content: content,
+                      content: route.params.content,
                       contract_id: route.params.contract_id,
                       })
         }}>
-          <Text style={styles.edit}>COMPLETION</Text>
+          <Text style={styles.edit}>CANCLE</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button_of_edit} onPress={() => editContracts()}>
-          <Text style={styles.edit}>저장-두번클릭</Text>
+        <TouchableOpacity style={styles.button_of_save} onPress={() => {
+          editContracts().then(
+            navigation.replace("N_Signed", {
+              title: title,
+              id: route.params.id,
+              content: content,
+              contract_id: route.params.contract_id,
+              })
+          )
+          }}>
+          <Text style={styles.edit}>SAVE</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.space}></TouchableOpacity>
       </View>
     </View>
   );
@@ -93,24 +90,23 @@ function Contract_Eidt({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: "#E7E6E6", 
     justifyContent: 'center',
     alignItems: 'center',
   },
-  container2: {
+  container_button: {
     flexDirection: 'row',
-    justifyContent: 'center',
     width: "100%",
-    height: "20%",
-    backgroundColor: "#000000"
+    height: "10%",
+    justifyContent: 'space-between',
   },
-  container3: {
+  container_contract: {
     flexDirection: 'column',
     justifyContent: 'flex-start',
     paddingLeft: "5%",
     padding: "10%",
-    width: "100%",
-    height: "80%",
+    width: "94%",
+    height: "87%",
     margin: "3%",
     borderRadius: 10,
     backgroundColor: "#FFFFFF",
@@ -121,36 +117,50 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     borderColor:"#FFAF00",
   },
+  textbox_fix: {
+    width: Width* 0.84,
+    flexDirection: "row",
+    justifyContent: 'space-between',
+    marginBottom: 20, 
+    borderRadius: 5, 
+    borderColor: "#2196F3",
+    borderWidth: 3,
+    paddingLeft: 5, 
+    paddingRight: 5,
+  },
   textbox: {
-    margin: "5%",
     fontsize: 23,
     fontWeight: 'bold',
     borderColor: "#FFAF00",
+    backgroundColor: "#E7E6E6",
+    borderRadius: 5, 
+    padding: 5, 
+    width: Width* 0.84,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  button_of_del: {
-    backgroundColor: "#FFFFFF",
-    width: 130,
-    height: 50,
+  button_of_back: {
+    backgroundColor: "#04B45F",
+    width: Width* 0.45,
+    height: Height* 0.07,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
+    marginLeft: 10, 
   },
   del: {
     fontSize: 23,
     color: 'black',
     fontWeight: 'bold',
   },
-  space: {
-    width: 50,
-    height: 50,
-  },
-  button_of_edit: {
+  button_of_save: {
     backgroundColor: "#04B45F",
-    width: 130,
-    height: 50,
+    width: Width* 0.45,
+    height: Height* 0.07,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
+    marginRight: 10, 
   },
   edit: {
     fontSize: 15,

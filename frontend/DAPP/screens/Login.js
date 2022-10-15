@@ -5,8 +5,6 @@ import { HOSTNAME } from "@env";
 import Axios from 'axios';
 import LoginContext from "../context/LoginContext";
 
-const local_host = HOSTNAME
-
 
 function Login({ navigation }) {
   // 회원 가입 제어 변수 
@@ -36,19 +34,19 @@ function Login({ navigation }) {
 
   // 로그인 
   const chk_login = async (id_input, pw_input) => {
-    const { data: res } = await Axios.post(local_host + '/login', { id: id_input, pw: pw_input })
+    const { data: res } = await Axios.post(HOSTNAME + '/login', { id: id_input, pw: pw_input })
     console.log(res);
     return res;
   }
   // 회원가입 
   const req_register = async (id_input, pw_input, input_name) => {
-    const { data: result } = await Axios.post(local_host + '/register', { id: id_input, pw: pw_input, name: input_name })
+    const { data: result } = await Axios.post(HOSTNAME + '/register', { id: id_input, pw: pw_input, name: input_name })
     console.log(result);
     return result;
   }
   // 아이디 중복 확인
   const chk_id = async (id_input) => {
-    const { data: result } = await Axios.post(local_host + '/chk_id', { id: id_input})
+    const { data: result } = await Axios.post(HOSTNAME + '/chk_id', { id: id_input})
     return result;
   }
 

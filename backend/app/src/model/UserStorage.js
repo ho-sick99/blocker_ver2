@@ -114,6 +114,7 @@ class UserStorage {
   
   static edit_my_post_info(clientData){
     return new Promise((resolve, reject) => {
+      console.log(clientData);
       db.query(
         "update blocker_db.member set mypost = json_object('data', ?,'length', ?) where id = ?;", 
         [clientData.mypost.data, clientData.mypost.length, clientData.id],
