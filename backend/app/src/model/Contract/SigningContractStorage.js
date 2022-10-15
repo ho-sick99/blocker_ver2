@@ -77,7 +77,7 @@ class SigningContractStorage {
   static get_check_sign(contractId) {
     return new Promise((resolve, reject) => {
       db.query(
-        "SELECT signed from blocker_db.signing_contract WHERE contract_id = ?;", // DB에서 contractId와 일치하는 계약서의 signed 열을 추출
+        "SELECT contractors, signed from blocker_db.signing_contract WHERE contract_id = ?;", // DB에서 contractId와 일치하는 계약서의 signed 열을 추출
         [contractId],
         (err, result) => {
           if (err) {
@@ -92,8 +92,20 @@ class SigningContractStorage {
   }
 
   // 서명 기입 정보 수정 메서드
-  static set_check_sign() {
-
+  static set_check_sign(contractId, newSigned) {
+    return new Promise((resolve, reject) => {
+      db.query(
+        "UPDATE blocker_db.signing_contract SET signed = ? where contract_id = ?;", // 입력된 정보를 바탕으로 db에 서명 변경
+        [
+          newSigned,
+          contractId
+        ],
+        (err) => {
+          if (err) reject(`${err}`); // 에러 반환
+          else resolve({ success: true }); // 결과 반환
+        }
+      );
+    });
   }
 }
 

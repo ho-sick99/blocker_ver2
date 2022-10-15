@@ -3,13 +3,12 @@ import { createDrawerNavigator, DrawerActions } from "@react-navigation/drawer";
 import Icon from "@expo/vector-icons/Ionicons";
 import Three_Contracts from "./Three_Contracts";
 import MyPage from "./MyPage";
-import Verification from "./Verification";
-import {
-  StyleSheet,
-  View,
-  Button,
-  Text,
-  FlatList,
+import Verification from "./Verification"
+import { 
+  View, 
+  Text, 
+  StyleSheet , 
+  FlatList, 
   TouchableOpacity,
   Dimensions,
   TextInput,
@@ -216,42 +215,30 @@ const Notice_board = () => {
         drawerStyle: { backgroundColor: "black", width: 200 },
       }}
     >
-      <Drawer.Screen
-        name="Notice Board"
-        component={PostList} //Main -> PostList
-        options={{
-          drawerIcon: ({ color, size, focuced }) => (
-            <Icon name={"home"} size={size} color={color} />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Contracts"
-        component={Three_Contracts}
-        options={{
-          drawerIcon: ({ color, size, focuced }) => (
-            <Icon name={"rocket"} size={size} color={color} />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="MyPage"
-        component={MyPage}
-        options={{
-          drawerIcon: ({ color, size, focuced }) => (
-            <Icon name={"pause"} size={size} color={color} />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Verification"
-        component={Verification}
-        options={{
-          drawerIcon: ({ color, size, focuced }) => (
-            <Icon name={"pause"} size={size} color={color} />
-          ),
-        }}
-      />
+      <Drawer.Screen name="Notice Board" component={Main} options={{drawerIcon:({color,size,focuced})=>( 
+          <Icon
+            name={"home"}
+            size={size}
+            color={color}
+          />),}} />
+      <Drawer.Screen name="Contracts" component={Three_Contracts} options={{drawerIcon:({color,size,focuced})=>( 
+          <Icon
+            name={"rocket"}
+            size={size}
+            color={color}
+          />),}} />
+      <Drawer.Screen name="MyPage" component={MyPage} options={{drawerIcon:({color,size,focuced})=>( 
+          <Icon
+            name={"pause"}
+            size={size}
+            color={color}
+          />),}} />
+          <Drawer.Screen name="Verification" component={Verification} options={{drawerIcon:({color,size,focuced})=>( 
+              <Icon
+                name={"pause"}
+                size={size}
+                color={color}
+              />),}} />
     </Drawer.Navigator>
   );
 };

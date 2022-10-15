@@ -9,7 +9,6 @@ const output = {};
 const process = {
   contract_load: async (req, res) => {
     // 계약서들 정보 로드
-    console.log(req.body);
     const contractData = new Contract(req.body); // 유저 정보 객체 생성
     const contracts = await contractData.load_contract();
     return res.send(contracts); // 계약서 배열 반환

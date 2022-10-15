@@ -12,6 +12,9 @@ class SigningContract {
   // 계약 성립 메서드 (진행중 -> 체결)
   async progress_contract() {
     const contractData = this.body;
+
+    // sign 체크 추가해야함
+
     try {
       const signingContractData = await SigningContractStorage.view_contract(
         contractData.contract_id
@@ -59,13 +62,39 @@ class SigningContract {
 
   // 계약 수락(서명 기입) 메서드
   async check_sign() {
-    const contractData = this.body;
-    const signedData = await SigningContractStorage.get_check_sign(contractData.contract_id)
-    console.log(signedData);
-    
     // 현재 서명 정보를 get한다.
-    // 이미 해당 id에 대한 서명이 완료되었다면, (id -> checked: true) 이미 체크되었다는 오류 반환
-    // 해당 id에 대한 서명이 완료되지 않았다면, 현재 sign정보를 수정한 후, set한다.
+    // 이미 해당 id에 대한 서명이 완료되었다면, (sign includes id) 이미 체크되었다는 오류 반환
+    // 해당 id에 대한 서명이 완료되지 않았다면, sign에 해당 id를 추가한다.
+
+    const contractData = this.body;
+    const signedData = await SigningContractStorage.get_check_sign(contractData.contract_id); // 현재 해당 계약서의 사인여부 로드
+    console.log(signedData.contractors);
+    const contractors = JSON.parse(signedData.contractors);
+    const signed = signedData.signed;
+
+    console.log(signed);
+    console.log(contractData.id)
+
+    if (contractors.id.includes(contractData.id)) { // 현재 client의 id가 contractors에 존재한다면
+      let newSignedId = signed // 새롭게 반환할 사인 배열
+      console.log(newSignedId)
+      if (!newSignedId) { // 초기상태 -> 사인여부 null
+        newSignedId = [contractData.id]; // 현재 계약자 id 추가
+      }
+      else { // 누군가의 사인여부가 존재
+        if (!contractors.id.includes(contractData.id)) { // 현재 사인여부에 해당 계약자의 id가 없다면
+          newSignedId.push(contractData.id); // 계약자 id 추가
+        } else { // 현재 사인여부에 해당 계약자의 id가 존재한다면
+          // 중복 처리 msg -> 중복
+        }
+      }
+      console.log(newSignedId); //stringify 이상
+      //const result = await SigningContractStorage.set_check_sign(contractData.contract_id, JSON.stringify(newSignedId)); // 해당 계약서의 사인여부 수정
+      console.log(result);
+    } else { // 현재 client의 id가 contractors에 존재하지 않는다면
+      // 오류 처리
+    }
+
   }
 }
 
