@@ -5,7 +5,7 @@ const N_SignedContractStorage = require("./N_SignedContractStorage");
 const SigningContractStorage = require("./SigningContractStorage");
 
 // 미체결 계약서 클래스
-class N_SignedContract extends Contract { // 계약서 클래스를 상속함 -> 굳이? 나중 회의때 고려
+class N_SignedContract extends Contract { // 계약서 클래스를 상속함 -> 굳이? 나중 고려
   constructor(body) {
     super(body);
   }

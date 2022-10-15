@@ -13,8 +13,24 @@ class SigningContract {
   async progress_contract() {
     const contractData = this.body;
 
-    // sign 체크 추가해야함
     try {
+      // sign 체크
+      const contractors = JSON.parse(
+        (await SigningContractStorage.get_contractors(contractData.contract_id))
+          .contractors
+      ); // 현재 해당 계약서의 계약자들 로드
+      const signed = JSON.parse(
+        (await SigningContractStorage.get_check_sign(contractData.contract_id))
+          .signed
+      ); // 현재 해당 계약서의 사인여부 로드
+
+      if (!signed || contractors.length != signed.length) { // 계약자들의 서명이 모두 기입되지 않은 경우
+        return {
+          success: false,
+          msg: "계약서에 모든 서명이 기입되지 않았습니다.",
+        }; // 오류 반환
+      }
+
       const signingContractData = await SigningContractStorage.view_contract(
         contractData.contract_id
       ); // 진행중 계약서 데이터
@@ -36,7 +52,7 @@ class SigningContract {
   }
 
   // 계약 수정 메서드 (진행중 -> 미체결)
-  async cancle_progress_contract() {
+  async cancle_progress_contract() { // 수정에 동의하는 검증프로세스 사용자 입장에서 귀찮을듯
     const contractData = this.body;
     try {
       const signingContractData = await SigningContractStorage.view_contract(
