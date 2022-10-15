@@ -55,6 +55,7 @@ router.post("/cancle_progress_contract", signingContractCtrl.process.cancle_prog
 router.post("/check_sign", signingContractCtrl.process.check_sign);
 
 // 체결
-//router.post("/cancle_contract", signedContractCtrl.process.)
+router.post("/cancle_contract", signedContractCtrl.process.cancle_contract);
+router.post("/delete_contract", signedContractCtrl.process.delete_contract);
 
 module.exports = router;
