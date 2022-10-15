@@ -23,7 +23,9 @@ const process = {
   check_sign: async (req, res) =>{
     // 진행중 계약서 id와, 현재 사용자의 id를 받음
     const contractData = new SigningContract(req.body);
-    contractData.check_sign(); // 서명 기입
+    const result = await contractData.check_sign(); // 서명 기입
+    
+    return res.send(result); // 서명 기입 결과 반환
   }
 };
 

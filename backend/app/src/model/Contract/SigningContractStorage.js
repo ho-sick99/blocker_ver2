@@ -73,11 +73,29 @@ class SigningContractStorage {
     });
   }
 
+  // 계약자 정보 로드 메서드
+  static get_contractors(contractId) {
+    return new Promise((resolve, reject) => {
+      db.query(
+        "SELECT contractors from blocker_db.signing_contract WHERE contract_id = ?;", // DB에서 contractId와 일치하는 계약서의 contractors 열을 추출
+        [contractId],
+        (err, result) => {
+          if (err) {
+            // 에러 발생 시
+            reject(`${err}`); // 에러 반환
+          } else {
+            resolve(result[0]); // 반환값 배열 형태이므로 첫번째 인덱스에 접근 후 데이터 반환
+          }
+        }
+      )
+    })
+  }
+
   // 서명 기입 정보 로드 메서드
   static get_check_sign(contractId) {
     return new Promise((resolve, reject) => {
       db.query(
-        "SELECT contractors, signed from blocker_db.signing_contract WHERE contract_id = ?;", // DB에서 contractId와 일치하는 계약서의 signed 열을 추출
+        "SELECT signed from blocker_db.signing_contract WHERE contract_id = ?;", // DB에서 contractId와 일치하는 계약서의 signed 열을 추출
         [contractId],
         (err, result) => {
           if (err) {
