@@ -1,8 +1,24 @@
 "use strict";
 
-const db = require("../config/db");
+const db = require("../../config/db");
 
 class PostStorage {
+  static load_post(clientId) {
+    return new Promise((resolve, reject) => {
+      db.query(
+        "SELECT * FROM blocker_db.post WHERE id = ?;",
+        [clientId],
+        (err, result) => {
+          if (err) {
+            reject(`${err}`);
+          } else {
+            resolve(result);
+          }
+        }
+      );
+    });
+  }
+
   static get_post_info(post_id) {
     return new Promise((resolve, reject) => {
       db.query(

@@ -1,6 +1,6 @@
 "use strict";
 
-const db = require("../config/db");
+const db = require("../../config/db");
 const dataImagePrefix = `data:image/png;base64,`;
 
 class UserStorage {

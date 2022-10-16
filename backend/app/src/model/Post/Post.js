@@ -2,28 +2,38 @@
 
 const PostStorage = require("./PostStorage");
 
-class Post{
+class Post {
     constructor(body) {
-      this.body = body;
+        this.body = body;
+    }
+
+    async load_post() { // 게시글 리스트 로드
+        const clientData = this.body;
+        try {
+            const response = await PostStorage.load_post(clientData.id);
+            return response
+        } catch (err) {
+            return { success: false, err };
+        }
     }
 
     async post_view() {
         const clientData = this.body;
         try {
-            const response = await PostStorage.get_post_info(clientData.post_id); 
-        return response;
+            const response = await PostStorage.get_post_info(clientData.post_id);
+            return response;
         } catch (err) {
-        return { success: false, err };
+            return { success: false, err };
         }
     }
 
     async add_post() {
         const clientData = this.body;
         try {
-            const response = await PostStorage.insert_post(clientData); 
-        return response;
+            const response = await PostStorage.insert_post(clientData);
+            return response;
         } catch (err) {
-        return { success: false, err };
+            return { success: false, err };
         }
 
     }
@@ -32,9 +42,9 @@ class Post{
         const clientData = this.body;
         try {
             const response = await PostStorage.update_post(clientData); // 유저 정보 저장 시도
-        return response;
+            return response;
         } catch (err) {
-        return { success: false, err };
+            return { success: false, err };
         }
     }
 
@@ -42,9 +52,9 @@ class Post{
         const clientData = this.body;
         try {
             const response = await PostStorage.delete_post(clientData.post_id); // 유저 정보 저장 시도
-        return response;
+            return response;
         } catch (err) {
-        return { success: false, err };
+            return { success: false, err };
         }
     }
 

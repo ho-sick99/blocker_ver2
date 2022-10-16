@@ -1,6 +1,6 @@
 "use strict";
 
-const User = require("../../model/User");
+const User = require("../../model/User/User");
 
 const process = {
   login: async (req, res) => {
