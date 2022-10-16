@@ -8,10 +8,9 @@ class Post {
     }
 
     async load_post() { // 게시글 리스트 로드
-        const clientData = this.body;
         try {
-            const response = await PostStorage.load_post(clientData.id);
-            return response
+            const response = await PostStorage.load_post();
+            return response;
         } catch (err) {
             return { success: false, err };
         }

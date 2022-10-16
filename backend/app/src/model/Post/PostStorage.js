@@ -3,11 +3,10 @@
 const db = require("../../config/db");
 
 class PostStorage {
-  static load_post(clientId) {
+  static load_post() {
     return new Promise((resolve, reject) => {
       db.query(
-        "SELECT * FROM blocker_db.post WHERE id = ?;",
-        [clientId],
+        "SELECT post_id, post_title FROM blocker_db.post;",
         (err, result) => {
           if (err) {
             reject(`${err}`);

@@ -2,10 +2,11 @@
 
 const Post = require("../../model/Post/Post");
 
+
 // 게시글 관련 API 
 const post_sys = {
     post_load: async (req, res) => {
-        const bodyData = new Post(req.body); // User id를 인수로 전달
+        const bodyData = new Post(); // User id를 인수로 전달
         const load_res = await bodyData.load_post();
         
         return res.send(load_res);

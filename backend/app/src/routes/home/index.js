@@ -8,7 +8,7 @@ var upload = multer();
 // 컨트롤러 로드
 const userCtrl = require("../user/user.ctrl"); // user 컨트롤러
 const postCtrl = require("../posts/post.ctrl"); // post 컨트롤러
-const pdfCtrl = require("./pdf.crtl")
+const pdfCtrl = require("../contracts/pdf.crtl")
 const contractCtrl = require("../contracts/contract.ctrl"); // contract 컨트롤러
 const n_signedContractCtrl = require("../contracts/n_signedContract.ctrl"); // 미체결 계약서 컨트롤러
 const signingContractCtrl = require("../contracts/signingContract.ctrl"); // 진행중 계약서 컨트롤러
@@ -27,7 +27,7 @@ router.post("/get_sign_info", userCtrl.process.get_sign_info);
 router.post("/set_sign_info", userCtrl.process.set_sign_info);
 
 // post 관련 api 라우팅
-router.post("/post_load", postCtrl.post_sys.post_load)
+router.get("/post_load", postCtrl.post_sys.post_load)
 router.post("/post_view", postCtrl.post_sys.post_view);
 router.post("/post_add", postCtrl.post_sys.post_add);
 router.post("/post_upd", postCtrl.post_sys.post_upd);
