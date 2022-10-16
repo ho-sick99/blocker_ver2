@@ -54,8 +54,9 @@ function Main({ navigation }) {
   const isFocused = useIsFocused() // 리프레쉬
   const [posts, setPosts] = useState([]); // 계약서 배열
   const {login_data} = useContext(LoginContext); //로그인정보
+  console.log("로그인한 ID : "+login_data.id);//로그인된 아이디 로그찍기
   const loadPosts = async () => {
-    const { data: result } = await Axios.post(HOSTNAME + '/contract_load', { id: login_data.id, contract_type: "n_signed",});
+    const { data: result } = await Axios.post(HOSTNAME + '/post_load', { id: login_data.id});
     setPosts(result);
     console.log("@@@@@@@@@@@@@@@@@@@");
     console.log(posts);

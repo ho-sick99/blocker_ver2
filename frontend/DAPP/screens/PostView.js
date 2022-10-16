@@ -13,7 +13,10 @@ function PostView({navigation, route}) {
       </View>
       <View style={styles.container2}>
         <TouchableOpacity style={styles.button_of_edit} onPress={() => navigation.push('Notice_board')}>
-          <Text style={styles.edit}>ADD BOOK MARK</Text>
+            <Text style={styles.edit}>EDIT</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button_of_del} onPress={() => navigation.push('Notice_board')}>
+            <Text style={styles.del}>DEL</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -37,7 +40,7 @@ const styles = StyleSheet.create({
   },
   container3:{
     flexDirection:'column',
-    justifyContent:'flex-start',
+    justifyContent:'space-between',
     paddingLeft:"5%",
     padding:"10%",
     width:"100%",
@@ -54,6 +57,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  button_of_del:{
+    backgroundColor:'#FFFFFF',
+    width: 310,
+    height: 50,
+    borderRadius:10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  container4:{
+
+  },
   textbox:{
     margin:"5%",
     fontsize:23,
@@ -65,6 +79,12 @@ const styles = StyleSheet.create({
     color: '#000000',
     fontWeight: 'bold',
   },
+  del:{
+    fontSize:23,
+    color: '#000000',
+    fontWeight: 'bold',
+  },
+
 });
 
 export default PostView;
