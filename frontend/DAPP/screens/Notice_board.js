@@ -1,22 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import { createDrawerNavigator, DrawerActions } from "@react-navigation/drawer";
 import Icon from "@expo/vector-icons/Ionicons";
 import Three_Contracts from "./Three_Contracts";
 import MyPage from "./MyPage";
-import Verification from "./Verification"
-import { 
-  View, 
-  Text, 
-  StyleSheet , 
-  FlatList, 
+import Verification from "./Verification";
+import Axios from 'axios';
+import {
+  StyleSheet,
+  View,
+  Button,
+  Text,
+  FlatList,
   TouchableOpacity,
   Dimensions,
   TextInput,
 } from "react-native";
-//import Icon from "@expo/vector-icons/Ionicons";
 import { HOSTNAME } from "@env";
+import { useIsFocused } from '@react-navigation/native';
+import LoginContext from '../context/LoginContext';
+import { LinearGradient } from 'expo-linear-gradient'
 
-const Drawer = createDrawerNavigator();
 
 const DATA = [
   "1",
@@ -46,101 +49,26 @@ const icon_size = 50;
 const Width = Dimensions.get("window").width; //스크린 너비 초기화
 const Height = Dimensions.get("window").height; //스크린 높이 초기화
 
-// function Main({ navigation }) {
-//   //검색입력은 useState사용
-//    const [contracts, setContracts] = useState([]); 
-//   const [inputText, setInputText] = useState("");
-//   return (
-//     <View style={styles.container}>
-//       {/*검색창*/}
-//       <View style={styles.searchcontainer}>
-//         {/*import component*/}
-//         <TextInput
-//           style={styles.textInput}
-//           placeholder="게시글 검색_"
-//           value={inputText}
-//           onChangeText={setInputText}
-//         />
-//         {/*List of Component */}
-//         <TouchableOpacity style={styles.searchBtn} onPress>
-//           <Text style={styles.text_style4}>검색</Text>
-//         </TouchableOpacity>
-//       </View>
-//       {/* <Text style={styles.h_text_style}>notice board search section</Text> */}
-//       <View>
-//       {/* <FlatList
-//         //data를 contracts에서 계약서 api로 바꿔야 함
-//           data={contracts}
-//           numColumns={2}
-//           showsVerticalScrollIndicator={false}
-//           // item????????????????????
-//           //??????????
-//           renderItem={({ item }) => (
-//             <View style={styles.view_style} columnWrapperStyle={styles.row}>
-//               <TouchableOpacity
-//                 style={styles.contract_click_style}
-//                 onPress={() =>
-//                   navigation.push("PostView", {
-//                     title: item.title,
-//                     content: item.content,
-//                     id: item.id,
-//                     contract_id: item.contract_id,
-//                   })
-//                 }
-//               >
-//                 <Icon //아이콘 말고 게시글 제목 + 작성자 + 작성일자 보여줄 것
-//                  name="rocket" color={icon_color} size={icon_size} />
-//                 <Text style={styles.text_style}>안녕</Text>
-//                 <Text style={styles.text_style}>{item.id}</Text>
-//               </TouchableOpacity>
-//             </View>
-//           )}
-//         ></FlatList> */}
-        
-//         <TouchableOpacity
-//           style={styles.postBtn}
-//           onPress={() => navigation.push("PostWrite")}
-//         >
-//           <Text style={styles.text_style2}>+</Text>
-//         </TouchableOpacity>
-//       </View>
-//     </View>
-//   );
-// }
-
-///////게시글 ////
-
-function PostList({ navigation }) {
-  //cosnt[(postMessage, setPosts)]; // 게시판 배열 (왜 필요한가?)
-  const [contracts, setContracts] = useState([]);
-  const loadContracts = async () => {
-    try {
-      setContracts(
-        // 현재 유저정보 기반으로 계약서 검색(POST)으로 수정해야함 !!!@!@
-        await (
-          await fetch(HOSTNAME + "/contract_load", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              id: "yohan123", //현재 yohan123 아이디로만 설정돼있음. 다른 아이디로 로그인하면 어쩔건지???
-              post_type : "n_signed"  //왜 필요??
-            }),
-          })
-        ).json()
-      ); // 로드한 게시글들 정보 반영
-    } catch (err) {
-      console.error(err);
-    }
-    console.log(contracts);
+function Main({ navigation }) {
+  //검색입력은 useState사용
+  const isFocused = useIsFocused() // 리프레쉬
+  const [posts, setPosts] = useState([]); // 계약서 배열
+  const {login_data} = useContext(LoginContext); //로그인정보
+  const loadPosts = async () => {
+    const { data: result } = await Axios.post(HOSTNAME + '/contract_load', { id: login_data.id, contract_type: "n_signed",});
+    setPosts(result);
+    console.log("@@@@@@@@@@@@@@@@@@@");
+    console.log(posts);
+    console.log("@@@@@@@@@@@@@@@@@@@");
   };
   useEffect(() => {
-    loadContracts();
-  }, []);
+    loadPosts();
+  }, [isFocused]); // 리프레쉬 인자 전달6 3u
 
-  //게시판 검색기능부분..검색입력은 useState사용해서 뭔가 해야됨
   const [inputText, setInputText] = useState("");
+  // console.log("ㅆㅆㅅ123"); 
+  // console.log(contracts);
+  // console.log("$$$$")
   return (
     <View style={styles.container}>
       {/*검색창*/}
@@ -157,45 +85,115 @@ function PostList({ navigation }) {
           <Text style={styles.text_style4}>검색</Text>
         </TouchableOpacity>
       </View>
+      {/* <Text style={styles.h_text_style}>notice board search section</Text> */}
       <View>
         <FlatList
-          data={contracts}
+          data={posts} //contracts가 배열이 아니라서 안된다함. 배열 안뜰거면 한개만 하라는데 
+          numColumns={2}
           showsVerticalScrollIndicator={false}
+          // item????????????????????
+          //??????????
           renderItem={({ item }) => (
-            <View style={styles.view_style}>
+            <View style={styles.view_style} columnWrapperStyle={styles.row}>
               <TouchableOpacity
                 style={styles.contract_click_style}
-                onPress={() =>
-                  navigation.push("PostView", {
-                    title: item.title,
-                    content: item.content,
-                    id: item.id,
-                    contract_id: item.contract_id,
-                  })
-                }
+                onPress={() => navigation.push("PostView", { 
+                     title: item.title,
+                      content: item.content,
+                      id: item.id,
+                      contract_id: item.contract_id, 
+                })}
               >
+                {/* 아이콘 말고 게시글 제목 + 작성자 + 작성일자 보여줄 것 */}
                 <Icon name="rocket" color={icon_color} size={icon_size} />
-                <Text style={styles.text_style}>{item.title}</Text>
+                <Text style={styles.text_style}>A{item.title}</Text>
               </TouchableOpacity>
             </View>
           )}
         ></FlatList>
+        
         <TouchableOpacity
-          style={styles.postBtn1}
+          style={styles.postBtn}
           onPress={() => navigation.push("PostWrite")}
         >
-          <Text style={styles.plus_1}>+</Text>
+          <Text style={styles.text_style2}>+</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 }
 
-///////게시글 post(쓰기) 내부 ///
-//작성해야됨//
+///////게시글 ////
+// function PostList({ navigation }) {
+//   //const[postMessage, setPosts]; // 게시판 배열 (왜 필요한가?)
+//   const loadPosts = async () => {
+//     try {
+//       setPosts(
+//         // 현재 유저정보 기반으로 계약서 검색(POST)으로 수정해야함 !!!@!@
+//         await (
+//           await fetch(HOSTNAME + "/contract_load", {
+//             method: "POST",
+//             headers: {
+//               "Content-Type": "application/json",
+//             },
+//             body: JSON.stringify({
+//               id: "yohan123", //현재 yohan123 아이디로만 설정돼있음. 다른 아이디로 로그인하면 어쩔건지???
+//               //post_type : "n_signed"  //왜 필요??
+//             }),
+//           })
+//         ).json()
+//       ); // 로드한 게시글들 정보 반영
+//     } catch (err) {
+//       console.error(err);
+//     }
+//     console.log(contracts);
+//   };
+//   useEffect(() => {
+//     loadContracts();
+//   }, []);
 
+//   //게시판 검색기능부분..검색입력은 useState사용해서 뭔가 해야됨
+//   const [inputText, setInputText] = useState("");
+//   return (
+//     <View style={styles.container}>
+//       <View>
+//         <FlatList
+//           data={contracts}
+//           showsVerticalScrollIndicator={false}
+//           renderItem={({ item }) => (
+//             <View style={styles.view_style}>
+//               <TouchableOpacity
+//                 style={styles.contract_click_style}
+//                 onPress={() =>
+//                   navigation.push("PostView", {
+//                     title: item.title,
+//                     content: item.content,
+//                     id: item.id,
+//                     contract_id: item.contract_id,
+//                   })
+//                 }
+//               >
+//                 <Icon name="rocket" color={icon_color} size={icon_size} />
+//                 <Text style={styles.text_style}>{item.title}</Text>
+//               </TouchableOpacity>
+//             </View>
+//           )}
+//         ></FlatList>
+//         <TouchableOpacity
+//           style={styles.postBtn1}
+//           onPress={() => navigation.push("Contract_Create")}
+//         >
+//           <Text style={styles.plus_1}>+</Text>
+//         </TouchableOpacity>
+//       </View>
+//     </View>
+//   );
+// }
 
-//좌상단 햄버거 버튼
+console.log("hi");
+
+///////좌상단 햄버거버튼 + 상단 바
+const Drawer = createDrawerNavigator();
 const Notice_board = () => {
   return (
     <Drawer.Navigator
@@ -215,30 +213,42 @@ const Notice_board = () => {
         drawerStyle: { backgroundColor: "black", width: 200 },
       }}
     >
-      <Drawer.Screen name="Notice Board" component={Main} options={{drawerIcon:({color,size,focuced})=>( 
-          <Icon
-            name={"home"}
-            size={size}
-            color={color}
-          />),}} />
-      <Drawer.Screen name="Contracts" component={Three_Contracts} options={{drawerIcon:({color,size,focuced})=>( 
-          <Icon
-            name={"rocket"}
-            size={size}
-            color={color}
-          />),}} />
-      <Drawer.Screen name="MyPage" component={MyPage} options={{drawerIcon:({color,size,focuced})=>( 
-          <Icon
-            name={"pause"}
-            size={size}
-            color={color}
-          />),}} />
-          <Drawer.Screen name="Verification" component={Verification} options={{drawerIcon:({color,size,focuced})=>( 
-              <Icon
-                name={"pause"}
-                size={size}
-                color={color}
-              />),}} />
+      <Drawer.Screen
+        name="Notice Board"
+        component={Main}
+        options={{
+          drawerIcon: ({ color, size, focused }) => (
+            <Icon name={"home"} size={size} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Contracts"
+        component={Three_Contracts}
+        options={{
+          drawerIcon: ({ color, size, focused }) => (
+            <Icon name={"rocket"} size={size} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="MyPage"
+        component={MyPage}
+        options={{
+          drawerIcon: ({ color, size, focused }) => ( //focused 어디있노
+            <Icon name={"pause"} size={size} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Verification"
+        component={Verification}
+        options={{
+          drawerIcon: ({ color, size, focused }) => (
+            <Icon name={"pause"} size={size} color={color} />
+          ),
+        }}
+      />
     </Drawer.Navigator>
   );
 };
