@@ -9,20 +9,43 @@ import {
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Axios from 'axios';
 import { HOSTNAME } from "@env";
+import LoginContext from '../context/LoginContext';
 
 const Width = Dimensions.get('window').width;    //스크린 너비 초기화
 const Height = Dimensions.get('window').height;  //스크린 높이 초기화
 
 function PostView({navigation, route}) {
   const [post_info, setPost] = useState([]); // 계약서 배열
+  const {login_data} = useContext(LoginContext);
+  const [user_bmark, set_user_bmark] = useState(0);
+  const [user_bmark_lst, set_user_bmark_lst] = useState(0);
 
   const loadPost = async () => {
     const { data: result } = await Axios.post(HOSTNAME + '/post_view', { post_id: route.params.post_id })
     setPost(result);
   };
 
+  const my_bookmark = async () => {
+    const { data: result } = await Axios.post(HOSTNAME + '/bookmark', { id: login_data.id})
+    set_user_bmark(result.length);
+    set_user_bmark_lst(result.data);
+    console.log(user_bmark_lst)
+  }
+
+  const edit_my_bookmark = async () => {
+    let edit_user_bmark_lst = "[";
+    for(let i=0; i<user_bmark_lst.length; i++){
+      edit_user_bmark_lst += "[" + user_bmark_lst[i][0] + ",\"" +user_bmark_lst[i][1]+ "\"],"
+    }
+    edit_user_bmark_lst = edit_user_bmark_lst.slice(0, -1);
+    edit_user_bmark_lst += ']';
+    const { data: res } = await Axios.post(HOSTNAME + '/edit_bookmark', { id: login_data.id, bookmark: {data: edit_user_bmark_lst, length: user_bmark_lst.length} });
+    return res;
+  }
+
   useEffect(() => {
-    loadPost()
+    loadPost();
+    my_bookmark();
   }, []);
   
   return (
@@ -41,7 +64,19 @@ function PostView({navigation, route}) {
                 })}>
             <Text style={styles.textStyle_btn}>Contract</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.btn_add_bmark} onPress={() => navigation.push('Notice_board')}>
+        <TouchableOpacity style={styles.btn_add_bmark} onPress={() =>{
+          if(!(login_data.id===post_info.id)){
+            for(let i=0; i<user_bmark_lst.length; i++){
+              if(user_bmark_lst[i][0] ===  route.params.post_id){
+                alert("이미 등록된 게시글 입니다."); 
+                return ;
+              }
+            }
+            user_bmark_lst.push([route.params.post_id, post_info.post_title]);
+            edit_my_bookmark(); 
+          }
+          alert("북마크 등록되었습니다."); 
+        }}>
             <Text style={styles.textStyle_btn}>BookMark</Text>
         </TouchableOpacity>
       </View>

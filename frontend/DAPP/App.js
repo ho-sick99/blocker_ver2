@@ -20,6 +20,9 @@ import Contract_Create from './screens/Contract_Create'; // 계약서 생성 파
 import Contract_View from './screens/Contract_View'
 import PostEdit from "./screens/PostEdit";
 const Stack = createNativeStackNavigator();
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 export default function App() {
   return (

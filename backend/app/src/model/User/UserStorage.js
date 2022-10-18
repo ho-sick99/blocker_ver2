@@ -52,6 +52,7 @@ class UserStorage {
 
   static bookmark_info(input_id){
     return new Promise((resolve, reject) => {
+      console.log("북마크 요청"); 
       db.query(
         "SELECT bookmark FROM blocker_db.member WHERE id = ?;", 
         [input_id],

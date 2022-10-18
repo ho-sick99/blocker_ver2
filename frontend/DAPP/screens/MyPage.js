@@ -23,7 +23,7 @@ import {
  import Axios from 'axios';
  import { HOSTNAME } from "@env";
  import Signature from 'react-native-canvas-signature';
-import { block } from 'react-native-reanimated';
+ import { block } from 'react-native-reanimated';
  
 const Width = Dimensions.get('window').width;    //스크린 너비 초기화
 const Height = Dimensions.get('window').height;  //스크린 높이 초기화
@@ -102,7 +102,9 @@ function MyPage({navigation}) {
     for(let i=0; i<user_bmark_lst.length; i++){
       edit_user_bmark_lst += "[" + user_bmark_lst[i][0] + ",\"" +user_bmark_lst[i][1]+ "\"],"
     }
-    edit_user_bmark_lst = edit_user_bmark_lst.slice(0, -1);
+    if(!(edit_user_bmark_lst.length === 1)){
+      edit_user_bmark_lst = edit_user_bmark_lst.slice(0, -1);
+    }
     edit_user_bmark_lst += ']';
     const { data: res } = await Axios.post(HOSTNAME + '/edit_bookmark', { id: login_data.id, bookmark: {data: edit_user_bmark_lst, length: user_bmark_lst.length} });
     return res;
@@ -193,6 +195,7 @@ function MyPage({navigation}) {
               
               <View style={styles.contracts_bar_item}> 
                   <Pressable onPress={() => {
+                    my_bookmark();
                     setBookmarkViewModalVisible(true);
                   }}>
                   <Text style={styles.textStyle_3}>즐겨찾기</Text>
@@ -367,7 +370,6 @@ function MyPage({navigation}) {
 
                     }
                   }}>
-                    {/* <Image source = {del_img} style={styles.del_img_style}/> */}
                   </Pressable>
                 </TouchableOpacity>
               </View>
@@ -410,25 +412,39 @@ function MyPage({navigation}) {
                   <Text>{item[0]}</Text>
                   <Text>{item[1]}</Text>
                   <Pressable style={styles.del_btn_container} onPress={ async() => {{
-                      //login_data.id
-                      for(let i =0; i< user_bmark_lst.length; i++){
-                        if(user_bmark_lst[i][0] === item[0]){
-                          user_bmark_lst.splice(i,1);
-                          console.log(user_bmark);
-                          break;
-                        }
-                      }
-                      const edit_my_bmark_Res = await edit_my_bookmark()
-                      if(edit_my_bmark_Res.success){
-                        alert("삭제 성공");
-                        set_user_info();
-                      }
-                      else{
-                        alert("삭제 실패");
-                      }
+                    Alert.alert(
+                      "관심 목록",
+                      "보기, 삭제",
+                      [
+                        { text: "보기", onPress: () =>{
+                          setBookmarkViewModalVisible(!modalVisible_bookmark_view)
+                          navigation.push("PostView", {
+                            post_id: item[0]
+                          })
+
+                        }},
+                        { text: "삭제", onPress: async () => {
+                          for(let i =0; i< user_bmark_lst.length; i++){
+                            if(user_bmark_lst[i][0] === item[0]){
+                              user_bmark_lst.splice(i,1);
+                              console.log(user_bmark);
+                              break;
+                            }
+                          }
+                          const edit_my_bmark_Res = await edit_my_bookmark()
+                          if(edit_my_bmark_Res.success){
+                            alert("삭제 성공");
+                            set_user_info();
+                          }
+                          else{
+                            alert("삭제 실패");
+                          }
+                        }},
+                      ],
+                      { cancelable: false }
+                    );
                     }
                   }}>
-                    <Image source = {del_img} style={styles.del_img_style}/>
                   </Pressable>
                 </TouchableOpacity>
               </View>
