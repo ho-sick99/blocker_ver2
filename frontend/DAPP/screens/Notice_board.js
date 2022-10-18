@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { createDrawerNavigator, DrawerActions } from "@react-navigation/drawer";
 import Icon from "@expo/vector-icons/Ionicons";
 import Three_Contracts from "./Three_Contracts";
@@ -56,20 +56,14 @@ function Main({ navigation }) {
   const {login_data} = useContext(LoginContext); //로그인정보
   console.log("로그인한 ID : "+login_data.id);//로그인된 아이디 로그찍기
   const loadPosts = async () => {
-    const { data: result } = await Axios.post(HOSTNAME + '/post_load', { id: login_data.id});
+    const { data: result } = await Axios.get(HOSTNAME + '/post_load');
     setPosts(result);
-    console.log("@@@@@@@@@@@@@@@@@@@");
-    console.log(posts);
-    console.log("@@@@@@@@@@@@@@@@@@@");
   };
   useEffect(() => {
     loadPosts();
   }, [isFocused]); // 리프레쉬 인자 전달6 3u
 
   const [inputText, setInputText] = useState("");
-  // console.log("ㅆㅆㅅ123"); 
-  // console.log(contracts);
-  // console.log("$$$$")
   return (
     <View style={styles.container}>
       {/*검색창*/}
@@ -86,28 +80,23 @@ function Main({ navigation }) {
           <Text style={styles.text_style4}>검색</Text>
         </TouchableOpacity>
       </View>
-      {/* <Text style={styles.h_text_style}>notice board search section</Text> */}
+
       <View>
         <FlatList
-          data={posts} //contracts가 배열이 아니라서 안된다함. 배열 안뜰거면 한개만 하라는데 
+          data={posts}
           numColumns={2}
           showsVerticalScrollIndicator={false}
-          // item????????????????????
-          //??????????
           renderItem={({ item }) => (
             <View style={styles.view_style} columnWrapperStyle={styles.row}>
               <TouchableOpacity
                 style={styles.contract_click_style}
                 onPress={() => navigation.push("PostView", { 
-                     title: item.title,
-                      content: item.content,
-                      id: item.id,
-                      contract_id: item.contract_id, 
+                     post_id: item.post_id
                 })}
               >
                 {/* 아이콘 말고 게시글 제목 + 작성자 + 작성일자 보여줄 것 */}
                 <Icon name="rocket" color={icon_color} size={icon_size} />
-                <Text style={styles.text_style}>A{item.title}</Text>
+                <Text>{item.post_title}</Text>
               </TouchableOpacity>
             </View>
           )}
@@ -312,17 +301,7 @@ const styles = StyleSheet.create({
     color: "#000000",
     fontSize: 45,
     paddingBottom: 4,
-    //fontWeight:"bold",
   },
-  // text_style3: {
-  //   width: 370,
-  //   height: 80,
-  //   fontSize: 20,
-  //   marginLeft: 70,
-  //   marginTop: 55,
-  //   color: "#ffffff",
-  //   fontWeight: "bold",
-  // },
   text_style4: {
     fontSize: 20,
     textAlign: "center",

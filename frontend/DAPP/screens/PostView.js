@@ -1,22 +1,48 @@
-import React from 'react';
-import {StyleSheet, Text, View, TextInput} from 'react-native';
+import React, { useState, useEffect, useContext } from "react";
+import {
+  StyleSheet, 
+  Text, 
+  View, 
+  TextInput,
+  Dimensions,
+} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import Axios from 'axios';
+import { HOSTNAME } from "@env";
+
+const Width = Dimensions.get('window').width;    //스크린 너비 초기화
+const Height = Dimensions.get('window').height;  //스크린 높이 초기화
 
 function PostView({navigation, route}) {
+  const [post_info, setPost] = useState([]); // 계약서 배열
+
+  const loadPost = async () => {
+    const { data: result } = await Axios.post(HOSTNAME + '/post_view', { post_id: route.params.post_id })
+    setPost(result);
+  };
+
+  useEffect(() => {
+    loadPost()
+  }, []);
+  
   return (
     <View style={styles.container}>
-      <View style={styles.container3}>
-        <Text style={styles.textbox}>아이디 : {route.params.id}</Text>
-        <Text style={styles.textbox}>타이틀 : {route.params.title}</Text>
-        <Text style={styles.textbox}>콘텐츠 : {route.params.content}</Text>
-        <Text style={styles.textbox}>계약서 ID : {route.params.contract_id}</Text>
+      <View style={styles.container_post}>
+        <Text style={styles.textbox}>아이디 : {post_info.id}</Text>
+        <Text style={styles.textbox}>타이틀 : {post_info.post_title}</Text>
+        <Text style={styles.textbox}>콘텐츠 : {post_info.post_content}</Text>
+        <Text style={styles.textbox}>계약서 ID : {post_info.contract_id}</Text>
       </View>
-      <View style={styles.container2}>
-        <TouchableOpacity style={styles.button_of_edit} onPress={() => navigation.push('Notice_board')}>
-            <Text style={styles.edit}>EDIT</Text>
+      
+      <View style={styles.container_button}>
+        <TouchableOpacity style={styles.btn_contract_view}
+                onPress={() => navigation.push("Contract_View", { 
+                  contract_id: post_info.contract_id
+                })}>
+            <Text style={styles.textStyle_btn}>Contract</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button_of_del} onPress={() => navigation.push('Notice_board')}>
-            <Text style={styles.del}>DEL</Text>
+        <TouchableOpacity style={styles.btn_add_bmark} onPress={() => navigation.push('Notice_board')}>
+            <Text style={styles.textStyle_btn}>BookMark</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -27,62 +53,54 @@ function PostView({navigation, route}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:'#FFFFFF',
+    backgroundColor:'#E7E6E6',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  container2: {
-    flexDirection:'row',
-    justifyContent:'center',
-    width: "100%",
-    height: "20%",
-    //marginTop:"10%",
-  },
-  container3:{
-    flexDirection:'column',
-    justifyContent:'space-between',
+  container_post: {
+    backgroundColor:'white',
+    justifyContent:'flex-start',
     paddingLeft:"5%",
     padding:"10%",
-    width:"100%",
-    height:"80%",
+    width:"94%",
+    height: "87%",
     margin: "3%",
     borderRadius:10,
-    backgroundColor:"#FFFFFF",
   },
-  button_of_edit: {
-    backgroundColor:'#FFFFFF',
-    width: 310,
-    height: 50,
-    borderRadius:10,
-    justifyContent: 'center',
-    alignItems: 'center',
+  container_button:{
+    width: "100%",
+    height: "10%",
+    flexDirection:'row',
+    justifyContent: 'space-between',
   },
-  button_of_del:{
-    backgroundColor:'#FFFFFF',
-    width: 310,
-    height: 50,
-    borderRadius:10,
-    justifyContent: 'center',
-    alignItems: 'center',
+  textStyle_btn : {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white', 
   },
-  container4:{
-
+  btn_contract_view: {
+    width: Width* 0.45,
+    height: Height* 0.07,
+    backgroundColor: "#2196F3",
+    borderRadius: 10,
+    justifyContent : 'center',
+    alignItems: 'center', 
+    marginLeft: 10, 
+  },
+  btn_add_bmark:{
+    width: Width* 0.45,
+    height: Height* 0.07,
+    backgroundColor: "#2196F3",
+    borderRadius: 10,
+    justifyContent : 'center',
+    alignItems: 'center', 
+    marginRight: 10, 
   },
   textbox:{
     margin:"5%",
     fontsize:23,
     fontWeight: 'bold',
     borderColor:"#FFAF00",
-  },
-  edit: {
-    fontSize:23,
-    color: '#000000',
-    fontWeight: 'bold',
-  },
-  del:{
-    fontSize:23,
-    color: '#000000',
-    fontWeight: 'bold',
   },
 
 });

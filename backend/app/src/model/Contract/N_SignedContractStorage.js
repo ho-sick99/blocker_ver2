@@ -61,6 +61,7 @@ class N_SignedContractStorage {
 
   // 미체결 계약서 수정 메서드
   static update_contract(contractData) {
+    console.log(contractData);
     return new Promise((resolve, reject) => {
       db.query(
         "UPDATE blocker_db.contract SET title = ?, content = ? where contract_id = ?;",

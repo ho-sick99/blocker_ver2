@@ -18,6 +18,7 @@ import {
   FlatList, 
   Icon,
   Dimensions,
+  Alert, 
  } from "react-native";
  import Axios from 'axios';
  import { HOSTNAME } from "@env";
@@ -120,7 +121,6 @@ function MyPage({navigation}) {
 
   const del_my_post = async (input_post_id) => {
     const { data: result } = await Axios.post(HOSTNAME + '/post_del', { post_id: input_post_id});
-    setSignImgBase64(result);
   }
 
   useEffect(() => {
@@ -323,35 +323,51 @@ function MyPage({navigation}) {
             renderItem={({ item }) => (
               <View style={styles.falt_list_item}>
                 <TouchableOpacity
-                style = {styles.falt_list_item_container}
-                onPress={() =>{
-                  setMyPostViewModalVisible(!modalVisible_mypost_view)
-                  navigation.push("PostView", {
-                    id: item
-                  })
-                }}>
+                style = {styles.falt_list_item_container}>
                   <Text>{item[0]}</Text>
                   <Text>{item[1]}</Text>
                   <Pressable style={styles.del_btn_container} onPress={ async() => {{
-                      // 해당 동작을 -> 그대로 게시글 삭제에 대입 -> member의 mypost도 update 되어야함. 
-                      for(let i =0; i< user_post_lst.length; i++){
-                        if(user_post_lst[i][0] === item[0]){
-                          user_post_lst.splice(i,1);
-                          break;
-                        }
-                      }
-                      const edit_my_post_Res = await edit_my_post()
-                      if(edit_my_post_Res.success){
-                        alert("삭제 성공");
-                        del_my_post(item[0]);
-                        set_user_info();
-                      }
-                      else{
-                        alert("삭제 실패");
-                      }
+                          Alert.alert(
+                            "작성 게시글",
+                            "보기, 편집 및 삭제",
+                            [
+                              { text: "보기", onPress: () =>{
+                                setMyPostViewModalVisible(!modalVisible_mypost_view)
+                                navigation.push("PostView", {
+                                  post_id: item[0]
+                                })
+
+                              }},
+                              { text: "편집", onPress: () =>{
+                                setMyPostViewModalVisible(!modalVisible_mypost_view)
+                                navigation.push("PostEdit", {
+                                  post_id: item[0]
+                                })
+                              }},
+                              { text: "삭제", onPress: async () => {
+                                for(let i =0; i< user_post_lst.length; i++){
+                                  if(user_post_lst[i][0] === item[0]){
+                                    user_post_lst.splice(i,1);
+                                    break;
+                                  }
+                                }
+                                const edit_my_post_Res = await edit_my_post()
+                                if(edit_my_post_Res.success){
+                                  alert("삭제 성공");
+                                  del_my_post(item[0]);
+                                  set_user_info();
+                                }
+                                else{
+                                  alert("삭제 실패");
+                                }
+                              }},
+                            ],
+                            { cancelable: false }
+                          );
+
                     }
                   }}>
-                    <Image source = {del_img} style={styles.del_img_style}/>
+                    {/* <Image source = {del_img} style={styles.del_img_style}/> */}
                   </Pressable>
                 </TouchableOpacity>
               </View>

@@ -43,6 +43,7 @@ router.post("/contract_del", contractCtrl.process.contract_del);
 router.post("/upload_pdf", upload.single("file"), pdfCtrl.file_process.hash_pdf);
 
 // 미체결
+router.post("/contract_view", n_signedContractCtrl.process.contract_view);
 router.post("/contract_add", n_signedContractCtrl.process.contract_add);
 router.post("/contract_upd", n_signedContractCtrl.process.contract_upd);
 router.post("/share_contract", n_signedContractCtrl.process.share_contract);

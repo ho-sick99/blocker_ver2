@@ -17,8 +17,9 @@ import PostView from './screens/PostView';
 import PostWrite from './screens/PostWrite';
 import Contract_Edit from './screens/Contract_Edit'; // 계약서 수정 파일
 import Contract_Create from './screens/Contract_Create'; // 계약서 생성 파일
+import Contract_View from './screens/Contract_View'
+import PostEdit from "./screens/PostEdit";
 const Stack = createNativeStackNavigator();
-
 
 export default function App() {
   return (
@@ -105,6 +106,24 @@ export default function App() {
               name="Contract_Create"
               component={Contract_Create}
               options={{title: 'NEW', headerStyle: { backgroundColor: "black"}, 
+              headerTitleStyle: { color: "white", fontSize: 23 ,},
+              headerTintColor:"white",
+              headerBackTitle:"",
+            }}
+            />
+            <Stack.Screen //계약서 수정 파일
+              name="Contract_View"
+              component={Contract_View}
+              options={{title: 'Contract View', headerStyle: { backgroundColor: "black"}, 
+              headerTitleStyle: { color: "white", fontSize: 23 ,},
+              headerTintColor:"white",
+              headerBackTitle:"",
+            }}
+            />
+            <Stack.Screen //계약서 수정 파일
+              name="PostEdit"
+              component={PostEdit}
+              options={{title: 'Post Edit', headerStyle: { backgroundColor: "black"}, 
               headerTitleStyle: { color: "white", fontSize: 23 ,},
               headerTintColor:"white",
               headerBackTitle:"",

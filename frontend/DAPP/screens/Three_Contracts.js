@@ -21,6 +21,10 @@ import Axios from 'axios';
 import LoginContext from '../context/LoginContext';
 import { LinearGradient } from 'expo-linear-gradient'
 
+// import { LogBox } from 'react-native';
+// LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+// LogBox.ignoreAllLogs();//Ignore all log notifications
+
 const Tab = createBottomTabNavigator();
 
 const Width = Dimensions.get("window").width; //스크린 너비 초기화
@@ -33,6 +37,7 @@ const icon_size = 50;
 const main_color = "#0DF9FF";
 
 function Three_Contracts() {
+  // LogBox.ignoreAllLogs();//Ignore all log notifications
   // React.useEffect(
   //   () => navigation.addListener('focus', () => alert('Screen was focused')),
   //   []
@@ -134,10 +139,7 @@ function N_Signed({ navigation }) {
                 style={styles.contract_click_style}
                 onPress={() =>
                   navigation.push("N_Signed", {
-                    title: item.title,
-                    content: item.content,
-                    id: item.id,
-                    contract_id: item.contract_id,
+                    contract_id: item.contract_id
                   })
                 }
               >

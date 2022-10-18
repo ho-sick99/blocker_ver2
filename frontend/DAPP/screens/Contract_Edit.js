@@ -16,10 +16,8 @@ const Width = Dimensions.get('window').width;    //스크린 너비 초기화
 const Height = Dimensions.get('window').height;  //스크린 높이 초기화
 
 function Contract_Eidt({ navigation, route }) {
-  const [data, setData] = useState({});
   const [title, setTitle] = useState(route.params.title); // 타이틀
   const [content, setcontent] = useState(route.params.content); // 컨텐트
-  const [contract_id, setcontract_id] = useState(route.params.contract_id); // 컨텐트
   
   const _handleedit_title_Change = text => {
     setTitle(text);
@@ -30,13 +28,12 @@ function Contract_Eidt({ navigation, route }) {
   }
 
   const editContracts = async () => {
-    setData({
-      title: title, //
-      content: content,//
-      contract_id: contract_id,
+    const { data: result } = await Axios.post(HOSTNAME + '/contract_upd', {
+      title: title, 
+      content: content,
+      contract_id: route.params.contract_id,
     })
-      const { data: result } = await Axios.post(HOSTNAME + '/contract_upd', data)
-      console.log(result);
+    console.log(result);
   };
 
 
@@ -62,9 +59,6 @@ function Contract_Eidt({ navigation, route }) {
       <View style={styles.container_button}>
         <TouchableOpacity style={styles.button_of_back} onPress={async () => {
                     navigation.replace("N_Signed", {
-                      title: route.params.title,
-                      id: route.params.id,
-                      content: route.params.content,
                       contract_id: route.params.contract_id,
                       })
         }}>
