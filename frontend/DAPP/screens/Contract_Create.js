@@ -9,6 +9,7 @@ import {
   View, 
   TextInput,
   Dimensions,
+  Pressable,
 } from 'react-native';
 import { HOSTNAME } from "@env";
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -52,13 +53,12 @@ function Contract_Create({navigation, route}) {
         <TextInput style={styles.textbox} value={contract_content} onChangeText={_handleedit_content_Change}></TextInput>
         </View>
       <View style={styles.container_button}>
-        <TouchableOpacity style={styles.btn_create} onPress={() => {
+        <Pressable style={styles.btn_create} onPress={() => {
           addContract(); 
           navigation.pop(); 
           }}>
           <Text style={styles.edit}>CREATE</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.space}></TouchableOpacity>    
+        </Pressable>
       </View>
     </View>
 

@@ -5,6 +5,7 @@ import {
   View, 
   TextInput,
   Dimensions,
+  Pressable,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Axios from 'axios';
@@ -58,13 +59,16 @@ function PostView({navigation, route}) {
       </View>
       
       <View style={styles.container_button}>
-        <TouchableOpacity style={styles.btn_contract_view}
+        <Pressable style={styles.btn_contract_view}
                 onPress={() => navigation.push("Contract_View", { 
                   contract_id: post_info.contract_id
                 })}>
             <Text style={styles.textStyle_btn}>Contract</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.btn_add_bmark} onPress={() =>{
+        </Pressable>
+        <Pressable style={styles.btn_add_bmark} onPress={() =>{
+          console.log(login_data.id);
+          console.log(post_info.id);
+
           if(!(login_data.id===post_info.id)){
             for(let i=0; i<user_bmark_lst.length; i++){
               if(user_bmark_lst[i][0] ===  route.params.post_id){
@@ -74,11 +78,13 @@ function PostView({navigation, route}) {
             }
             user_bmark_lst.push([route.params.post_id, post_info.post_title]);
             edit_my_bookmark(); 
+            alert("북마크 등록되었습니다."); 
+          }else{
+            alert("작성자는 북마크로 등록할 수 업습니다. "); 
           }
-          alert("북마크 등록되었습니다."); 
         }}>
             <Text style={styles.textStyle_btn}>BookMark</Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </View>
 
