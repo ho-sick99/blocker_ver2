@@ -18,6 +18,22 @@ class PostStorage {
       );
     });
   }
+  static load_mypost(id) {
+    console.log("게시글 로드"); 
+    return new Promise((resolve, reject) => {
+      db.query(
+        "SELECT post_id, post_title FROM blocker_db.post where id = ?; ",
+        [id],
+        (err, result) => {
+          if (err) {
+            reject(`${err}`);
+          } else {
+            resolve(result);
+          }
+        }
+      );
+    });
+  }
 
   static get_post_info(post_id) {
     return new Promise((resolve, reject) => {

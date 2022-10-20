@@ -66,9 +66,9 @@ function MyPage({navigation}) {
   }
 
   const my_post = async () => {
-    const { data: result } = await Axios.post(HOSTNAME + '/my_post', { id: login_data.id})
+    const { data: result } = await Axios.post(HOSTNAME + '/mypost_load', { id: login_data.id});
     set_user_post(result.length);
-    set_user_post_lst(result.data);
+    set_user_post_lst(result);
   }
 
   const my_contract = async () => {
@@ -123,6 +123,7 @@ function MyPage({navigation}) {
 
   const del_my_post = async (input_post_id) => {
     const { data: result } = await Axios.post(HOSTNAME + '/post_del', { post_id: input_post_id});
+    my_post();
   }
 
   useEffect(() => {
@@ -327,8 +328,7 @@ function MyPage({navigation}) {
               <View style={styles.falt_list_item}>
                 <TouchableOpacity
                 style = {styles.falt_list_item_container}>
-                  <Text>{item[0]}</Text>
-                  <Text>{item[1]}</Text>
+                  <Text>{item.post_title}</Text>
                   <Pressable style={styles.del_btn_container} onPress={ async() => {{
                           Alert.alert(
                             "작성 게시글",
@@ -337,32 +337,18 @@ function MyPage({navigation}) {
                               { text: "보기", onPress: () =>{
                                 setMyPostViewModalVisible(!modalVisible_mypost_view)
                                 navigation.push("PostView", {
-                                  post_id: item[0]
+                                  post_id: item.post_id
                                 })
 
                               }},
                               { text: "편집", onPress: () =>{
                                 setMyPostViewModalVisible(!modalVisible_mypost_view)
                                 navigation.push("PostEdit", {
-                                  post_id: item[0]
+                                  post_id: item.post_id
                                 })
                               }},
                               { text: "삭제", onPress: async () => {
-                                for(let i =0; i< user_post_lst.length; i++){
-                                  if(user_post_lst[i][0] === item[0]){
-                                    user_post_lst.splice(i,1);
-                                    break;
-                                  }
-                                }
-                                const edit_my_post_Res = await edit_my_post()
-                                if(edit_my_post_Res.success){
-                                  alert("삭제 성공");
-                                  del_my_post(item[0]);
-                                  set_user_info();
-                                }
-                                else{
-                                  alert("삭제 실패");
-                                }
+                                del_my_post(item.post_id);
                               }},
                             ],
                             { cancelable: false }

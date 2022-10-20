@@ -15,7 +15,15 @@ class Post {
             return { success: false, err };
         }
     }
-
+    async load_mypost() {
+        const clientData = this.body;
+        try {
+            const response = await PostStorage.load_mypost(clientData.id);
+            return response;
+        } catch (err) {
+            return { success: false, err };
+        }
+    }
     async post_view() {
         const clientData = this.body;
         try {

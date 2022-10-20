@@ -28,6 +28,7 @@ router.post("/set_sign_info", userCtrl.process.set_sign_info);
 
 // post 관련 api 라우팅
 router.get("/post_load", postCtrl.post_sys.post_load)
+router.post("/mypost_load", postCtrl.post_sys.mypost_load)
 router.post("/post_view", postCtrl.post_sys.post_view);
 router.post("/post_add", postCtrl.post_sys.post_add);
 router.post("/post_upd", postCtrl.post_sys.post_upd);
