@@ -1,29 +1,64 @@
-import React from 'react';
+import React, { 
+  useState, 
+  useEffect,
+  useContext,  
+} from "react";
 import {
   StyleSheet, 
   Text,
   View, 
   TextInput,
   Dimensions,
+  Pressable,
 } from 'react-native';
+import { HOSTNAME } from "@env";
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import LoginContext from '../context/LoginContext';
+import Axios from 'axios';
 const Width = Dimensions.get('window').width;    //스크린 너비 초기화
 const Height = Dimensions.get('window').height;  //스크린 높이 초기화
 
 function Contract_Create({navigation, route}) {
+  const {login_data} = useContext(LoginContext);
+  const [contract_title, setTitle] = useState(); // 타이틀
+  const [contract_content, setContent] = useState(); // 컨텐트
+  const [contract_id, setContractId] = useState(); // 컨텐트
+  const [modalVisible_my_contract, setMyContracttViewModalVisible] = useState(false);
+  const [contracts, setContracts] = useState([]); // 계약서 배열
+
+  const _handleedit_title_Change = text => {
+    setTitle(text);
+  }
+
+  const _handleedit_content_Change = text => {
+    setContent(text);
+  }
+
+  const addContract = async () => {
+    const { data: result } = await Axios.post(HOSTNAME + '/contract_add', {
+      title: contract_title, 
+      content: contract_content,
+      id: login_data.id, 
+    }); 
+    console.log(result);
+  };
+
+
   return ( // 'route.params.파라미터'로 접근 가능. ex) route.params.title //title, content, id, contract_id
       <View style={styles.container}>
         <View style={styles.container_contract}>
           <Text style={styles.textframe}>계약서</Text>
-          <TextInput style={styles.textbox}>계약서 이름을 입력하세요...</TextInput>
+        <TextInput style={styles.textbox} value={contract_title} onChangeText={_handleedit_title_Change}></TextInput>
           <Text style={styles.textframe}>계약내용</Text>
-          <TextInput style={styles.textbox}>계약 내용을 입력하세요...</TextInput>
+        <TextInput style={styles.textbox} value={contract_content} onChangeText={_handleedit_content_Change}></TextInput>
         </View>
       <View style={styles.container_button}>
-        <TouchableOpacity style={styles.btn_create} onPress={() => navigation.pop()}>
+        <Pressable style={styles.btn_create} onPress={() => {
+          addContract(); 
+          navigation.pop(); 
+          }}>
           <Text style={styles.edit}>CREATE</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.space}></TouchableOpacity>    
+        </Pressable>
       </View>
     </View>
 

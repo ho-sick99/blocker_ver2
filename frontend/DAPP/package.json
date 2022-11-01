@@ -31,6 +31,7 @@
     "react-native-canvas-signature": "^1.0.2",
     "react-native-dotenv": "^3.3.1",
     "react-native-gesture-handler": "~2.5.0",
+    "react-native-image-slider-box": "github:megamaxs1234/react-native-image-slider-box",
     "react-native-modal": "^13.0.1",
     "react-native-platform-searchbar": "^1.2.3",
     "react-native-reanimated": "~2.9.1",

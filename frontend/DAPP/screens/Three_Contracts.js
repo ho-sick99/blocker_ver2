@@ -21,10 +21,10 @@ import Axios from 'axios';
 import LoginContext from '../context/LoginContext';
 import { LinearGradient } from 'expo-linear-gradient'
 
-const Tab = createBottomTabNavigator();
+const Width = Dimensions.get('window').width;    //스크린 너비 초기화
+const Height = Dimensions.get('window').height;  //스크린 높이 초기화
 
-const Width = Dimensions.get("window").width; //스크린 너비 초기화
-const Height = Dimensions.get("window").height; //스크린 높이 초기화
+const Tab = createBottomTabNavigator();
 
 const icon_color = "#000000";
 const icon_color2 = "#000000";
@@ -33,6 +33,7 @@ const icon_size = 50;
 const main_color = "#0DF9FF";
 
 function Three_Contracts() {
+  // LogBox.ignoreAllLogs();//Ignore all log notifications
   // React.useEffect(
   //   () => navigation.addListener('focus', () => alert('Screen was focused')),
   //   []
@@ -134,10 +135,7 @@ function N_Signed({ navigation }) {
                 style={styles.contract_click_style}
                 onPress={() =>
                   navigation.push("N_Signed", {
-                    title: item.title,
-                    content: item.content,
-                    id: item.id,
-                    contract_id: item.contract_id,
+                    contract_id: item.contract_id
                   })
                 }
               >
@@ -147,13 +145,14 @@ function N_Signed({ navigation }) {
             </View>
           )}
         ></FlatList>
-        <TouchableOpacity
+      </View>
+      
+      <TouchableOpacity
           style={styles.postBtn1}
           onPress={() => navigation.push("Contract_Create")}
         >
           <Text style={styles.plus_1}>+</Text>
-        </TouchableOpacity>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -424,13 +423,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",
-    width: "17.2%",
-    height: "10%",
-    top: "77%",
-    left: "75%",
-    borderRadius: 100,
+    width: Width*0.15, 
+    height: Width*0.15, 
+    bottom: "5%",
+    right: "5%", 
+    borderRadius: 20,
     borderColor: "white",
-    borderWidth: 5,
     backgroundColor: "white",
+    borderWidth: 5,
   },
 });

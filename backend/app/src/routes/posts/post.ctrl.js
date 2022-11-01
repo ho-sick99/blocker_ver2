@@ -11,6 +11,12 @@ const post_sys = {
         
         return res.send(load_res);
     },
+    mypost_load: async (req, res) => {
+        const bodyData = new Post(req.body);
+        const load_res = await bodyData.load_mypost();
+        
+        return res.send(load_res);
+    },
     post_view: async (req, res) => {
         const bodyData = new Post(req.body);
         const post_res = await bodyData.post_view();

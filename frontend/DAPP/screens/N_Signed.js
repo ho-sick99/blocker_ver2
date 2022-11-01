@@ -1,7 +1,7 @@
 import React, {
   useState,
   useEffect,
-  CommonActions ,
+  useContext,  
 } from 'react';
 import {
   StyleSheet, 
@@ -10,39 +10,66 @@ import {
   TextInput,
   Dimensions, 
 } from 'react-native';
+import LoginContext from '../context/LoginContext';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useIsFocused } from '@react-navigation/native';
+import Axios from 'axios';
+import { HOSTNAME } from "@env";
+
 const Width = Dimensions.get('window').width;    //스크린 너비 초기화
 const Height = Dimensions.get('window').height;  //스크린 높이 초기화
 
 
 function N_Signed({navigation, route}) {
+  const {login_data} = useContext(LoginContext);
+  const [contarct_info, setContract] = useState([]); // 계약서 배열
+  const [contract_title, setTitle] = useState(); // 타이틀
+  const [contract_content, setContent] = useState(); // 컨텐트
+  const [contract_id, setContractId] = useState(); // 컨텐트
+
+  const loadContract = async () => {
+    console.log("계약 내용 불러오기:");
+    const { data: result } = await Axios.post(HOSTNAME + '/contract_view', { contract_id: route.params.contract_id })
+    console.log(result);
+    setContract(result);
+    setTitle(result.title)
+    setContent(result.content)
+    setContractId(result.contract_id)
+  };
+
+  const del_my_contract = async () => {
+    const { data: result } = await Axios.post(HOSTNAME + '/contract_del', { contract_id: contract_id, contract_type: "n_signed"});
+  }
+
+  useEffect(() => {
+    loadContract();
+  }, []);
+  
   return ( // 'route.params.파라미터'로 접근 가능. ex) route.params.title //title, content, id, contract_id
       <View style={styles.container}>
         <View style={styles.container_contract}>
         
         <View style={styles.textbox_fix}>
-          <Text style={styles.textframe}>아아디: {route.params.id}</Text>      
-          <Text style={styles.textframe}>계약서 ID: {route.params.contract_id}</Text>
+          <Text style={styles.textframe}>아아디: {login_data.id}</Text>      
+          <Text style={styles.textframe}>계약서 ID: {contract_id}</Text>
         </View>
-
-          <Text style={styles.textframe}>계약서: {route.params.title}</Text>
-
+          <Text style={styles.textframe}>계약서: {contract_title}</Text>
           <Text style={styles.textframe}>계약내용</Text>
-          <Text style={styles.textbox}>{route.params.content}</Text>
+          <Text style={styles.textbox}>{contract_content}</Text>
           <Text style={styles.textframe}></Text>
 
-          {/* <TextInput style={styles.textbox} placeholder="계약서 내용 입력"></TextInput> */}
         </View>
       <View style={styles.container_button}>
-        <TouchableOpacity style={styles.button_of_del} onPress={() => alert("삭제")}>
+        <TouchableOpacity style={styles.button_of_del} onPress={() => {
+          del_my_contract();
+          navigation.pop(); 
+        }}>
           <Text style={styles.textStyle_btn}>DEL</Text>
         </TouchableOpacity>  
         <TouchableOpacity style={styles.button_of_edit} onPress={() => navigation.replace("Contract_Edit", {
-                      title: route.params.title,
-                      id: route.params.id,
-                      content: route.params.content,
-                      contract_id: route.params.contract_id,
+                      title: contarct_info.title,
+                      id: contarct_info.id,
+                      content: contarct_info.content,
+                      contract_id: contarct_info.contract_id,
         })}>
           <Text style={styles.textStyle_btn}>EDIT</Text>
         </TouchableOpacity>

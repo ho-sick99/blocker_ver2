@@ -4,9 +4,26 @@ const db = require("../../config/db");
 
 class PostStorage {
   static load_post() {
+    console.log("게시글 로드"); 
     return new Promise((resolve, reject) => {
       db.query(
-        "SELECT post_id, post_title FROM blocker_db.post;",
+        "SELECT post_id, post_title FROM blocker_db.post ORDER BY post_id DESC;",
+        (err, result) => {
+          if (err) {
+            reject(`${err}`);
+          } else {
+            resolve(result);
+          }
+        }
+      );
+    });
+  }
+  static load_mypost(id) {
+    console.log("게시글 로드"); 
+    return new Promise((resolve, reject) => {
+      db.query(
+        "SELECT post_id, post_title FROM blocker_db.post where id = ?; ",
+        [id],
         (err, result) => {
           if (err) {
             reject(`${err}`);

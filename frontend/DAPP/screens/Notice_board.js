@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { createDrawerNavigator, DrawerActions } from "@react-navigation/drawer";
 import Icon from "@expo/vector-icons/Ionicons";
 import Three_Contracts from "./Three_Contracts";
@@ -14,35 +14,14 @@ import {
   TouchableOpacity,
   Dimensions,
   TextInput,
+  Image,
+  ScrollView
 } from "react-native";
 import { HOSTNAME } from "@env";
 import { useIsFocused } from '@react-navigation/native';
 import LoginContext from '../context/LoginContext';
-import { LinearGradient } from 'expo-linear-gradient'
+import { SliderBox } from "react-native-image-slider-box";
 
-
-const DATA = [
-  "1",
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "7",
-  "8",
-  "9",
-  "10",
-  "11",
-  "12",
-  "13",
-  "14",
-  "15",
-  "16",
-  "17",
-  "18",
-  "19",
-  "20",
-];
 const icon_color = "#000000";
 const icon_size = 50;
 
@@ -56,22 +35,76 @@ function Main({ navigation }) {
   const {login_data} = useContext(LoginContext); //로그인정보
   console.log("로그인한 ID : "+login_data.id);//로그인된 아이디 로그찍기
   const loadPosts = async () => {
-    const { data: result } = await Axios.post(HOSTNAME + '/post_load', { id: login_data.id});
+    const { data: result } = await Axios.get(HOSTNAME + '/post_load');
     setPosts(result);
-    console.log("@@@@@@@@@@@@@@@@@@@");
-    console.log(posts);
-    console.log("@@@@@@@@@@@@@@@@@@@");
   };
   useEffect(() => {
     loadPosts();
   }, [isFocused]); // 리프레쉬 인자 전달6 3u
 
   const [inputText, setInputText] = useState("");
-  // console.log("ㅆㅆㅅ123"); 
-  // console.log(contracts);
-  // console.log("$$$$")
   return (
     <View style={styles.container}>
+    <ScrollView>
+            {/* 이미지 슬라이더 */}
+        <View style={styles.container_image_slider}>
+          <SliderBox
+            images={[
+              "https://source.unsplash.com/1024x768/?nature",
+              "https://source.unsplash.com/1024x768/?water",
+              "https://source.unsplash.com/1024x768/?girl",
+              "https://source.unsplash.com/1024x768/?tree",
+            ]}
+            ImageComponentStyle={{borderRadius: 10, width: '95%', height: "100%" }}
+            onCurrentImagePressed={index => console.warn(`image ${index} pressed`)}
+            paginationBoxStyle={{
+              position: "absolute",
+              bottom: 0,
+              padding: 0,
+              alignItems: "center",
+              alignSelf: "center",
+              justifyContent: "center",
+              paddingVertical: 10
+            }}
+            dotStyle={{
+              width: 10,
+              height: 10,
+              borderRadius: 5,
+              marginHorizontal: 0,
+              padding: 0,
+              margin: 0,
+              backgroundColor: "rgba(128, 128, 128, 0.92)"
+            }}
+            dotColor="#2196F3"
+            inactiveDotColor="#90A4AE"
+            paginationBoxVerticalPadding={20}
+            resizeMethod={'resize'}
+            resizeMode={'cover'}
+            autoplay
+            circleLoop
+          />
+        </View>
+        <FlatList
+          data={posts}
+          numColumns={2}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item }) => (
+            <View style={styles.view_style} columnWrapperStyle={styles.row}>
+              <TouchableOpacity
+                style={styles.contract_click_style}
+                onPress={() => navigation.push("PostView", { 
+                     post_id: item.post_id
+                })}
+              >
+                {/* 아이콘 말고 게시글 제목 + 작성자 + 작성일자 보여줄 것 */}
+                <Icon name="rocket" color={icon_color} size={icon_size} />
+                <Text>{item.post_title}</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        ></FlatList>
+      </ScrollView>
+
       {/*검색창*/}
       <View style={styles.searchcontainer}>
         {/*import component*/}
@@ -86,112 +119,17 @@ function Main({ navigation }) {
           <Text style={styles.text_style4}>검색</Text>
         </TouchableOpacity>
       </View>
-      {/* <Text style={styles.h_text_style}>notice board search section</Text> */}
-      <View>
-        <FlatList
-          data={posts} //contracts가 배열이 아니라서 안된다함. 배열 안뜰거면 한개만 하라는데 
-          numColumns={2}
-          showsVerticalScrollIndicator={false}
-          // item????????????????????
-          //??????????
-          renderItem={({ item }) => (
-            <View style={styles.view_style} columnWrapperStyle={styles.row}>
-              <TouchableOpacity
-                style={styles.contract_click_style}
-                onPress={() => navigation.push("PostView", { 
-                     title: item.title,
-                      content: item.content,
-                      id: item.id,
-                      contract_id: item.contract_id, 
-                })}
-              >
-                {/* 아이콘 말고 게시글 제목 + 작성자 + 작성일자 보여줄 것 */}
-                <Icon name="rocket" color={icon_color} size={icon_size} />
-                <Text style={styles.text_style}>A{item.title}</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        ></FlatList>
-        
-        <TouchableOpacity
+
+      <TouchableOpacity
           style={styles.postBtn}
           onPress={() => navigation.push("PostWrite")}
         >
           <Text style={styles.text_style2}>+</Text>
         </TouchableOpacity>
-      </View>
     </View>
   );
 }
 
-///////게시글 ////
-// function PostList({ navigation }) {
-//   //const[postMessage, setPosts]; // 게시판 배열 (왜 필요한가?)
-//   const loadPosts = async () => {
-//     try {
-//       setPosts(
-//         // 현재 유저정보 기반으로 계약서 검색(POST)으로 수정해야함 !!!@!@
-//         await (
-//           await fetch(HOSTNAME + "/contract_load", {
-//             method: "POST",
-//             headers: {
-//               "Content-Type": "application/json",
-//             },
-//             body: JSON.stringify({
-//               id: "yohan123", //현재 yohan123 아이디로만 설정돼있음. 다른 아이디로 로그인하면 어쩔건지???
-//               //post_type : "n_signed"  //왜 필요??
-//             }),
-//           })
-//         ).json()
-//       ); // 로드한 게시글들 정보 반영
-//     } catch (err) {
-//       console.error(err);
-//     }
-//     console.log(contracts);
-//   };
-//   useEffect(() => {
-//     loadContracts();
-//   }, []);
-
-//   //게시판 검색기능부분..검색입력은 useState사용해서 뭔가 해야됨
-//   const [inputText, setInputText] = useState("");
-//   return (
-//     <View style={styles.container}>
-//       <View>
-//         <FlatList
-//           data={contracts}
-//           showsVerticalScrollIndicator={false}
-//           renderItem={({ item }) => (
-//             <View style={styles.view_style}>
-//               <TouchableOpacity
-//                 style={styles.contract_click_style}
-//                 onPress={() =>
-//                   navigation.push("PostView", {
-//                     title: item.title,
-//                     content: item.content,
-//                     id: item.id,
-//                     contract_id: item.contract_id,
-//                   })
-//                 }
-//               >
-//                 <Icon name="rocket" color={icon_color} size={icon_size} />
-//                 <Text style={styles.text_style}>{item.title}</Text>
-//               </TouchableOpacity>
-//             </View>
-//           )}
-//         ></FlatList>
-//         <TouchableOpacity
-//           style={styles.postBtn1}
-//           onPress={() => navigation.push("Contract_Create")}
-//         >
-//           <Text style={styles.plus_1}>+</Text>
-//         </TouchableOpacity>
-//       </View>
-//     </View>
-//   );
-// }
-
-console.log("hi");
 
 ///////좌상단 햄버거버튼 + 상단 바
 const Drawer = createDrawerNavigator();
@@ -263,8 +201,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#000000",
   },
   searchcontainer: {
+    position: "absolute",
     display: "flex",
     width: "100%",
+    top: "-7.2%",
     flexDirection: "row",
   },
   h_text_style: {
@@ -312,17 +252,7 @@ const styles = StyleSheet.create({
     color: "#000000",
     fontSize: 45,
     paddingBottom: 4,
-    //fontWeight:"bold",
   },
-  // text_style3: {
-  //   width: 370,
-  //   height: 80,
-  //   fontSize: 20,
-  //   marginLeft: 70,
-  //   marginTop: 55,
-  //   color: "#ffffff",
-  //   fontWeight: "bold",
-  // },
   text_style4: {
     fontSize: 20,
     textAlign: "center",
@@ -332,16 +262,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",
-    width: "20%",
+    width: "18%",
     height: "10%",
-    top: "73%",
-    left: "70%",
-    borderRadius: 50,
-    borderColor: "black",
-    borderStyle: "solid",
-    borderColor: "#9DC9AC",
-    borderWidth: 5,
-    backgroundColor: "#0DF9AF",
+    top: "80%",
+    left: "75%",
+    borderRadius: 20,
+    backgroundColor: "#2196F3",
   },
   textInput: {
     fontSize: 20,
@@ -368,4 +294,9 @@ const styles = StyleSheet.create({
     backgroundColor: "gray",
     marginTop: 40,
   },
+  container_image_slider:{
+    width: "100%",
+    height: Width * 0.5,
+    marginTop: "11%"
+  }
 });
