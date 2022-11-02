@@ -50,12 +50,14 @@ router.post("/share_contract", n_signedContractCtrl.process.share_contract);
 
 // 진행중
 router.post("/signing_contract_load", signingContractCtrl.process.contract_load); 
+router.post("/signing_contract_view", signingContractCtrl.process.contract_view);
 router.post("/progress_contract", signingContractCtrl.process.progress_contract);
 router.post("/cancle_progress_contract", signingContractCtrl.process.cancle_progress_contract);
 router.post("/check_sign", signingContractCtrl.process.check_sign);
 
 // 체결
 router.post("/signed_contract_load", signedContractCtrl.process.contract_load); 
+router.post("/signed_contract_view", signedContractCtrl.process.contract_view);
 router.post("/cancle_contract", signedContractCtrl.process.cancle_contract);
 router.post("/delete_contract", signedContractCtrl.process.delete_contract);
 

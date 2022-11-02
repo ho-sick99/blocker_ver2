@@ -25,12 +25,12 @@ class N_SignedContract extends Contract { // 계약서 클래스를 상속함 ->
     }
   }
 
-  // 미체결 계약서 view
+  // 미체결 계약서 데이터 view
   async view_contract() {
     const contractData = this.body;
     console.log(contractData);
     try {
-      const response = await N_SignedContractStorage.view_contract(contractData.contract_id); // 입력된 데이터를 인수로 DB에 새로운 계약서 생성 요청
+      const response = await N_SignedContractStorage.view_contract(contractData.contract_id); 
       return response;
     } catch (err) {
       return { success: false, err };
@@ -70,7 +70,7 @@ class N_SignedContract extends Contract { // 계약서 클래스를 상속함 ->
 
       const createRes = await SigningContractStorage.insert_contract({
         ...n_signedContractData,
-        contractors: JSON.stringify(contractData.contractors), // 수정 필요! -> contractors, id object 구조로
+        contractors: JSON.stringify(contractData.contractors),
       }); // 미체결 계약서 데이터와 계약자들 데이터 기반으로 진행중 계약서 생성
 
       // 진행중 계약서가 생성되었다면

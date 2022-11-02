@@ -7,7 +7,15 @@ const process = {
   contract_load: async (req, res) => {
     const contractData = new SigningContract(req.body); // 유저 정보 객체 생성
     const contracts = await contractData.load_contract();
+    
     return res.send(contracts); // 계약서 배열 반환
+  },
+  // 계약서 보기
+  contract_view: async (req, res) => {
+    const contractData = new SigningContract(req.body); // 계약서 객체 생성
+    const contract_res = await contractData.view_contract(); // 계약서 데이터 요청
+
+    return res.send(contract_res); // 생성 결과 반환
   },
   // 계약 성립 (진행중 -> 체결)
   progress_contract: async (req, res) => {

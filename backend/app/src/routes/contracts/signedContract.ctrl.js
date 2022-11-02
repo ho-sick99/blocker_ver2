@@ -9,6 +9,13 @@ const process = {
     const contracts = await contractData.load_contract();
     return res.send(contracts); // 계약서 배열 반환
   },
+  // 계약서 보기
+  contract_view: async (req, res) => {
+    const contractData = new SignedContract(req.body); // 계약서 객체 생성
+    const contract_res = await contractData.view_contract(); // 계약서 데이터 요청
+
+    return res.send(contract_res); // 생성 결과 반환
+  },
   // 수정 요청에 의한 계약 취소 (체결 -> 미체결)
   cancle_contract: async (req, res) => {
     // 체결 계약서 id를 받음

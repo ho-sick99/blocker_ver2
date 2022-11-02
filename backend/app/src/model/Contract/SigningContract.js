@@ -33,6 +33,18 @@ class SigningContract {
     return result;
   }
 
+  // 진행중 계약서 데이터 view
+  async view_contract() {
+    const contractData = this.body;
+    console.log(contractData);
+    try {
+      const response = await SigningContractStorage.view_contract(contractData.contract_id);
+      return response;
+    } catch (err) {
+      return { success: false, err };
+    }
+  }
+
   // 계약 성립 메서드 (진행중 -> 체결)
   async progress_contract() {
     const contractData = this.body;

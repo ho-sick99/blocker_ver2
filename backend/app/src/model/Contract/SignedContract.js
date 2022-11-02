@@ -7,7 +7,7 @@ class SignedContract {
   constructor(body) {
     this.body = body;
   }
-  
+
   // 체결 계약서 목록 로드
   async load_contract() {
     // 현재 계정의 계약서들 데이터 로드
@@ -30,6 +30,19 @@ class SignedContract {
     const result = contracts.filter(filterContract); // 현재 클라이언트가 포함된 계약서만 필터링
     return result;
   }
+
+  // 체결 계약서 데이터 view
+  async view_contract() {
+    const contractData = this.body;
+    console.log(contractData);
+    try {
+      const response = await SignedContractStorage.view_contract(contractData.contract_id);
+      return response;
+    } catch (err) {
+      return { success: false, err };
+    }
+  }
+
 
   // 서명 기입 상태 확인 메서드
   async check_signed_status() {
