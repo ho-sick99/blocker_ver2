@@ -22,7 +22,7 @@ class SignedContract {
 
     let contracts = null;
     try {
-      contracts = await SignedContractStorage.load_signed_contracts_info(); // 현재 진행중 계약서 데이터 로드
+      contracts = await SignedContractStorage.load_contracts(); // 현재 진행중 계약서 데이터 로드
     }
     catch (err) {
       return { success: false, err };
@@ -34,7 +34,6 @@ class SignedContract {
   // 체결 계약서 데이터 view
   async view_contract() {
     const contractData = this.body;
-    console.log(contractData);
     try {
       const response = await SignedContractStorage.view_contract(contractData.contract_id);
       return response;

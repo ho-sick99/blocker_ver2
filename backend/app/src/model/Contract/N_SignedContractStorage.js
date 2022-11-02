@@ -6,7 +6,7 @@ const db = require("../../config/db"); // db 객체 로드
 class N_SignedContractStorage {
 
   // 미체결 계약서들 정보 로드
-  static load_contracts_info(clientId) {
+  static load_contracts(clientId) {
     return new Promise((resolve, reject) => {
       db.query(
         "SELECT contract_id, title FROM blocker_db.contract WHERE id = ? ORDER BY contract_id DESC;",
