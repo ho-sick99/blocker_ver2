@@ -10,6 +10,21 @@ class N_SignedContract extends Contract { // 계약서 클래스를 상속함 ->
     super(body);
   }
 
+  // 미체결 계약서 목록 로드
+  async load_contract() {
+    // 현재 계정의 계약서들 데이터 로드
+    const contractData = this.body;
+    try {
+      const response = await N_SignedContractStorage.load_contracts_info(
+        contractData.id
+      ); // 유저 id를 인수로 현재 계정의 미체결 계약서의 정보를 요청
+      return response;
+    }
+    catch (err) {
+      return { success: false, err };
+    }
+  }
+
   // 미체결 계약서 view
   async view_contract() {
     const contractData = this.body;
@@ -55,7 +70,7 @@ class N_SignedContract extends Contract { // 계약서 클래스를 상속함 ->
 
       const createRes = await SigningContractStorage.insert_contract({
         ...n_signedContractData,
-        contractors: JSON.stringify(contractData.contractors),
+        contractors: JSON.stringify(contractData.contractors), // 수정 필요! -> contractors, id object 구조로
       }); // 미체결 계약서 데이터와 계약자들 데이터 기반으로 진행중 계약서 생성
 
       // 진행중 계약서가 생성되었다면

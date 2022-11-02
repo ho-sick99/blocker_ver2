@@ -35,29 +35,27 @@ router.post("/post_upd", postCtrl.post_sys.post_upd);
 router.post("/post_del", postCtrl.post_sys.post_del);
 
 // contract 관련 api 라우팅 //
-// 공통
-router.post("/contract_load", contractCtrl.process.contract_load);
-// router.post("/contract_view", contractCtrl.process.contract_view); // 굳이 필요한가?
+// 계약서별 load 라우팅 분리, 계약서 view 만들기
 router.post("/contract_del", contractCtrl.process.contract_del);
 
 // pdf 처리
 router.post("/upload_pdf", upload.single("file"), pdfCtrl.file_process.hash_pdf);
 
 // 미체결
+router.post("/contract_load", n_signedContractCtrl.process.contract_load);
 router.post("/contract_view", n_signedContractCtrl.process.contract_view);
 router.post("/contract_add", n_signedContractCtrl.process.contract_add);
 router.post("/contract_upd", n_signedContractCtrl.process.contract_upd);
 router.post("/share_contract", n_signedContractCtrl.process.share_contract);
 
 // 진행중
-router.post(
-  "/progress_contract",
-  signingContractCtrl.process.progress_contract
-);
+router.post("/signing_contract_load", signingContractCtrl.process.contract_load); 
+router.post("/progress_contract", signingContractCtrl.process.progress_contract);
 router.post("/cancle_progress_contract", signingContractCtrl.process.cancle_progress_contract);
 router.post("/check_sign", signingContractCtrl.process.check_sign);
 
 // 체결
+router.post("/signed_contract_load", signedContractCtrl.process.contract_load); 
 router.post("/cancle_contract", signedContractCtrl.process.cancle_contract);
 router.post("/delete_contract", signedContractCtrl.process.delete_contract);
 

@@ -9,7 +9,7 @@ class N_SignedContractStorage {
   static load_contracts_info(clientId) {
     return new Promise((resolve, reject) => {
       db.query(
-        "SELECT * FROM blocker_db.contract WHERE id = ?;",
+        "SELECT contract_id, title FROM blocker_db.contract WHERE id = ? ORDER BY contract_id DESC;",
         [clientId],
         (err, result) => {
           if (err) {

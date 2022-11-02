@@ -9,6 +9,30 @@ class SigningContract {
     this.body = body;
   }
 
+  // 진행중 계약서 목록 로드
+  async load_contract() {
+    // 현재 계정의 계약서들 데이터 로드
+    const contractData = this.body;
+    const filterContract = (contract) => { // 계약서 리스트 탐색
+      const contractorsId = JSON.parse(contract.contractors).id // 현재 계약서의 계약자들 id 추출
+      if (contractorsId.includes(contractData.id) || contract.id === contractData.id) { // 계약자들 목록에 자신의 id가 있거나, 본인이 작성한 계약서인 경우
+        return true;
+      }
+      return false;
+    }
+
+    let contracts = null;
+    try {
+      contracts = await SigningContractStorage.load_signing_contracts_info(); // 현재 진행중 계약서 데이터 로드
+    }
+    catch (err) {
+      return { success: false, err };
+    }
+
+    const result = contracts.filter(filterContract); // 현재 클라이언트가 포함된 계약서만 필터링
+    return result;
+  }
+
   // 계약 성립 메서드 (진행중 -> 체결)
   async progress_contract() {
     const contractData = this.body;

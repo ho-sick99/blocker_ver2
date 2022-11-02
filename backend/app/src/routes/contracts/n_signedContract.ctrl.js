@@ -3,6 +3,12 @@
 const N_SignedContract = require("../../model/Contract/N_SignedContract"); // 미체결 계약서 클래스 로드
 
 const process = {
+  // 계약서 목록 로드
+  contract_load: async (req, res) => {
+    const contractData = new N_SignedContract(req.body); // 유저 정보 객체 생성
+    const contracts = await contractData.load_contract();
+    return res.send(contracts); // 계약서 배열 반환
+  },
   // 계약서 보기
   contract_view: async (req, res) => {
     const contractData = new N_SignedContract(req.body); // 계약서 객체 생성

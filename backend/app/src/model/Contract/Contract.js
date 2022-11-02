@@ -11,36 +11,36 @@ class Contract {
   }
 
   // 이것을 하위 클래스들에서 분할하여야하나? 의문
-  async load_contract() {
-    // 현재 계정의 계약서들 데이터 로드
-    const contractData = this.body;
-    try {
-      let response = null;
-      switch (contractData.contract_type) {
-        case "n_signed": // 미체결
-          response = await N_SignedContractStorage.load_contracts_info(
-            contractData.id
-          ); // 유저 id를 인수로 현재 계정의 미체결 계약서의 정보를 요청
-          break;
-        case "signing": // 진행중
-          response = await SigningContractStorage.load_signing_contracts_info(
-            contractData.id
-          ); // 유저 id를 인수로 현재 계정의 진행중 계약서의 정보를 요청
-          break;
-        case "signed": // 체결
-          response = await SignedContractStorage.load_signed_contracts_info(
-            contractData.id
-          ); // 유저 id를 인수로 현재 계정의 체결 계약서의 정보를 요청
-          break;
-        default: // 계약서 타입 오류
-          const err = new Error("계약서 타입 오류");
-          response = { success: false, err }; // 에러 생성후 반환
-      }
-      return response;
-    } catch (err) {
-      return { success: false, err };
-    }
-  }
+  // async load_contract() {
+  //   // 현재 계정의 계약서들 데이터 로드
+  //   const contractData = this.body;
+  //   try {
+  //     let response = null;
+  //     switch (contractData.contract_type) {
+  //       case "n_signed": // 미체결
+  //         response = await N_SignedContractStorage.load_contracts_info(
+  //           contractData.id
+  //         ); // 유저 id를 인수로 현재 계정의 미체결 계약서의 정보를 요청
+  //         break;
+  //       case "signing": // 진행중
+  //         response = await SigningContractStorage.load_signing_contracts_info(
+  //           contractData.id
+  //         ); // 유저 id를 인수로 현재 계정의 진행중 계약서의 정보를 요청
+  //         break;
+  //       case "signed": // 체결
+  //         response = await SignedContractStorage.load_signed_contracts_info(
+  //           contractData.id
+  //         ); // 유저 id를 인수로 현재 계정의 체결 계약서의 정보를 요청
+  //         break;
+  //       default: // 계약서 타입 오류
+  //         const err = new Error("계약서 타입 오류");
+  //         response = { success: false, err }; // 에러 생성후 반환
+  //     }
+  //     return response;
+  //   } catch (err) {
+  //     return { success: false, err };
+  //   }
+  // }
 
   // async view_contract() {
   //   // 계약서 데이터 반환
