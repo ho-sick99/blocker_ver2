@@ -8,7 +8,7 @@ class SignedContractStorage {
   static load_contracts() {
     return new Promise((resolve, reject) => {
       db.query(
-        "SELECT contract_id, id, title, contractors FROM blocker_db.signed_contract ORDER BY contract_id DESC;;",
+        "SELECT * FROM blocker_db.signed_contract ORDER BY contract_id DESC;;",
         (err, result) => {
           if (err) {
             reject(`${err}`);
