@@ -20,6 +20,7 @@ const Width = Dimensions.get('window').width;    //스크린 너비 초기화
 const Height = Dimensions.get('window').height;  //스크린 높이 초기화
 
 function PostWrite({navigation, route}){
+  console.log(HOSTNAME);
     const {login_data} = useContext(LoginContext);
     const [post_title, setTitle] = useState(); // 타이틀
     const [post_content, setContent] = useState(); // 컨텐트

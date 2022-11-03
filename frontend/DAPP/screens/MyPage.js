@@ -127,7 +127,7 @@ function MyPage({navigation}) {
   }
 
   useEffect(() => {
-    console.log("마이 페이지 데이터 불러오기");
+    console.log("마이 페이지 데이터 불러오기" + HOSTNAME);
     set_user_info();
   }, []);
   

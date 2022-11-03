@@ -29,6 +29,7 @@ const Width = Dimensions.get("window").width; //스크린 너비 초기화
 const Height = Dimensions.get("window").height; //스크린 높이 초기화
 
 function Main({ navigation }) {
+  console.log(HOSTNAME);
   //검색입력은 useState사용
   const isFocused = useIsFocused() // 리프레쉬
   const [posts, setPosts] = useState([]); // 계약서 배열

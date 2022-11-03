@@ -20,6 +20,7 @@ const Height = Dimensions.get('window').height;  //스크린 높이 초기화
 
 
 function N_Signed({navigation, route}) {
+  console.log(HOSTNAME);
   const {login_data} = useContext(LoginContext);
   const [contarct_info, setContract] = useState([]); // 계약서 배열
   const [contract_title, setTitle] = useState(); // 타이틀

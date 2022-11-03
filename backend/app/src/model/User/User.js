@@ -143,6 +143,16 @@ class User {
       return { err: false };
     }
   }
+  async get_user_name(){
+    const clientData = this.body;
+    try {
+      const response = await UserStorage.getUserName(clientData.id)
+      return response;
+    } catch (err) {
+      return { err: false };
+    }
+  }
+
 }
 
 module.exports = User;
