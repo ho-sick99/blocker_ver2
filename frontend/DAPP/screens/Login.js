@@ -34,6 +34,7 @@ function Login({ navigation }) {
 
   // 로그인 
   const chk_login = async (id_input, pw_input) => {
+    console.log(HOSTNAME);
     const { data: res } = await Axios.post(HOSTNAME + '/login', { id: id_input, pw: pw_input })
     console.log(res);
     return res;

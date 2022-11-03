@@ -15,11 +15,11 @@ import {
   TextInput,
 } from "react-native";
 import Icon from "@expo/vector-icons/Ionicons";
-import { HOSTNAME } from "@env";
 import { useIsFocused } from '@react-navigation/native';
 import Axios from 'axios';
 import LoginContext from '../context/LoginContext';
 import { LinearGradient } from 'expo-linear-gradient'
+import { HOSTNAME } from "@env";
 
 const Width = Dimensions.get('window').width;    //스크린 너비 초기화
 const Height = Dimensions.get('window').height;  //스크린 높이 초기화
@@ -33,6 +33,8 @@ const icon_size = 50;
 const main_color = "#0DF9FF";
 
 function Three_Contracts() {
+  
+  console.log(HOSTNAME);
   // LogBox.ignoreAllLogs();//Ignore all log notifications
   // React.useEffect(
   //   () => navigation.addListener('focus', () => alert('Screen was focused')),
@@ -200,6 +202,7 @@ function Proceeding({ navigation }) {
                 style={styles.contract_click_style}
                 onPress={() =>
                   navigation.push("Proceeding", {
+                    id: item.id, 
                     title: item.title,
                     content: item.content,
                     contractors: item.contractors,
@@ -261,6 +264,7 @@ function Signed({ navigation }) {
                 style={styles.contract_click_style}
                 onPress={() =>
                   navigation.push("Signed", {
+                    id: item.id, 
                     title: item.title,
                     content: item.content,
                     contractors: item.contractors,

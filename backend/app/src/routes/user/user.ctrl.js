@@ -63,6 +63,13 @@ const process = {
 
     return res.send(singRes.sign);
   }, 
+  get_user_name : async (req, res) => {
+    const bodyData = new User(req.body); 
+    const singRes = await bodyData.get_user_name();
+
+    return res.send(singRes.name);
+  }, 
+
 };
 
 module.exports = {

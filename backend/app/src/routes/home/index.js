@@ -25,6 +25,7 @@ router.post("/edit_my_post", userCtrl.process.edit_my_post_info);
 router.post("/my_contract", userCtrl.process.my_contract_info);
 router.post("/get_sign_info", userCtrl.process.get_sign_info);
 router.post("/set_sign_info", userCtrl.process.set_sign_info);
+router.post("/get_user_name", userCtrl.process.get_user_name);
 
 // post 관련 api 라우팅
 router.get("/post_load", postCtrl.post_sys.post_load)

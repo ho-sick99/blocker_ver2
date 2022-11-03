@@ -22,6 +22,7 @@ import res_true from './image/true.png'
 const Width = Dimensions.get('window').width;    //스크린 너비 초기화
 
 function Verification({navigation}) {
+    console.log(HOSTNAME);
     const [ vrf_res, set_vrf_res] = useState("Push the contract");
     const [ res_img, set_res_img] = useState(res_def);
     const [ res_bg_color, set_res_bg_color] = useState("white");

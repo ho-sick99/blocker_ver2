@@ -16,6 +16,7 @@ const Width = Dimensions.get('window').width;    //스크린 너비 초기화
 const Height = Dimensions.get('window').height;  //스크린 높이 초기화
 
 function Contract_Eidt({ navigation, route }) {
+  console.log(HOSTNAME);
   const [title, setTitle] = useState(route.params.title); // 타이틀
   const [content, setcontent] = useState(route.params.content); // 컨텐트
   
