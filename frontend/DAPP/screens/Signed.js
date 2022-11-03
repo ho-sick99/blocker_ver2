@@ -1,6 +1,6 @@
 import React, {
   useState, 
-
+  useEffect, 
 }from 'react';
 import {
   StyleSheet, 
@@ -22,17 +22,50 @@ const Height = Dimensions.get('window').height;  //스크린 높이 초기화
 
 function Signed({navigation, route}) {
   console.log(HOSTNAME);
+
   const contractors = JSON.parse(route.params.contractors); 
-  const get_sign = async (contractor_id) => {
-    const { data: result } = await Axios.post(HOSTNAME + '/get_sign_info', { id: contractor_id})
-    setSignImgData_0(result); 
-  }
   const [sign_img_data_0, setSignImgData_0] = useState("");
   const [sign_img_data_1, setSignImgData_1] = useState("");
   const [sign_img_data_2, setSignImgData_2] = useState("");
   const [sign_img_data_3, setSignImgData_3] = useState("");
-  get_sign('Tempid2'); 
 
+  const [user_name0, setUserName0] = useState("");
+  const [user_name1, setUserName1] = useState("");
+  const [user_name2, setUserName2] = useState("");
+  const [user_name3, setUserName3] = useState("");
+
+  const get_info = async (contractor_id, idx) => {
+    console.log("id:" , contractor_id)
+    const { data: result } = await Axios.post(HOSTNAME + '/get_sign_info', { id: contractor_id})
+    const { data: result_name } = await Axios.post(HOSTNAME + '/get_user_name', { id: contractor_id})
+    if(idx === 0){
+      setSignImgData_0(result); 
+      setUserName0(result_name);
+    }
+    else if(idx === 1){
+      setSignImgData_1(result); 
+      setUserName1(result_name);
+    }
+    else if(idx === 2){
+      setSignImgData_2(result); 
+      setUserName2(result_name);
+    }
+    else if(idx === 3){
+      setSignImgData_3(result); 
+      setUserName3(result_name);
+    }
+  }
+
+  const get_contractor_info = async() => {
+    for(let i=0; i<contractors.id.length; i++){
+      get_info(contractors.id[i], i); 
+    }
+  }
+  
+  useEffect(() => {
+    get_contractor_info(); 
+  }, []);
+  
   const html = `
   <!DOCTYPE html>
   <html>
@@ -119,10 +152,10 @@ function Signed({navigation, route}) {
         </View>
                 
         <View style={styles.textContractors}>
-          <Text>{contractors.id[0]}</Text>
-          <Text>{contractors.id[1]}</Text>
-          <Text>{contractors.id[2]}</Text>
-          <Text>{contractors.id[3]}</Text>
+          <Text>{user_name0}</Text>
+          <Text>{user_name1}</Text>
+          <Text>{user_name2}</Text>
+          <Text>{user_name3}</Text>
         </View>
 
         <ScrollView style={styles.containerContent}>
@@ -132,9 +165,9 @@ function Signed({navigation, route}) {
         
         <View style={styles.containerSign}>
           <Image source = {{uri: sign_img_data_0}} style={styles.imgSign}/>
-          <Image source = {{uri: sign_img_data_0}} style={styles.imgSign}/>
-          <Image source = {{uri: sign_img_data_0}} style={styles.imgSign}/>
-          <Image source = {{uri: sign_img_data_0}} style={styles.imgSign}/>
+          <Image source = {{uri: sign_img_data_1}} style={styles.imgSign}/>
+          <Image source = {{uri: sign_img_data_2}} style={styles.imgSign}/>
+          <Image source = {{uri: sign_img_data_3}} style={styles.imgSign}/>
         </View> 
 
       </View>

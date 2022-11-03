@@ -165,7 +165,7 @@ function Proceeding({ navigation }) {
   const {login_data} = useContext(LoginContext);
 
   const loadContracts = async () => {
-    const { data: result } = await Axios.post(HOSTNAME + '/contract_load', { id: login_data.id, contract_type: "signing",});
+    const { data: result } = await Axios.post(HOSTNAME + '/signing_contract_load', { id: login_data.id});
     setContracts(result);
   };
 
@@ -225,7 +225,7 @@ function Signed({ navigation }) {
   const [contracts, setContracts] = useState([]); // 계약서 배열
   const {login_data} = useContext(LoginContext);
   const loadContracts = async () => {
-    const { data: result } = await Axios.post(HOSTNAME + '/contract_load', { id: login_data.id, contract_type: "signed",});
+    const { data: result } = await Axios.post(HOSTNAME + '/signed_contract_load', { id: login_data.id});
     setContracts(result);
   };
 
@@ -262,13 +262,16 @@ function Signed({ navigation }) {
             <View style={styles.view_style3}>
               <TouchableOpacity
                 style={styles.contract_click_style}
-                onPress={() =>
+                onPress={() =>{
+                  console.log("------------------------------", item.content); 
                   navigation.push("Signed", {
-                    id: item.id, 
+                    contract_id: item.contract_id,
+                    id : item.id, 
                     title: item.title,
                     content: item.content,
                     contractors: item.contractors,
                   })
+                }
                 }
               >
                 <Icon name="rocket" color={icon_color3} size={icon_size} />
