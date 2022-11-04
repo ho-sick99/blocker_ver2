@@ -1,6 +1,9 @@
 import React, {
+  useContext,
   useState, 
+  useEffect, 
 } from 'react';
+import LoginContext from '../context/LoginContext';
 import {
   StyleSheet, 
   Text, 
@@ -12,32 +15,81 @@ import {
 } from 'react-native';
 import Axios from 'axios';
 import { HOSTNAME } from "@env";
+import del_img from './image/del_img.png'; 
 
 const Width = Dimensions.get('window').width;    //스크린 너비 초기화
 const Height = Dimensions.get('window').height;  //스크린 높이 초기화
 
 function Proceeding({navigation, route}) {
+  const {login_data} = useContext(LoginContext);
+
   const [sign_img_data_0, setSignImgData_0] = useState("");
   const [sign_img_data_1, setSignImgData_1] = useState("");
   const [sign_img_data_2, setSignImgData_2] = useState("");
   const [sign_img_data_3, setSignImgData_3] = useState("");
-  
-  const [name_contractor_0, setNameContractor0] = useState("");
-  const [name_contractor_1, setNameContractor1] = useState("");
-  const [name_contractor_2, setNameContractor2] = useState("");
-  const [name_contractor_3, setNameContractor3] = useState("");
-  console.log(HOSTNAME);
 
-  const get_sign = async (contractor_id) => {
-    const { data: result } = await Axios.post(HOSTNAME + '/get_sign_info', { id: contractor_id})
-    setSignImgData_0(result); 
-  }
-  const get_contractor_info = async () => {
-    
-  }
-  get_sign('Tempid2'); 
+  const [sign0, setSign0] = useState("");
+  const [sign1, setSign1] = useState("");
+  const [sign2, setSign2] = useState("");
+  const [sign3, setSign3] = useState("");
+
+  const [user_name0, setUserName0] = useState("");
+  const [user_name1, setUserName1] = useState("");
+  const [user_name2, setUserName2] = useState("");
+  const [user_name3, setUserName3] = useState("");
 
   const contractors = JSON.parse(route.params.contractors); 
+  const sigend_info = JSON.parse(route.params.signed); 
+  console.log(HOSTNAME);
+
+  const get_info = async (contractor_id, idx) => {
+    const { data: result } = await Axios.post(HOSTNAME + '/get_sign_info', { id: contractor_id})
+    const { data: result_name } = await Axios.post(HOSTNAME + '/get_user_name', { id: contractor_id})
+    if(idx === 0){
+      if(sigend_info.includes(contractor_id)){
+        setSignImgData_0(result); 
+      }
+      setUserName0(result_name);
+    }
+    else if(idx === 1){
+      if(sigend_info.includes(contractor_id)){
+        setSignImgData_1(result); 
+      }
+      setUserName1(result_name);
+    }
+    else if(idx === 2){
+      if(sigend_info.includes(contractor_id)){
+        setSignImgData_2(result); 
+      }
+      setUserName2(result_name);
+    }
+    else if(idx === 3){
+      if(sigend_info.includes(contractor_id)){
+        setSignImgData_3(result); 
+      }
+      setUserName3(result_name);
+    }
+  }
+  const get_contractor_info = async () => {
+    for(let i=0; i<contractors.id.length; i++){
+      get_info(contractors.id[i], i); 
+    }
+  }
+
+  const sign_on_contract = async () => {
+    const { data: result } = await Axios.post(HOSTNAME + '/check_sign',{ id: login_data.id, contract_id: route.params.contract_id})
+    if(result.success){
+      alert("계약서에 서명했습니다.");
+    }
+    else{
+      alert(result.msg);
+    }
+  }
+
+  useEffect(() => {
+    get_contractor_info(); 
+  }, []); 
+
 
 
   return (
@@ -52,10 +104,10 @@ function Proceeding({navigation, route}) {
         </View>
         
         <View style={styles.textContractors}>
-          <Text>{contractors.id[0]}</Text>
-          <Text>{contractors.id[1]}</Text>
-          <Text>{contractors.id[2]}</Text>
-          <Text>{contractors.id[3]}</Text>
+          <Text>{user_name0}</Text>
+          <Text>{user_name1}</Text>
+          <Text>{user_name2}</Text>
+          <Text>{user_name3}</Text>
         </View>
 
         <ScrollView style={styles.containerContent}>
@@ -64,9 +116,9 @@ function Proceeding({navigation, route}) {
         
         <View style={styles.containerSign}>
           <Image source = {{uri: sign_img_data_0}} style={styles.imgSign}/>
-          <Image source = {{uri: sign_img_data_0}} style={styles.imgSign}/>
-          <Image source = {{uri: sign_img_data_0}} style={styles.imgSign}/>
-          <Image source = {{uri: sign_img_data_0}} style={styles.imgSign}/>
+          <Image source = {{uri: sign_img_data_1}} style={styles.imgSign}/>
+          <Image source = {{uri: sign_img_data_2}} style={styles.imgSign}/>
+          <Image source = {{uri: sign_img_data_3}} style={styles.imgSign}/>
         </View> 
         
       </View>
@@ -86,7 +138,7 @@ function Proceeding({navigation, route}) {
         </Pressable>
         <Pressable style={styles.btn_contract_3} 
         onPress={() => {
-          alert("사인")
+          sign_on_contract(); 
           }}>
           <Text style={styles.textStyle_btn}>SIGN</Text>
         </Pressable>
@@ -159,6 +211,7 @@ const styles = StyleSheet.create({
     marginTop: 5
   },
   textContractors: {
+    marginTop: 5, 
     flexDirection: "row",
     justifyContent: 'space-between',
     textAlign: 'center', 
@@ -171,18 +224,19 @@ const styles = StyleSheet.create({
   containerContent:{
     backgroundColor:'#E7E6E6',
     borderRadius: 5, 
-    padding: 3, 
+    padding: 5, 
   },
   containerSign:{
     flexDirection: "row",
     justifyContent: 'space-between',
     width: "100%", 
-    height: Height* 0.1,
+    height: Height* 0.05,
   },
   imgSign:{
+    backgroundColor: "white", 
     width: Width * 0.2,
     height: Width* 0.1,
-    borderRadius: 10, 
+    borderRadius: 5, 
     borderColor: "#939393",
     borderWidth: 1,
     marginTop: 5

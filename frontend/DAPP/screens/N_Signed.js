@@ -8,7 +8,9 @@ import {
   Text, 
   View, 
   TextInput,
-  Dimensions, 
+  Dimensions,
+  Pressable, 
+  Modal, 
 } from 'react-native';
 import LoginContext from '../context/LoginContext';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -26,11 +28,31 @@ function N_Signed({navigation, route}) {
   const [contract_title, setTitle] = useState(); // 타이틀
   const [contract_content, setContent] = useState(); // 컨텐트
   const [contract_id, setContractId] = useState(); // 컨텐트
+  const [modalVisible_contractors, setContractorsList] = useState(false);
+  
+  const [contractor1, setContractor1] = useState();
+  const [contractor2, setContractor2] = useState();
+  const [contractor3, setContractor3] = useState();
+  const contractors = [login_data.id]; 
+
+  const [bool_contractor1, setBoolContractor1] = useState(true);
+  const [bool_contractor2, setBoolContractor2] = useState(true);
+  const [bool_contractor3, setBoolContractor3] = useState(true);
+
+
+  const _handleedit_contractor1_Change = text => {
+    setContractor1(text);
+  }
+  const _handleedit_contractor2_Change = text => {
+    setContractor2(text);
+  }
+  const _handleedit_contractor3_Change = text => {
+    setContractor3(text);
+  }
 
   const loadContract = async () => {
     console.log("계약 내용 불러오기:");
     const { data: result } = await Axios.post(HOSTNAME + '/contract_view', { contract_id: route.params.contract_id })
-    console.log(result);
     setContract(result);
     setTitle(result.title)
     setContent(result.content)
@@ -41,6 +63,21 @@ function N_Signed({navigation, route}) {
     const { data: result } = await Axios.post(HOSTNAME + '/contract_del', { contract_id: contract_id, contract_type: "n_signed"});
   }
 
+  // 아이디 중복 확인
+  const chk_id = async (id_input) => {
+    const { data: result } = await Axios.post(HOSTNAME + '/chk_id', { id: id_input})
+    return result;
+  }
+  
+  const progress_contract = async () => {
+    const { data: result } = await Axios.post(HOSTNAME + '/progress_contract', { 
+      title: contract_title,
+      content: contract_content,
+      id: login_data.id,
+      contractors: contractors,
+    })
+    return result;
+  }
   useEffect(() => {
     loadContract();
   }, []);
@@ -66,6 +103,11 @@ function N_Signed({navigation, route}) {
         }}>
           <Text style={styles.textStyle_btn}>DEL</Text>
         </TouchableOpacity>  
+        <Pressable style={styles.button_of_prc} onPress={() => {
+          setContractorsList(true); 
+        }}>
+          <Text style={styles.textStyle_btn}>Proceed</Text>
+        </Pressable>  
         <TouchableOpacity style={styles.button_of_edit} onPress={() => navigation.replace("Contract_Edit", {
                       title: contarct_info.title,
                       id: contarct_info.id,
@@ -75,6 +117,110 @@ function N_Signed({navigation, route}) {
           <Text style={styles.textStyle_btn}>EDIT</Text>
         </TouchableOpacity>
       </View>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible_contractors}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setContractorsList(!modalVisible_contractors);
+        }}
+      >
+        <View style={styles.container_contractors_lst}>
+          <View style={styles.container_contracts}>
+
+            <View style={styles.container_contractor_id}>
+              <TextInput style={styles.textbox} value={contractor1} onChangeText={_handleedit_contractor1_Change}></TextInput>
+              <Pressable
+                  style={styles.btn_chk_id}
+                  onPress={async () => {
+                    const chk_id_res = await chk_id(contractor1);
+                    if(chk_id_res.is_signin){
+                      alert("해당 ID는 존재하지 않습니다.");
+                      setBoolContractor1(false); 
+                    }
+                    else{
+                      alert("계약 참여자 ID 확인");
+                      setBoolContractor1(true); 
+                      contractors.push(contractor1); 
+                    }
+                  }}
+                >
+                  <Text style={styles.textStyle}>CHK ID</Text>
+              </Pressable>
+            </View>
+            
+            <View style={styles.container_contractor_id}>
+            <TextInput style={styles.textbox} value={contractor2} onChangeText={_handleedit_contractor2_Change}></TextInput>
+            <Pressable
+                  style={styles.btn_chk_id}
+                  onPress={async () => {
+                    const chk_id_res = await chk_id(contractor2);
+                    if(chk_id_res.is_signin){
+                      alert("해당 ID는 존재하지 않습니다.");
+                      setBoolContractor2(false); 
+                    }
+                    else{
+                      alert("계약 참여자 ID 확인");
+                      setBoolContractor2(true); 
+                      contractors.push(contractor2); 
+                    }
+                  }}
+                >
+                  <Text style={styles.textStyle}>CHK ID</Text>
+              </Pressable>
+            </View>
+        
+            <View style={styles.container_contractor_id}>
+              <TextInput style={styles.textbox} value={contractor3} onChangeText={_handleedit_contractor3_Change}></TextInput>
+              <Pressable
+                    style={styles.btn_chk_id}
+                    onPress={async () => {
+                      const chk_id_res = await chk_id(contractor3);
+                      if(chk_id_res.is_signin){
+                        alert("해당 ID는 존재하지 않습니다.");
+                        setBoolContractor3(false); 
+                      }
+                      else{
+                        alert("계약 참여자 ID 확인");
+                        setBoolContractor3(true); 
+                        contractors.push(contractor3); 
+                      }
+                    }}
+                  >
+                    <Text style={styles.textStyle}>CHK ID</Text>
+              </Pressable>
+            </View>
+          </View>
+        
+
+          <View style={styles.container_modal_btn}>
+            <Pressable
+                style={[styles.button_modal]}
+                onPress={() => setContractorsList(!modalVisible_contractors)}
+                >
+                <Text style={styles.textStyle_4}>Close</Text>
+            </Pressable>
+            <Pressable
+                style={[styles.button_modal]}
+                onPress={() => {
+                  if(bool_contractor1 && bool_contractor2 && bool_contractor3){
+                    alert("계약 진행"); 
+                    progress_contract();
+                  }
+                  else{
+                    alert("계약 진행 불가"); 
+                  }
+                  setContractorsList(!modalVisible_contractors)
+                }}
+                >
+                <Text style={styles.textStyle_4}>Proceed</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal> 
+
     </View>
 
   );
@@ -129,7 +275,7 @@ const styles = StyleSheet.create({
   },
   button_of_del: {
     backgroundColor: "#2196F3",
-    width: Width* 0.45,
+    width: Width* 0.3,
     height: Height* 0.07,
     borderRadius:10,
     justifyContent: 'center',
@@ -143,13 +289,80 @@ const styles = StyleSheet.create({
   },
   button_of_edit: {
     backgroundColor: "#2196F3",
-    width: Width* 0.45,
+    width: Width* 0.3,
     height: Height* 0.07,
     borderRadius:10,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 10, 
   },
+  button_of_prc: {
+    backgroundColor: "#2196F3",
+    width: Width* 0.3,
+    height: Height* 0.07,
+    borderRadius:10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  container_contractors_lst: {
+    width: "100%",
+    alignItems: "center",
+    marginTop: "50%",
+    borderColor: "#2196F3",
+    borderWidth: 3,
+    backgroundColor: "white",
+    borderRadius: 10,
+  },
+  button_modal: {
+    width: "45%",
+    margin: 10,
+    backgroundColor: "#2196F3",
+    borderRadius: 10,
+  },
+  container_modal_btn:{
+    flexDirection: "row",
+    justifyContent: 'space-between',
+  }, 
+  textStyle_4: {
+    fontSize: 20,
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+    margin: 10,
+  },
+  container_contracts:{
+    padding: 10, 
+  },
+  textbox:{
+    fontsize: 23,
+    fontWeight: 'bold',
+    borderColor: "#FFAF00",
+    backgroundColor: "#E7E6E6",
+    borderRadius: 5, 
+    padding: 5, 
+    width: Width* 0.84,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 10, 
+  },
+  container_contractor_id:{
+    flexDirection: "row",
+    justifyContent: 'space-between',
+  },
+  btn_chk_id:{
+    width: Width* 0.2,
+    position: 'absolute',
+    borderRadius: 5, 
+    backgroundColor: "#7A8C98", 
+    right: "-%",
+  },
+  textStyle:{
+    fontSize: 15,
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+    padding: 5, 
+  }
 });
 
 export default N_Signed;

@@ -40,6 +40,13 @@ const process = {
     const result = await contractData.check_sign(); // 서명 기입
     
     return res.send(result); // 서명 기입 결과 반환
+  },
+  add_signing_contract: async(req, res) => {
+    // 미체결 계약서를 기반으로 진행 중 계약서 생성 
+    const contractData = new SigningContract(req.body);
+    const result = await contractData.add_signing_contract(); 
+    
+    return res.send(result); 
   }
 };
 

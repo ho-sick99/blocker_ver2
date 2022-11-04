@@ -200,13 +200,16 @@ function Proceeding({ navigation }) {
             <LinearGradient style={styles.view_style2} colors={['#025CFC', '#FD8016']} start={[0, 1]} end={[1, 0]}>
               <TouchableOpacity
                 style={styles.contract_click_style}
-                onPress={() =>
+                onPress={() =>{
                   navigation.push("Proceeding", {
                     id: item.id, 
+                    contract_id: item.contract_id, 
                     title: item.title,
                     content: item.content,
                     contractors: item.contractors,
+                    signed: item.signed, 
                   })
+                }
                 }
               >
                 <Icon name="rocket" color={icon_color2} size={icon_size} />
