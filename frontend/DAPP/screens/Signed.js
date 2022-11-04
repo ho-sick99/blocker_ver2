@@ -35,7 +35,6 @@ function Signed({navigation, route}) {
   const [user_name3, setUserName3] = useState("");
 
   const get_info = async (contractor_id, idx) => {
-    console.log("id:" , contractor_id)
     const { data: result } = await Axios.post(HOSTNAME + '/get_sign_info', { id: contractor_id})
     const { data: result_name } = await Axios.post(HOSTNAME + '/get_user_name', { id: contractor_id})
     if(idx === 0){
@@ -281,7 +280,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: 'space-between',
     width: "100%", 
-    height: Height* 0.1,
+    height: Height* 0.05,
   },
   imgSign:{
     width: Width * 0.2,

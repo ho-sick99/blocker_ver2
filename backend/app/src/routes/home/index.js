@@ -55,6 +55,7 @@ router.post("/signing_contract_view", signingContractCtrl.process.contract_view)
 router.post("/progress_contract", signingContractCtrl.process.progress_contract);
 router.post("/cancle_progress_contract", signingContractCtrl.process.cancle_progress_contract);
 router.post("/check_sign", signingContractCtrl.process.check_sign);
+router.post("/signing_contract_add", signingContractCtrl.process.add_signing_contract);
 
 // 체결
 router.post("/signed_contract_load", signedContractCtrl.process.contract_load); 

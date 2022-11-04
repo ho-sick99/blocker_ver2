@@ -125,7 +125,7 @@ class SigningContract {
         (await SigningContractStorage.get_check_sign(contractData.contract_id))
           .signed
       ); // 현재 해당 계약서의 사인여부 로드
-
+        console.log(signed); 
       if (contractors.id.includes(contractData.id)) {
         // 현재 client의 id가 contractors에 존재한다면
         let newSignedId = signed; // 새롭게 반환할 사인 배열
@@ -155,6 +155,17 @@ class SigningContract {
       return { success: false, msg: err };
     }
   }
+
+  async add_signing_contract() {
+    const contractData = this.body;
+    try {
+      const result = await SigningContractStorage.insert_contract(contractData); 
+      return result;
+    } catch (err) {
+        return { success: false, err };
+    }
+  }
+
 }
 
 module.exports = SigningContract;

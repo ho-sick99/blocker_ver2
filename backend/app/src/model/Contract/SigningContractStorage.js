@@ -43,12 +43,13 @@ class SigningContractStorage {
   static insert_contract(contractData) {
     return new Promise((resolve, reject) => {
       db.query(
-        "INSERT INTO blocker_db.signing_contract(title, content, id, contractors) VALUES(?, ?, ?, ?);", // 입력된 정보를 바탕으로 db에 계약서 추가
+        "INSERT INTO blocker_db.signing_contract(title, content, id, contractors, signed) VALUES(?, ?, ?, ?, ?);", // 입력된 정보를 바탕으로 db에 계약서 추가
         [
           contractData.title,
           contractData.content,
           contractData.id,
           contractData.contractors,
+          contractData.signed, 
         ],
         (err) => {
           if (err) reject(`${err}`); // 에러 반환
