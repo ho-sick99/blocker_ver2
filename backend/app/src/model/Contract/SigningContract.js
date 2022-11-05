@@ -146,7 +146,23 @@ class SigningContract {
           contractData.contract_id,
           JSON.stringify(newSignedId)
         ); // 해당 계약서의 사인여부 수정
-        return result;
+
+        const res_contractors = JSON.parse(
+          (await SigningContractStorage.get_contractors(contractData.contract_id))
+            .contractors
+        ); // 현재 해당 계약서의 계약자들 로드
+        const res_signed = JSON.parse(
+          (await SigningContractStorage.get_check_sign(contractData.contract_id))
+            .signed
+        ); // 현재 해당 계약서의 사인여부 로드
+
+        if(res_contractors.length === res_signed.length){
+          return { success: true, contract_bool: true };
+        }
+        else{
+          return { success: true, contract_bool: false };
+        }
+
       } else {
         // 현재 client의 id가 contractors에 존재하지 않는다면
         return { success: false, msg: "해당 계약의 계약자가 아닙니다." };
@@ -162,9 +178,11 @@ class SigningContract {
       const result = await SigningContractStorage.insert_contract(contractData); 
       return result;
     } catch (err) {
-        return { success: false, err };
+        return { success: false, msg: err };
     }
   }
+
+
 
 }
 

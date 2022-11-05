@@ -33,7 +33,7 @@ function N_Signed({navigation, route}) {
   const [contractor1, setContractor1] = useState();
   const [contractor2, setContractor2] = useState();
   const [contractor3, setContractor3] = useState();
-  const contractors = [login_data.id]; 
+  const [contractors, setContractors] = useState([login_data.id]);
 
   const [bool_contractor1, setBoolContractor1] = useState(true);
   const [bool_contractor2, setBoolContractor2] = useState(true);
@@ -70,13 +70,29 @@ function N_Signed({navigation, route}) {
   }
   
   const progress_contract = async () => {
-    const { data: result } = await Axios.post(HOSTNAME + '/progress_contract', { 
+    let sigend_value = "[\"" + login_data.id + "\"]";
+    let contractors_value= "{\"id\": [";
+    for(let i=0; i<contractors.length; i++){
+      contractors_value += "\"" + contractors[i] + "\","
+    }
+    contractors_value = contractors_value.slice(0, -1);
+    contractors_value +="], \"length\": " + contractors.length +"}"
+    
+    const { data: result } = await Axios.post(HOSTNAME + '/signing_contract_add', { 
       title: contract_title,
       content: contract_content,
       id: login_data.id,
-      contractors: contractors,
+      contractors: contractors_value, 
+      signed: sigend_value
     })
-    return result;
+    
+    if(result.success){
+      alert("계약 진행"); 
+      navigation.pop(); 
+    }
+    else{
+      alert(result.msg); 
+    }
   }
   useEffect(() => {
     loadContract();
@@ -144,6 +160,7 @@ function N_Signed({navigation, route}) {
                       alert("계약 참여자 ID 확인");
                       setBoolContractor1(true); 
                       contractors.push(contractor1); 
+                      console.log(contractors)
                     }
                   }}
                 >
@@ -165,6 +182,7 @@ function N_Signed({navigation, route}) {
                       alert("계약 참여자 ID 확인");
                       setBoolContractor2(true); 
                       contractors.push(contractor2); 
+                      console.log(contractors)
                     }
                   }}
                 >
@@ -206,8 +224,7 @@ function N_Signed({navigation, route}) {
                 style={[styles.button_modal]}
                 onPress={() => {
                   if(bool_contractor1 && bool_contractor2 && bool_contractor3){
-                    alert("계약 진행"); 
-                    progress_contract();
+                   progress_contract();
                   }
                   else{
                     alert("계약 진행 불가"); 
