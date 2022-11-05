@@ -80,6 +80,21 @@ function Proceeding({navigation, route}) {
     const { data: result } = await Axios.post(HOSTNAME + '/check_sign',{ id: login_data.id, contract_id: route.params.contract_id})
     if(result.success){
       alert("계약서에 서명했습니다.");
+      if(result.contract_bool){
+        alert("모두 사인 완료")
+      }
+      get_contractor_info(); 
+    }
+    else{
+      alert(result.msg);
+    }
+    // 서명 후 계약 진행 확인 
+  }
+
+  const cancle_contract = async () => {
+    const { data: result } = await Axios.post(HOSTNAME + '/cancle_progress_contract',{contract_id: route.params.contract_id})
+    if(result.success){
+      alert("진행중인 계약이 취소되었습니다.");
     }
     else{
       alert(result.msg);
@@ -126,9 +141,10 @@ function Proceeding({navigation, route}) {
       <View style={styles.container_button}>
         <Pressable style={styles.btn_contract_1} 
         onPress={() => {
-          alert("삭제")
+          cancle_contract(); 
+          navigation.pop()
          }}>
-          <Text style={styles.textStyle_btn}>DEL</Text>
+          <Text style={styles.textStyle_btn}>CANCLE</Text>
         </Pressable> 
         <Pressable style={styles.btn_contract_2} 
         onPress={() => {

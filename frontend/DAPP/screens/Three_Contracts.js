@@ -35,11 +35,6 @@ const main_color = "#0DF9FF";
 function Three_Contracts() {
   
   console.log(HOSTNAME);
-  // LogBox.ignoreAllLogs();//Ignore all log notifications
-  // React.useEffect(
-  //   () => navigation.addListener('focus', () => alert('Screen was focused')),
-  //   []
-  // );
   return (
     <Tab.Navigator
       initialRouteName="N_Signed"
@@ -161,6 +156,7 @@ function N_Signed({ navigation }) {
 
 /////////진행중////////////
 function Proceeding({ navigation }) {
+  const isFocused = useIsFocused() // 리프레쉬
   const [contracts, setContracts] = useState([]); // 계약서 배열
   const {login_data} = useContext(LoginContext);
 
@@ -171,7 +167,7 @@ function Proceeding({ navigation }) {
 
   useEffect(() => {
     loadContracts();
-  }, []);
+  }, [isFocused]); // 리프레쉬 인자 전달6 3u
 
   //검색입력은 useState사용
   const [inputText, setInputText] = useState("");
@@ -266,7 +262,6 @@ function Signed({ navigation }) {
               <TouchableOpacity
                 style={styles.contract_click_style}
                 onPress={() =>{
-                  console.log("------------------------------", item.content); 
                   navigation.push("Signed", {
                     contract_id: item.contract_id,
                     id : item.id, 
