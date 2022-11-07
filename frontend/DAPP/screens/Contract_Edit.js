@@ -17,6 +17,7 @@ const Height = Dimensions.get('window').height;  //스크린 높이 초기화
 
 function Contract_Eidt({ navigation, route }) {
   console.log(HOSTNAME);
+
   const [title, setTitle] = useState(route.params.title); // 타이틀
   const [content, setcontent] = useState(route.params.content); // 컨텐트
   
@@ -48,12 +49,12 @@ function Contract_Eidt({ navigation, route }) {
         </View>
 
         <Text style={styles.textframe}>타이틀</Text>
-        <TextInput style={styles.textbox} value={title} onChangeText={_handleedit_title_Change}></TextInput>
+        <TextInput style={styles.textbox} value={title} onChangeText={_handleedit_title_Change} ></TextInput>
         <Text style={styles.textframe}></Text>
 
 
         <Text style={styles.textframe}>계약 내용</Text>       
-        <TextInput style={styles.textbox} value={content} onChangeText={_handleedit_content_Change}></TextInput>
+        <TextInput style={styles.text_content} value={content} onChangeText={_handleedit_content_Change} multiline ={true}></TextInput>
         <Text style={styles.textframe}></Text>
 
       </View>
@@ -162,6 +163,13 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: 'bold',
   },
+  text_content:{
+    fontsize: 23,
+    backgroundColor: "#E7E6E6",
+    borderRadius: 5, 
+    padding: 5, 
+    width: Width* 0.84,
+  }
 });
 
 export default Contract_Eidt;

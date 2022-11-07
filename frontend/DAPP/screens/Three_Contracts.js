@@ -268,6 +268,7 @@ function Signed({ navigation }) {
                     title: item.title,
                     content: item.content,
                     contractors: item.contractors,
+                    contract_date: item.contract_date
                   })
                 }
                 }
