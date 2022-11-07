@@ -12,6 +12,7 @@ import {
   Pressable,
   Modal,
   FlatList, 
+  ScrollView
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Axios from 'axios';
@@ -82,7 +83,7 @@ function PostEdit({navigation, route}) {
 
 
         <Text style={styles.textframe}>게시글 내용</Text>       
-        <TextInput style={styles.textbox} value={post_content} onChangeText={_handleedit_content_Change}></TextInput>
+        <TextInput style={styles.textbox} value={post_content} onChangeText={_handleedit_content_Change} multiline ={true}></TextInput>
         <Text style={styles.textframe}></Text>
 
       </View>

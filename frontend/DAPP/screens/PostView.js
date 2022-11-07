@@ -3,7 +3,7 @@ import {
   StyleSheet, 
   Text, 
   View, 
-  TextInput,
+  ScrollView,
   Dimensions,
   Pressable,
 } from 'react-native';
@@ -53,10 +53,13 @@ function PostView({navigation, route}) {
   return (
     <View style={styles.container}>
       <View style={styles.container_post}>
-        <Text style={styles.textbox}>아이디 : {post_info.id}</Text>
-        <Text style={styles.textbox}>타이틀 : {post_info.post_title}</Text>
-        <Text style={styles.textbox}>콘텐츠 : {post_info.post_content}</Text>
-        <Text style={styles.textbox}>계약서 ID : {post_info.contract_id}</Text>
+        <View style={styles.container_title}>
+          <Text style={styles.textTitle}>{post_info.post_title}</Text>
+          <Text style={styles.textWriter}>작성자 : {post_info.id}</Text>
+        </View>
+        <ScrollView style={styles.container_content}>
+         <Text style={styles.textbox}>{post_info.post_content}</Text>
+        </ScrollView>
       </View>
       
       <View style={styles.container_button}>
@@ -102,8 +105,7 @@ const styles = StyleSheet.create({
   container_post: {
     backgroundColor:'white',
     justifyContent:'flex-start',
-    paddingLeft:"5%",
-    padding:"10%",
+    padding:"4%",
     width:"94%",
     height: "87%",
     margin: "3%",
@@ -141,10 +143,33 @@ const styles = StyleSheet.create({
   textbox:{
     margin:"5%",
     fontsize:23,
-    fontWeight: 'bold',
-    borderColor:"#FFAF00",
   },
-
+  container_title: {
+    width: Width* 0.86,
+    borderColor:"#FFAF00",
+    borderWidth: 3,
+    borderRadius: 5,
+    flexDirection: "row",
+    justifyContent: 'space-between',
+    alignItems: 'center', 
+    padding: 5, 
+  }, 
+  textTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  
+  },
+  textWriter:{
+    fontSize: 15,
+    fontWeight: 'bold',
+  },
+  container_content: {
+    borderColor:"black",
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 5, 
+    marginTop: 10, 
+  }
 });
 
 export default PostView;

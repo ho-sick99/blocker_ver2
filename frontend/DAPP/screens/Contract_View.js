@@ -1,13 +1,12 @@
 import React, {
     useState,
     useEffect,
-    CommonActions ,
   } from 'react';
   import {
     StyleSheet, 
     Text, 
     View, 
-    TextInput,
+    ScrollView,
     Dimensions, 
   } from 'react-native';
   import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -32,20 +31,14 @@ import React, {
     return ( 
         <View style={styles.container}>
           <View style={styles.container_contract}>
-          
-          <View style={styles.textbox_fix}>
-            <Text style={styles.textframe}>아아디: {contarct_info.id}</Text>      
-            <Text style={styles.textframe}>계약서 ID: {contarct_info.contract_id}</Text>
+            <View style={styles.container_title}>
+              <Text style={styles.textTitle}>{contarct_info.title}</Text>
+              <Text style={styles.textWriter}>작성자: {contarct_info.id}</Text>      
+            </View>
+            <ScrollView style={styles.container_content}>
+                  <Text style={styles.textbox}>{contarct_info.content}</Text>
+            </ScrollView>
           </View>
-  
-            <Text style={styles.textframe}>계약서: {contarct_info.title}</Text>
-  
-            <Text style={styles.textframe}>계약내용</Text>
-            <Text style={styles.textbox}>{contarct_info.content}</Text>
-            <Text style={styles.textframe}></Text>
-  
-          </View>
-        
       </View>
   
     );
@@ -67,13 +60,12 @@ import React, {
     container_contract:{
       flexDirection:'column',
       justifyContent:'flex-start',
-      paddingLeft:"5%",
-      padding:"10%",
+      padding:"4%",
       width:"94%",
       height:"95%",
       margin: "3%",
       borderRadius:10,
-      backgroundColor:"#FFFFFF",
+      backgroundColor:'white',
     },
     textframe:{
       margin:"2%",
@@ -81,22 +73,19 @@ import React, {
       fontWeight: 'bold',
       borderColor:"#FFAF00",
     },
-    textbox_fix: {
-      width: Width* 0.84,
+    container_title: {
+      width: Width* 0.86,
+      borderColor:"#2196F3",
+      borderWidth: 3,
+      borderRadius: 5,
       flexDirection: "row",
       justifyContent: 'space-between',
-      marginBottom: 20, 
-      borderRadius: 5, 
-      borderColor: "#2196F3",
-      borderWidth: 3,
-      paddingLeft: 5, 
-      paddingRight: 5,
+      alignItems: 'center', 
+      padding: 5, 
     },
     textbox:{
       margin:"5%",
       fontsize:23,
-      fontWeight: 'bold',
-      borderColor:"#FFAF00",
     },
     button_of_del: {
       backgroundColor: "#2196F3",
@@ -121,6 +110,22 @@ import React, {
       alignItems: 'center',
       marginRight: 10, 
     },
+    textTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+    },
+    textWriter:{
+      fontSize: 15,
+      fontWeight: 'bold',
+    },
+    container_content: {
+      borderColor:"black",
+      borderWidth: 1,
+      borderRadius: 5,
+      padding: 5, 
+      marginTop: 10, 
+    }
+
   });
   
   export default Contract_View;

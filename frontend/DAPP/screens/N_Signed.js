@@ -11,6 +11,7 @@ import {
   Dimensions,
   Pressable, 
   Modal, 
+  ScrollView, 
 } from 'react-native';
 import LoginContext from '../context/LoginContext';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -101,15 +102,15 @@ function N_Signed({navigation, route}) {
   return ( // 'route.params.파라미터'로 접근 가능. ex) route.params.title //title, content, id, contract_id
       <View style={styles.container}>
         <View style={styles.container_contract}>
+          <View style={styles.textbox_fix}>
+            <Text style={styles.textframe}>{contract_title}</Text>
+            <Text style={styles.textframe}>작성자: {login_data.id}</Text>     
+          </View>
         
-        <View style={styles.textbox_fix}>
-          <Text style={styles.textframe}>아아디: {login_data.id}</Text>      
-          <Text style={styles.textframe}>계약서 ID: {contract_id}</Text>
-        </View>
-          <Text style={styles.textframe}>계약서: {contract_title}</Text>
-          <Text style={styles.textframe}>계약내용</Text>
-          <Text style={styles.textbox}>{contract_content}</Text>
-          <Text style={styles.textframe}></Text>
+          <ScrollView style={styles.container_content}>
+            <Text style={styles.text_content}>{contract_content}</Text>
+          </ScrollView>
+        
 
         </View>
       <View style={styles.container_button}>
@@ -145,7 +146,6 @@ function N_Signed({navigation, route}) {
       >
         <View style={styles.container_contractors_lst}>
           <View style={styles.container_contracts}>
-
             <View style={styles.container_contractor_id}>
               <TextInput style={styles.textbox} value={contractor1} onChangeText={_handleedit_contractor1_Change}></TextInput>
               <Pressable
@@ -379,7 +379,20 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     padding: 5, 
+  },
+  container_content: {
+    width: Width* 0.84,
+    borderColor:"black",
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 5, 
+    marginTop: 10, 
+  },
+  text_content:{
+    fontsize:23,
+    margin: 5
   }
+  
 });
 
 export default N_Signed;

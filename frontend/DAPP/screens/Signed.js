@@ -1,4 +1,5 @@
 import React, {
+  useContext,
   useState, 
   useEffect, 
 }from 'react';
@@ -12,15 +13,19 @@ import {
   ScrollView, 
   Image, 
 } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 import {printToFileAsync} from 'expo-print';
 import { shareAsync } from 'expo-sharing';
 import Axios from 'axios';
 import { HOSTNAME } from "@env";
+import LoginContext from '../context/LoginContext';
 
 const Width = Dimensions.get('window').width;    //스크린 너비 초기화
 const Height = Dimensions.get('window').height;  //스크린 높이 초기화
 
 function Signed({navigation, route}) {
+  const isFocused = useIsFocused() // 리프레쉬
+  const {login_data} = useContext(LoginContext);
   console.log(HOSTNAME);
 
   const contractors = JSON.parse(route.params.contractors); 
@@ -60,11 +65,38 @@ function Signed({navigation, route}) {
       get_info(contractors.id[i], i); 
     }
   }
+
+ avoidance = async() => {
+    alert("계약파기")
+    let sigend_value = "[\"" + login_data.id + "\"]";
+    let contractors_value= "{\"id\": [";
+    for(let i=0; i<contractors.length; i++){
+      contractors_value += "\"" + contractors[i] + "\","
+    }
+    contractors_value = contractors_value.slice(0, -1);
+    contractors_value +="], \"length\": " + contractors.length +"}"
+    
+    const { data: result } = await Axios.post(HOSTNAME + '/signing_contract_add', { 
+      title: "파기 계약서",
+      content: "계약서는 ",
+      id: login_data.id,
+      contractors: contractors_value, 
+      signed: sigend_value
+    })
+    
+    if(result.success){
+      alert("계약 진행"); 
+      navigation.pop(); 
+    }
+    else{
+      alert(result.msg); 
+    }
+  }
   
   useEffect(() => {
     get_contractor_info(); 
-  }, []);
-  
+  }, [isFocused]); // 리프레쉬 인자 전달6 3u
+
   const html = `
   <!DOCTYPE html>
   <html>
@@ -73,14 +105,19 @@ function Signed({navigation, route}) {
           <style>
             .centered { display: table; margin-left: auto; margin-right: auto; text-align: center; }
             .contract_writer { text-align: right; }
+            .contract_date { text-align: left; }
+            .contract_content { text-align: left; }
           </style>
       </head>
       <body class="centered">
           <H1>
                ${route.params.title}
           </H1>
+          <H3 class="contract_date">
+              계약 체결일: ${route.params.contract_date}
+          </H3>
           <H3 class="contract_writer">
-              작성자: ${route.params.id}
+              작성자: ${login_data.name}(${route.params.id})
           </H3>
           <hr>
           <div>
@@ -88,10 +125,10 @@ function Signed({navigation, route}) {
               <table border="1">
                   <tbody>
                     <tr>
-                          <td>${contractors.id[0]}</td>
-                          <td>${contractors.id[1]}</td>
-                          <td>${contractors.id[2]}</td>
-                          <td>${contractors.id[3]}</td>
+                          <td>${user_name0}</td>
+                          <td>${user_name1}</td>
+                          <td>${user_name2}</td>
+                          <td>${user_name3}</td>
                       </tr>
                   </tbody>
               </table>
@@ -99,7 +136,9 @@ function Signed({navigation, route}) {
           <hr>
             계약 내용
             <br>
-  
+            <div>
+              ${route.params.content}
+            </div>
           <hr>
           <div>
               서명란
@@ -109,13 +148,13 @@ function Signed({navigation, route}) {
                   </thead>
                   <tobdy>
                     <tr>
-                          <td>${contractors.id[0]}</td><td><img src=${sign_img_data_0}></td>
-                          <td>${contractors.id[1]}</td><td><img src=${sign_img_data_1}></td>
+                      <td>${user_name0}</td><td><img src=${sign_img_data_0}></td>
+                      <td>${user_name1}</td><td><img src=${sign_img_data_1}></td>
                       </tr>
                     <tr>
-                          <td>${contractors.id[2]}</td><td><img src=${sign_img_data_2}></td>
-                          <td>${contractors.id[3]}</td><td><img src=${sign_img_data_3}></td>
-                      </tr>
+                      <td>${user_name2}</td><td><img src=${sign_img_data_2}></td>
+                      <td>${user_name3}</td><td><img src=${sign_img_data_3}></td>
+                    </tr>
                   </tobdy>
               </table>
           </div>
@@ -146,8 +185,9 @@ function Signed({navigation, route}) {
         <View>
           <Text style={styles.textTitle}>{route.params.title}</Text>
         </View>
-        <View>
-          <Text style={styles.textWriter}>작성자: {route.params.id}</Text>     
+        <View style={styles.container_top}>
+          <Text style={styles.textDate}>계약 체결일: {route.params.contract_date}</Text>
+          <Text style={styles.textWriter}>작성자: {login_data.name}({route.params.id})</Text>     
         </View>
                 
         <View style={styles.textContractors}>
@@ -156,7 +196,6 @@ function Signed({navigation, route}) {
           <Text>{user_name2}</Text>
           <Text>{user_name3}</Text>
         </View>
-
         <ScrollView style={styles.containerContent}>
           <Text style={styles.textContent}>{route.params.content}</Text>
         </ScrollView>
@@ -174,12 +213,6 @@ function Signed({navigation, route}) {
       <View style={styles.container_button}>
         <Pressable
               style={[styles.btn_contract_1]}
-              onPress={() => alert("재계약")}
-              >
-          <Text style={styles.textStyle_btn}>RE-CON</Text>
-        </Pressable>
-        <Pressable
-              style={[styles.btn_contract_2]}
               onPress={() => {
                 generatePdf()
               }}
@@ -187,10 +220,12 @@ function Signed({navigation, route}) {
           <Text style={styles.textStyle_btn}>PDF</Text>
         </Pressable>
         <Pressable
-              style={[styles.btn_contract_3]}
-              onPress={() => alert("계약파기")}
+              style={[styles.btn_contract_2]}
+              onPress={() =>{
+                avoidance(); 
+              }}
               >
-          <Text style={styles.textStyle_btn}>CANCLE</Text>
+          <Text style={styles.textStyle_btn}>AVOIDANCE</Text>
         </Pressable>
       </View>
     </View>
@@ -227,7 +262,7 @@ const styles = StyleSheet.create({
     color: 'white', 
   },
   btn_contract_1: {
-    width: Width* 0.3,
+    width: Width* 0.45,
     height: Height* 0.07,
     backgroundColor: "#2196F3",
     borderRadius: 10,
@@ -236,15 +271,7 @@ const styles = StyleSheet.create({
     marginLeft: 10, 
   },
   btn_contract_2: {
-    width: Width* 0.3,
-    height: Height* 0.07,
-    backgroundColor: "#2196F3",
-    borderRadius: 10,
-    justifyContent : 'center',
-    alignItems: 'center', 
-  },
-  btn_contract_3: {
-    width: Width* 0.3,
+    width: Width* 0.45,
     height: Height* 0.07,
     backgroundColor: "#2196F3",
     borderRadius: 10,
@@ -259,7 +286,6 @@ const styles = StyleSheet.create({
   },
   textWriter: {
     textAlign: 'right', 
-    marginTop: 5
   },
   textContractors: {
     flexDirection: "row",
@@ -289,6 +315,17 @@ const styles = StyleSheet.create({
     borderColor: "#939393",
     borderWidth: 1,
     marginTop: 5
+  },
+  textDate:{
+    textAlignL: "left", 
+    marginBottom: 3, 
+  },
+  container_top:{
+    borderRadius: 5, 
+    borderColor: "#939393",
+    borderWidth: 1,
+    padding: 5, 
+    marginBottom: 3, 
   }
 });
 

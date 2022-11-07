@@ -55,15 +55,6 @@ function Login({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title} >Start with Blocker</Text>
-      <View>
-      <TouchableOpacity style={styles.button_of_escape} onPress={() => navigation.navigate("Notice_board")}>
-        <Text>바로넘어가는 버튼</Text>
-      </TouchableOpacity>
-      </View>
-      {/* <TouchableOpacity style={styles.button_of_escape} onPress={() => navigation.navigate("Notice_board")}>
-        <Text>바로넘어가는 버튼</Text>
-      </TouchableOpacity> */}
-
       <Image
         source={require("./image/Logo.png")}
         style={{ position: 'absolute', width: 130, height: 130, top: 250 }}>

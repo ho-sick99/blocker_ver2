@@ -102,7 +102,7 @@ function PostWrite({navigation, route}){
                 </View>
                 <View style={styles.container_content}>
                     <Text>게시글 내용 </Text>
-                    <TextInput style={styles.textbox} value={post_content} onChangeText={_handleedit_content_Change}></TextInput>
+                    <TextInput style={styles.textbox} value={post_content} onChangeText={_handleedit_content_Change} multiline ={true}></TextInput>
 
                 </View>
             </View>

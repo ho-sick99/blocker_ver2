@@ -4,6 +4,7 @@ import React, {
   useEffect, 
 } from 'react';
 import LoginContext from '../context/LoginContext';
+import { useIsFocused } from '@react-navigation/native';
 import {
   StyleSheet, 
   Text, 
@@ -21,6 +22,7 @@ const Width = Dimensions.get('window').width;    //스크린 너비 초기화
 const Height = Dimensions.get('window').height;  //스크린 높이 초기화
 
 function Proceeding({navigation, route}) {
+  const isFocused = useIsFocused() // 리프레쉬
   const {login_data} = useContext(LoginContext);
 
   const [sign_img_data_0, setSignImgData_0] = useState("");
@@ -82,8 +84,12 @@ function Proceeding({navigation, route}) {
       alert("계약서에 서명했습니다.");
       if(result.contract_bool){
         alert("모두 사인 완료")
+        // 시간 넣어서 같이 계약서에 표시되도록 
+        const { data: result } = await Axios.post(HOSTNAME + '/progress_contract',{ contract_id: route.params.contract_id})
+        if(result.success){
+          navigation.pop()
+        }
       }
-      get_contractor_info(); 
     }
     else{
       alert(result.msg);
@@ -103,7 +109,7 @@ function Proceeding({navigation, route}) {
 
   useEffect(() => {
     get_contractor_info(); 
-  }, []); 
+  }, [isFocused]); // 리프레쉬 인자 전달6 3u
 
 
 
@@ -146,17 +152,17 @@ function Proceeding({navigation, route}) {
          }}>
           <Text style={styles.textStyle_btn}>CANCLE</Text>
         </Pressable> 
-        <Pressable style={styles.btn_contract_2} 
-        onPress={() => {
-          alert("수정")
-          }}>
-          <Text style={styles.textStyle_btn}>EDIT</Text>
-        </Pressable>
         <Pressable style={styles.btn_contract_3} 
         onPress={() => {
           sign_on_contract(); 
           }}>
           <Text style={styles.textStyle_btn}>SIGN</Text>
+        </Pressable>
+        <Pressable style={styles.btn_contract_2} 
+        onPress={() => {
+          alert("수정")
+          }}>
+          <Text style={styles.textStyle_btn}>EDIT</Text>
         </Pressable>
       </View>
     </View>
@@ -205,6 +211,7 @@ const styles = StyleSheet.create({
     height: Height* 0.07,
     backgroundColor: "#2196F3",
     borderRadius: 10,
+    marginRight: 10, 
     justifyContent : 'center',
     alignItems: 'center', 
   },
@@ -215,7 +222,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent : 'center',
     alignItems: 'center', 
-    marginRight: 10, 
   },
   textTitle: {
     textAlign: 'center', 
