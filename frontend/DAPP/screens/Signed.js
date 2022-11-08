@@ -66,31 +66,38 @@ function Signed({navigation, route}) {
     }
   }
 
- avoidance = async() => {
+ const avoidance = async() => {
     alert("계약파기")
     let sigend_value = "[\"" + login_data.id + "\"]";
     let contractors_value= "{\"id\": [";
     for(let i=0; i<contractors.length; i++){
-      contractors_value += "\"" + contractors[i] + "\","
+      contractors_value += "\"" + contractors.id[i] + "\","
     }
     contractors_value = contractors_value.slice(0, -1);
     contractors_value +="], \"length\": " + contractors.length +"}"
     
-    const { data: result } = await Axios.post(HOSTNAME + '/signing_contract_add', { 
-      title: "파기 계약서",
-      content: "계약서는 ",
-      id: login_data.id,
-      contractors: contractors_value, 
-      signed: sigend_value
+ 
+    const { data: result_avoidance } = await Axios.post(HOSTNAME + '/get_singed_avoidance', { 
+      contract_id: route.params.contract_id 
     })
-    
-    if(result.success){
-      alert("계약 진행"); 
-      navigation.pop(); 
+    if(result_avoidance.avoidance === 0){
+      const { data: result } = await Axios.post(HOSTNAME + '/signing_contract_add', { 
+        title: "파기 계약서",
+        content: route.params.contract_date+ "에 체결된 계약서 " + route.params.title+"(" + route.params.contract_id +")는 본 파기 계약서가 체결된 시점 이후로 파기되어 계약자들간에 법적 효력이 없음을 서명자 모두가 동의한다.",
+        id: login_data.id,
+        contractors: contractors_value, 
+        signed: sigend_value, 
+        avoidance: route.params.contract_id 
+      })
+      if(result.success){
+        alert("해당 계약에 대한 파기 계약이 진행됩니다. ")
+      }
     }
     else{
-      alert(result.msg); 
+      alert("이미 파기된 계약입니다.")
     }
+    
+    navigation.pop(); 
   }
   
   useEffect(() => {
@@ -300,7 +307,7 @@ const styles = StyleSheet.create({
   containerContent:{
     backgroundColor:'#E7E6E6',
     borderRadius: 5, 
-    padding: 3, 
+    padding: 7, 
   },
   containerSign:{
     flexDirection: "row",
