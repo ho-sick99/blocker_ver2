@@ -64,5 +64,6 @@ router.post("/signed_contract_view", signedContractCtrl.process.contract_view);
 router.post("/cancle_contract", signedContractCtrl.process.cancle_contract);
 router.post("/delete_contract", signedContractCtrl.process.delete_contract);
 router.post("/get_singed_avoidance", signedContractCtrl.process.get_singed_avoidance);
+router.post("/set_singed_avoidance", signedContractCtrl.process.set_singed_avoidance);
 
 module.exports = router;

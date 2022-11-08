@@ -84,7 +84,8 @@ function N_Signed({navigation, route}) {
       content: contract_content,
       id: login_data.id,
       contractors: contractors_value, 
-      signed: sigend_value
+      signed: sigend_value,
+      avoidance: 0, 
     })
     
     if(result.success){

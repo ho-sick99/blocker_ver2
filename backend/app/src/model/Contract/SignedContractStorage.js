@@ -125,6 +125,19 @@ class SignedContractStorage {
       )
     })
   }
+  static set_singed_avoidance(contractData) {
+    return new Promise((resolve, reject) => {
+      db.query(
+        "UPDATE blocker_db.signed_contract SET avoidance = ? where contract_id = ?;",
+        [contractData.avoidance, contractData.contract_id],
+        (err, result) => {
+          if (err) reject(`${err}`);
+          else resolve({ success: true });
+        }
+      )
+    })
+  }
+
 }
 
 module.exports = SignedContractStorage;

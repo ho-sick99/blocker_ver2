@@ -72,6 +72,7 @@ function Verification({navigation}) {
     };
 
     const compare_hash = (hash_value) => {
+      // 임시 hash value 
       const origin_hash_value = 'dc5fa883dad7fe0be63c0d43f5f40ef77385512c';
       if(hash_value === origin_hash_value){
         //alert("일치 -> 정상적인 계약서")

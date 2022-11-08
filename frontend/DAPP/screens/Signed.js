@@ -67,7 +67,6 @@ function Signed({navigation, route}) {
   }
 
  const avoidance = async() => {
-    alert("계약파기")
     let sigend_value = "[\"" + login_data.id + "\"]";
     let contractors_value= "{\"id\": [";
     for(let i=0; i<contractors.length; i++){
@@ -82,7 +81,7 @@ function Signed({navigation, route}) {
     })
     if(result_avoidance.avoidance === 0){
       const { data: result } = await Axios.post(HOSTNAME + '/signing_contract_add', { 
-        title: "파기 계약서",
+        title: "파기 계약서(" + route.params.contract_id +")", 
         content: route.params.contract_date+ "에 체결된 계약서 " + route.params.title+"(" + route.params.contract_id +")는 본 파기 계약서가 체결된 시점 이후로 파기되어 계약자들간에 법적 효력이 없음을 서명자 모두가 동의한다.",
         id: login_data.id,
         contractors: contractors_value, 
