@@ -172,6 +172,15 @@ class SignedContract {
       return { success: false, msg: err };
     }
   }
+  async set_singed_avoidance() {
+    const contractData = this.body;
+    try {
+      const response = await SignedContractStorage.set_singed_avoidance(contractData);
+      return response;
+    } catch (err) {
+      return { success: false, msg: err };
+    }
+  }
 }
 
 module.exports = SignedContract;

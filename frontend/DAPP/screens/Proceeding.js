@@ -81,14 +81,19 @@ function Proceeding({navigation, route}) {
   const sign_on_contract = async () => {
     const { data: result } = await Axios.post(HOSTNAME + '/check_sign',{ id: login_data.id, contract_id: route.params.contract_id})
     if(result.success){
-      alert("계약서에 서명했습니다.");
       if(result.contract_bool){
         alert("모두 사인 완료")
         // 시간 넣어서 같이 계약서에 표시되도록 
+        if(route.params.avoidance > 0){
+          const { data: result } = await Axios.post(HOSTNAME + '/set_singed_avoidance',{ contract_id: route.params.avoidance, avoidance: route.params.avoidance});
+        }
         const { data: result } = await Axios.post(HOSTNAME + '/progress_contract',{ contract_id: route.params.contract_id})
         if(result.success){
           navigation.pop()
         }
+      }
+      else{
+        alert("계약서에 서명했습니다.");
       }
     }
     else{

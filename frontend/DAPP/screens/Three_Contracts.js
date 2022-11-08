@@ -204,6 +204,7 @@ function Proceeding({ navigation }) {
                     content: item.content,
                     contractors: item.contractors,
                     signed: item.signed, 
+                    avoidance: item.avoidance 
                   })
                 }
                 }
@@ -221,6 +222,7 @@ function Proceeding({ navigation }) {
 
 /////////체결////////////
 function Signed({ navigation }) {
+  const isFocused = useIsFocused() // 리프레쉬
   const [contracts, setContracts] = useState([]); // 계약서 배열
   const {login_data} = useContext(LoginContext);
   const loadContracts = async () => {
@@ -230,7 +232,7 @@ function Signed({ navigation }) {
 
   useEffect(() => {
     loadContracts();
-  }, []);
+  }, [isFocused]); // 리프레쉬 인자 전달6 3u
 
   //검색입력은 useState사용
   const [inputText, setInputText] = useState("");
@@ -261,7 +263,8 @@ function Signed({ navigation }) {
             <View style={styles.view_style3}>
               <TouchableOpacity
                 style={styles.contract_click_style}
-                onPress={() =>{
+                onPress={() =>{{
+                  if(item.avoid)
                   navigation.push("Signed", {
                     contract_id: item.contract_id,
                     id : item.id, 
@@ -270,6 +273,8 @@ function Signed({ navigation }) {
                     contractors: item.contractors,
                     contract_date: item.contract_date
                   })
+
+                }
                 }
                 }
               >

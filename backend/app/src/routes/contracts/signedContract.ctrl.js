@@ -38,6 +38,12 @@ const process = {
 
     return res.send(contract_res); // 생성 결과 반환
   },
+  set_singed_avoidance: async (req, res) => {
+    const contractData = new SignedContract(req.body); // 계약서 객체 생성
+    const contract_res = await contractData.set_singed_avoidance(); // 계약서 데이터 요청
+    
+    return res.send(contract_res); // 생성 결과 반환
+  },
 }
 
 module.exports = {
