@@ -43,12 +43,13 @@ class SignedContractStorage {
   static insert_contract(contractData) {
     return new Promise((resolve, reject) => {
       db.query(
-        "INSERT INTO blocker_db.signed_contract(title, content, id, contractors) VALUES(?, ?, ?, ?);", // 입력된 정보를 바탕으로 db에 계약서 추가
+        "INSERT INTO blocker_db.signed_contract(title, content, id, contractors, avoidance) VALUES(?, ?, ?, ?, ?);", // 입력된 정보를 바탕으로 db에 계약서 추가
         [
           contractData.title,
           contractData.content,
           contractData.id,
           contractData.contractors,
+          contractData.avoidance
         ],
         (err) => {
           if (err) reject(`${err}`); // 에러 반환
@@ -95,6 +96,23 @@ class SignedContractStorage {
     return new Promise((resolve, reject) => {
       db.query(
         "SELECT signed from blocker_db.signed_contract WHERE contract_id = ?;", // DB에서 contractId와 일치하는 계약서의 signed 열을 추출
+        [contractId],
+        (err, result) => {
+          if (err) {
+            // 에러 발생 시
+            reject(`${err}`); // 에러 반환
+          } else {
+            resolve(result[0]); // 반환값 배열 형태이므로 첫번째 인덱스에 접근 후 데이터 반환
+          }
+        }
+      )
+    })
+  }
+  
+  static get_singed_avoidance(contractId) {
+    return new Promise((resolve, reject) => {
+      db.query(
+        "SELECT avoidance from blocker_db.signed_contract WHERE contract_id = ?;", // DB에서 contractId와 일치하는 계약서의 signed 열을 추출
         [contractId],
         (err, result) => {
           if (err) {

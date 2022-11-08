@@ -26,7 +26,7 @@ class SigningContract {
       contracts = await SigningContractStorage.load_contracts(); // 현재 진행중 계약서 데이터 로드
     }
     catch (err) {
-      return { success: false, err };
+      return { success: false, msg: err };
     }
 
     const result = contracts.filter(filterContract); // 현재 클라이언트가 포함된 계약서만 필터링
@@ -40,7 +40,7 @@ class SigningContract {
       const response = await SigningContractStorage.view_contract(contractData.contract_id);
       return response;
     } catch (err) {
-      return { success: false, err };
+      return { success: false, msg: err };
     }
   }
 
@@ -82,7 +82,7 @@ class SigningContract {
         return result;
       }
     } catch (err) {
-      return { success: false, err };
+      return { success: false, msg: err };
     }
   }
 
@@ -106,7 +106,7 @@ class SigningContract {
         return result;
       }
     } catch (err) {
-      return { success: false, err };
+      return { success: false, msg: err };
     }
   }
 
@@ -182,6 +182,16 @@ class SigningContract {
     }
   }
 
+  // 진행중 계약서 데이터 view
+  async get_singing_avoidance() {
+    const contractData = this.body;
+    try {
+      const response = await SigningContractStorage.get_singing_avoidance(contractData.contract_id);
+      return response;
+    } catch (err) {
+      return { success: false, msg: err };
+    }
+  }
 
 
 }

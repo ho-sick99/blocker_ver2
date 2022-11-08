@@ -56,11 +56,13 @@ router.post("/progress_contract", signingContractCtrl.process.progress_contract)
 router.post("/cancle_progress_contract", signingContractCtrl.process.cancle_progress_contract);
 router.post("/check_sign", signingContractCtrl.process.check_sign);
 router.post("/signing_contract_add", signingContractCtrl.process.add_signing_contract);
+router.post("/get_singing_avoidance", signingContractCtrl.process.get_singing_avoidance);
 
 // 체결
 router.post("/signed_contract_load", signedContractCtrl.process.contract_load); 
 router.post("/signed_contract_view", signedContractCtrl.process.contract_view);
 router.post("/cancle_contract", signedContractCtrl.process.cancle_contract);
 router.post("/delete_contract", signedContractCtrl.process.delete_contract);
+router.post("/get_singed_avoidance", signedContractCtrl.process.get_singed_avoidance);
 
 module.exports = router;

@@ -47,7 +47,14 @@ const process = {
     const result = await contractData.add_signing_contract(); 
     
     return res.send(result); 
-  }
+  },
+  get_singing_avoidance: async(req, res) => {
+    // 진행중 계약서의 파기 정보 로드 
+    const contractData = new SigningContract(req.body);
+    const result = await contractData.get_singing_avoidance(); 
+    
+    return res.send(result); 
+  },
 };
 
 module.exports = {
