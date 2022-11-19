@@ -102,3 +102,9 @@ dist
 
 # TernJS port file
 .tern-port
+
+# BlockChain connection setting
+connectionProfile.json
+
+# Wallet setting
+identity
