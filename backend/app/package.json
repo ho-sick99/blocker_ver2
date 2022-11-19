@@ -18,6 +18,8 @@
     "crypto": "^1.0.1",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
+    "fabric-common": "^2.2.15",
+    "fabric-network": "^2.2.15",
     "multer": "^1.4.5-lts.1",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.20",

@@ -66,4 +66,9 @@ router.post("/delete_contract", signedContractCtrl.process.delete_contract);
 router.post("/get_singed_avoidance", signedContractCtrl.process.get_singed_avoidance);
 router.post("/set_singed_avoidance", signedContractCtrl.process.set_singed_avoidance);
 
+// 블록체인
+router.get("/wallet", blockchainCtrl.output.wallet)
+router.get("/blockchain", blockchainCtrl.output.test)
+
+
 module.exports = router;
