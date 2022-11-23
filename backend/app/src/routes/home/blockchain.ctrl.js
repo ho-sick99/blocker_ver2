@@ -1,16 +1,23 @@
 "use strict";
 
-const Blockchain = require("../../model/Blockchian/Blockchain");
+const Blockchain = require("../../model/Blockchian/blockchain");
 
-const output = {
-    test: async (req, res) => {
-        await Blockchain.connection();
-        res.send({ success: true });
+const process = {
+    contract: async (req, res) => {
+        const bodyData = new Blockchain(req.body)
+        const contract_res = await bodyData.contract();
+        return res.send(contract_res);
     },
-    wallet: async (req, res) => {
-        await Blockchain.createWallet();
-        res.send({ success: true });
+    canclecontract: async (req, res) => {
+        const bodyData = new Blockchain(req.body)
+        const contract_res = await bodyData.canclecontract();
+        return res.send(contract_res);
+    },
+    query: async (req, res) => {
+        const bodyData = new Blockchain(req.body)
+        const contract_res = await bodyData.query();
+        return res.send(contract_res);
     }
 }
 
-module.exports = { output };
+module.exports = { process };

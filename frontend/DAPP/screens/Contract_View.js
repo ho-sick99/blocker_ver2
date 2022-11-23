@@ -18,7 +18,6 @@ import React, {
   
   
   function Contract_View({navigation, route}) {
-    console.log(HOSTNAME);
     const [contarct_info, setContract] = useState([]); // 계약서 배열
   
     const loadContract = async () => {

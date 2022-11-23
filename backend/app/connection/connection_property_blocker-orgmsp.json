@@ -1,0 +1,78 @@
+{
+  "name": "blocker",
+  "description": "Connection profile for Naver Cloud Blockchain Service. Network ID: 970, MSP ID: blocker-orgmsp",
+  "version": "1.0.0",
+  "client": {
+    "organization": "blocker-orgmsp"
+  },
+  "channels": {
+    "blocker-contract": {
+      "orderers": [
+        "blocker-orderer1-04wnky-hlf-ord.bc-np4sjfwe.kr.blockchain.naverncp.com:443"
+      ],
+      "peers": {
+        "blocker-peer-fxpg8l-hlf-peer.bc-np4sjfwe.kr.blockchain.naverncp.com:443": {
+          "endorsingPeer": true,
+          "chaincodeQuery": true,
+          "ledgerQuery": true,
+          "eventSource": true,
+          "discover": true
+        }
+      }
+    },
+    "blocker-canclecontract": {
+      "orderers": [
+        "blocker-orderer1-04wnky-hlf-ord.bc-np4sjfwe.kr.blockchain.naverncp.com:443"
+      ],
+      "peers": {
+        "blocker-peer-fxpg8l-hlf-peer.bc-np4sjfwe.kr.blockchain.naverncp.com:443": {
+          "endorsingPeer": true,
+          "chaincodeQuery": true,
+          "ledgerQuery": true,
+          "eventSource": true,
+          "discover": true
+        }
+      }
+    }
+  },
+  "organizations": {
+    "blocker-orgmsp": {
+      "mspid": "blocker-orgmsp",
+      "peers": [
+        "blocker-peer-fxpg8l-hlf-peer.bc-np4sjfwe.kr.blockchain.naverncp.com:443"
+      ],
+      "certificateAuthorities": [
+        "blocker-orgca-viwhgk-hlf-ca.bc-np4sjfwe.kr.blockchain.naverncp.com:443"
+      ]
+    }
+  },
+  "orderers": {
+    "blocker-orderer1-04wnky-hlf-ord.bc-np4sjfwe.kr.blockchain.naverncp.com:443": {
+      "url": "grpcs://blocker-orderer1-04wnky-hlf-ord.bc-np4sjfwe.kr.blockchain.naverncp.com:443",
+      "tlsCACerts": {
+        "pem": "-----BEGIN CERTIFICATE-----\nMIICOjCCAeGgAwIBAgIUNubUvw1iYQ8DE2YTw0tnBjHP/YEwCgYIKoZIzj0EAwIw\neTELMAkGA1UEBhMCS1IxFDASBgNVBAgTC0d5ZW9uZ2dpLWRvMRQwEgYDVQQHEwtT\nZW9uZ25hbS1zaTEZMBcGA1UEChMQTkFWRVIgQ2xvdWQgQ29ycDETMBEGA1UECxMK\nQmxvY2tjaGFpbjEOMAwGA1UEAxMFdGxzY2EwIBcNMjIxMTIzMTMwNzAwWhgPMjA1\nMjExMTUxMzA3MDBaMHkxCzAJBgNVBAYTAktSMRQwEgYDVQQIEwtHeWVvbmdnaS1k\nbzEUMBIGA1UEBxMLU2VvbmduYW0tc2kxGTAXBgNVBAoTEE5BVkVSIENsb3VkIENv\ncnAxEzARBgNVBAsTCkJsb2NrY2hhaW4xDjAMBgNVBAMTBXRsc2NhMFkwEwYHKoZI\nzj0CAQYIKoZIzj0DAQcDQgAEIhcWnyntX/M1li68BWCkF4eOV3N1TefdDPeGWkzH\nt9dYVVrF6fni48jbvs4WA49a2Z3YTVp7GpFU9c+C0C24pqNFMEMwDgYDVR0PAQH/\nBAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYDVR0OBBYEFAstJYSoa2tNjLKy\nNBcsWv45v7QeMAoGCCqGSM49BAMCA0cAMEQCIBsI4OqGPy4FoqGihG644zOpjsGs\n/zRIfWM9/TKO1yOLAiAXMfdg49ffZvuKVxbsiVdl4yj1D+qId0z9O5FPhTlcvg\u003d\u003d\n-----END CERTIFICATE-----\n"
+      }
+    }
+  },
+  "peers": {
+    "blocker-peer-fxpg8l-hlf-peer.bc-np4sjfwe.kr.blockchain.naverncp.com:443": {
+      "url": "grpcs://blocker-peer-fxpg8l-hlf-peer.bc-np4sjfwe.kr.blockchain.naverncp.com:443",
+      "tlsCACerts": {
+        "pem": "-----BEGIN CERTIFICATE-----\nMIICOzCCAeGgAwIBAgIUUPZztP5rwrgH+vxqN4SYMKp75rswCgYIKoZIzj0EAwIw\neTELMAkGA1UEBhMCS1IxFDASBgNVBAgTC0d5ZW9uZ2dpLWRvMRQwEgYDVQQHEwtT\nZW9uZ25hbS1zaTEZMBcGA1UEChMQTkFWRVIgQ2xvdWQgQ29ycDETMBEGA1UECxMK\nQmxvY2tjaGFpbjEOMAwGA1UEAxMFdGxzY2EwIBcNMjIxMTIzMTMwNzAwWhgPMjA1\nMjExMTUxMzA3MDBaMHkxCzAJBgNVBAYTAktSMRQwEgYDVQQIEwtHeWVvbmdnaS1k\nbzEUMBIGA1UEBxMLU2VvbmduYW0tc2kxGTAXBgNVBAoTEE5BVkVSIENsb3VkIENv\ncnAxEzARBgNVBAsTCkJsb2NrY2hhaW4xDjAMBgNVBAMTBXRsc2NhMFkwEwYHKoZI\nzj0CAQYIKoZIzj0DAQcDQgAExQNibSU+TlpBZqhil+pl26ZXmq1JfztxQAYCcl+0\n14yy7KU1ziz5/O9egLamm873o7SazDJYO6Mpv4fKlC7NE6NFMEMwDgYDVR0PAQH/\nBAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYDVR0OBBYEFD8kSLxN+d54963L\ndg2RDBV+mT9qMAoGCCqGSM49BAMCA0gAMEUCIQCQpoJWiwL0KDACgrDoEXjLpQI7\nNr8RD+YwB4GdJNGYkwIgKWeJoHwuYoCeVKBzVUby6Gg/m9+Ibgu1V4emHpXlOo8\u003d\n-----END CERTIFICATE-----\n"
+      },
+      "grpcOptions": {
+        "ssl-target-name-override": "blocker-peer-fxpg8l-hlf-peer.bc-np4sjfwe.kr.blockchain.naverncp.com"
+      }
+    }
+  },
+  "certificateAuthorities": {
+    "blocker-orgca-viwhgk-hlf-ca.bc-np4sjfwe.kr.blockchain.naverncp.com:443": {
+      "url": "https://blocker-orgca-viwhgk-hlf-ca.bc-np4sjfwe.kr.blockchain.naverncp.com:443",
+      "tlsCACerts": {
+        "pem": [
+          "-----BEGIN CERTIFICATE-----\nMIID4DCCAsigAwIBAgIUcsjx5seddaKTxJjxHm1RygBtOD8wDQYJKoZIhvcNAQEL\nBQAwejELMAkGA1UEBhMCS1IxFDASBgNVBAgMC0d5ZW9uZ2dpLWRvMRQwEgYDVQQH\nDAtTZW9uZ25hbS1zaTEZMBcGA1UECgwQTkFWRVIgQ2xvdWQgQ29ycDETMBEGA1UE\nCwwKQmxvY2tjaGFpbjEPMA0GA1UEAwwGaGxmLWNhMCAXDTIyMTEyMzEzMTEwM1oY\nDzIwNTIxMTE1MTMxMTAzWjB6MQswCQYDVQQGEwJLUjEUMBIGA1UECAwLR3llb25n\nZ2ktZG8xFDASBgNVBAcMC1Nlb25nbmFtLXNpMRkwFwYDVQQKDBBOQVZFUiBDbG91\nZCBDb3JwMRMwEQYDVQQLDApCbG9ja2NoYWluMQ8wDQYDVQQDDAZobGYtY2EwggEi\nMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC2KBQsVzi5AtGITrVAXz76fzmZ\nh2NRDm+fZCzWjhRwJ/8RGd+O8TJfA5iNQolAyiWagUen11yVpkjJIaofMJ9xyJjD\nVLsNZHVxely+mAgvgzLUmi6wfgq/0opffGRclcD1VFjaJedP9O+KiC860E2TD36p\n/I+N5Gvf2EgQBEhrydpk8PLH30dbYu6ephczYpfawP+6Ahwl7T3vXRbeD2T2oYfO\nSKy9cW32l0Xm0S983pRpRFDfo9inbG70bnfrU7BbkmdSduBf45W+I4U1h7DAKf3d\ndN1DsGgaUY2UR5KiZIGtGYeE7zbtIhZM9O+feZWNIRlB+QS9jP/YjQ8wt3z9AgMB\nAAGjXDBaMFgGA1UdEQRRME+CQmJsb2NrZXItb3JnY2Etdml3aGdrLWhsZi1jYS5i\nYy1ucDRzamZ3ZS5rci5ibG9ja2NoYWluLm5hdmVybmNwLmNvbYIJbG9jYWxob3N0\nMA0GCSqGSIb3DQEBCwUAA4IBAQA65BP3+kU2xQ3wgJpveWtIjDvpQ1eMSBaHwyQ0\ngxD5eEK09LXbWHYYoTbLitaLx1T+qUP8uMbluxY3m5vN/ObjlFcr1qB4lnZvEJXr\nOLt50I1v4sz1Lh531Qpbs0hxNBdiRRq2MPRLNXFbisOkQDEK9EFhCboiU9M3EU4Z\n4pZoZcbPyuvVarGotNe1yXaF5hcodS5EdU+1il7Ojo7pESl0YV8pI5PMRgURGtqc\n9ilWQ1zDkyBi0xZVXFBcM7NQiIza9HUkTr5t5YdeiFYyG4lU4O0R4xwPn8IMv1Eu\nqljs2+asB0WSRGX3aQbSRh4IFqNxhGcQodDsyA66LKPQ1wne\n-----END CERTIFICATE-----\n"
+        ]
+      }
+    }
+  }
+}

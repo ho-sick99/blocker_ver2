@@ -29,7 +29,7 @@ const Width = Dimensions.get('window').width;    //스크린 너비 초기화
 const Height = Dimensions.get('window').height;  //스크린 높이 초기화
 
 function MyPage({navigation}) {
-
+  console.log(HOSTNAME);
   const {login_data} = useContext(LoginContext);
   const [user_name, set_user_name] = useState(login_data.name);
 
