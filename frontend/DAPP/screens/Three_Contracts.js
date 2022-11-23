@@ -33,7 +33,6 @@ const icon_size = 50;
 const main_color = "#0DF9FF";
 
 function Three_Contracts() {
-  
   console.log(HOSTNAME);
   return (
     <Tab.Navigator
@@ -264,7 +263,6 @@ function Signed({ navigation }) {
               <TouchableOpacity
                 style={styles.contract_click_style}
                 onPress={() =>{{
-                  if(item.avoid)
                   navigation.push("Signed", {
                     contract_id: item.contract_id,
                     id : item.id, 

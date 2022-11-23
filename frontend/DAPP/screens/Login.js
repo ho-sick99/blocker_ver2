@@ -7,6 +7,7 @@ import LoginContext from "../context/LoginContext";
 
 
 function Login({ navigation }) {
+  console.log(HOSTNAME); 
   // 회원 가입 제어 변수 
   const [is_sign_in, set_is_sign_in] = useState(false);
   const [modalVisible_login, setLoginModalVisible] = useState(false);
