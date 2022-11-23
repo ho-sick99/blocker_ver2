@@ -10,17 +10,18 @@ class Blockchain {
         this.body = body;
     }
 
+    // 계약 성립
     async contract() {
         const contractData = this.body;
         try {
-            const ccpPath = path.resolve(__dirname, '../../../connection/connection_property_blocker-orgmsp.json');
+            const ccpPath = path.resolve(__dirname, process.env.BLOCKER_CCP_PATH);
             const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
             const mspId = ccp.client.organization;
 
-            const userPath = path.resolve(__dirname, '../../../connection/blocker-orgca.json');
+            const userPath = path.resolve(__dirname, process.env.BLOCKER_USER_PATH);
             const user = JSON.parse(fs.readFileSync(userPath, 'utf8'));
 
-            const walletPath = path.join(process.cwd(), 'wallet');
+            const walletPath = path.join(process.cwd(), process.env.BLOCKER_WALLET_PATH);
             const wallet = await Wallets.newFileSystemWallet(walletPath);
 
             var identity = await wallet.get(user.name);
@@ -54,17 +55,18 @@ class Blockchain {
 
     }
 
+    // 계약 파기
     async canclecontract() {
         const contractData = this.body;
         try {
-            const ccpPath = path.resolve(__dirname, '../../../connection/connection_property_blocker-orgmsp.json');
+            const ccpPath = path.resolve(__dirname, process.env.BLOCKER_CCP_PATH);
             const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
             const mspId = ccp.client.organization;
 
-            const userPath = path.resolve(__dirname, '../../../connection/blocker-orgca.json');
+            const userPath = path.resolve(__dirname, process.env.BLOCKER_USER_PATH);
             const user = JSON.parse(fs.readFileSync(userPath, 'utf8'));
 
-            const walletPath = path.join(process.cwd(), 'wallet');
+            const walletPath = path.join(process.cwd(), process.env.BLOCKER_WALLET_PATH);
             const wallet = await Wallets.newFileSystemWallet(walletPath);
 
             var identity = await wallet.get(user.name);
@@ -99,18 +101,19 @@ class Blockchain {
 
     }
 
+    // 계약 검증
     async query() {
         const contractData = this.body;
         const bool_hash = true;
         try {
-            const ccpPath = path.resolve(__dirname, '../../../connection/connection_property_blocker-orgmsp.json');
+            const ccpPath = path.resolve(__dirname,process.env.BLOCKER_CCP_PATH);
             const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
             const mspId = ccp.client.organization;
 
-            const userPath = path.resolve(__dirname, '../../../connection/blocker-orgca.json');
+            const userPath = path.resolve(__dirname, process.env.BLOCKER_USER_PATH);
             const user = JSON.parse(fs.readFileSync(userPath, 'utf8'));
 
-            const walletPath = path.join(process.cwd(), 'wallet');
+            const walletPath = path.join(process.cwd(), process.env.BLOCKER_WALLET_PATH);
             const wallet = await Wallets.newFileSystemWallet(walletPath);
 
             var identity = await wallet.get(user.name);

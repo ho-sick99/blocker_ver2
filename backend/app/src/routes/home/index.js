@@ -8,12 +8,12 @@ var upload = multer();
 // 컨트롤러 로드
 const userCtrl = require("../user/user.ctrl"); // user 컨트롤러
 const postCtrl = require("../posts/post.ctrl"); // post 컨트롤러
-const pdfCtrl = require("../contracts/pdf.crtl")
+const pdfCtrl = require("../contracts/pdf.crtl"); // pdf 컨트롤러
 const contractCtrl = require("../contracts/contract.ctrl"); // contract 컨트롤러
 const n_signedContractCtrl = require("../contracts/n_signedContract.ctrl"); // 미체결 계약서 컨트롤러
 const signingContractCtrl = require("../contracts/signingContract.ctrl"); // 진행중 계약서 컨트롤러
 const signedContractCtrl = require("../contracts/signedContract.ctrl"); // 체결 계약서 컨트롤러
-const blockchainCtrl = require("./blockchain.ctrl"); // 체결 계약서 컨트롤러
+const blockchainCtrl = require("../blockchain/blockchain.ctrl"); // 체결 계약서 컨트롤러
 
 // process
 router.post("/login", userCtrl.process.login);
@@ -28,7 +28,7 @@ router.post("/get_sign_info", userCtrl.process.get_sign_info);
 router.post("/set_sign_info", userCtrl.process.set_sign_info);
 router.post("/get_user_name", userCtrl.process.get_user_name);
 
-// post 관련 api 라우팅
+// post 관련 api 라우팅 //
 router.get("/post_load", postCtrl.post_sys.post_load)
 router.post("/mypost_load", postCtrl.post_sys.mypost_load)
 router.post("/post_view", postCtrl.post_sys.post_view);
@@ -67,9 +67,9 @@ router.post("/delete_contract", signedContractCtrl.process.delete_contract);
 router.post("/get_singed_avoidance", signedContractCtrl.process.get_singed_avoidance);
 router.post("/set_singed_avoidance", signedContractCtrl.process.set_singed_avoidance);
 
-// 블록체인
-router.post("/contract", blockchainCtrl.process.contract)
-router.post("/canclecontract", blockchainCtrl.process.canclecontract)
-router.post("/query", blockchainCtrl.process.query)
+// blockchain 관련 api 라우팅 //
+router.post("/contract", blockchainCtrl.process.contract) // 계약 성립
+router.post("/canclecontract", blockchainCtrl.process.canclecontract) // 계약 파기
+router.post("/query", blockchainCtrl.process.query) // 계약 검증
 
 module.exports = router;
