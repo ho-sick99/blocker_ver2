@@ -11,7 +11,6 @@
   "dependencies": {
     "@benjeau/react-native-draw": "^0.8.3",
     "@benjeau/react-native-draw-extras": "^0.2.2",
-    "@expo/ngrok": "^2.4.3",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/bottom-tabs": "^6.4.0",
     "@react-navigation/drawer": "^6.5.0",
@@ -43,7 +42,8 @@
     "react-native-viewport-units": "^0.0.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.6"
+    "@babel/core": "^7.18.6",
+    "@expo/ngrok": "^4.1.0"
   },
   "private": true
 }

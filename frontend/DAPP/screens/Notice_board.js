@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { createDrawerNavigator, DrawerActions } from "@react-navigation/drawer";
-import Icon from "@expo/vector-icons/Ionicons";
+import Icon from "@expo/vector-icons/Ionicons";import 
+{ AntDesign, FontAwesome5, MaterialCommunityIcons  } from '@expo/vector-icons';
 import Three_Contracts from "./Three_Contracts";
 import MyPage from "./MyPage";
 import Verification from "./Verification";
@@ -21,6 +22,10 @@ import { HOSTNAME } from "@env";
 import { useIsFocused } from '@react-navigation/native';
 import LoginContext from '../context/LoginContext';
 import { SliderBox } from "react-native-image-slider-box";
+import banner1 from './image/banner1.png'; 
+import banner2 from './image/banner2.png'; 
+import banner3 from './image/banner3.png'; 
+import banner4 from './image/banner4.png'; 
 
 const icon_color = "#000000";
 const icon_size = 50;
@@ -29,11 +34,15 @@ const Width = Dimensions.get("window").width; //스크린 너비 초기화
 const Height = Dimensions.get("window").height; //스크린 높이 초기화
 
 function Main({ navigation }) {
+  console.log(HOSTNAME);
+  console.log(HOSTNAME);
+  console.log(HOSTNAME);
+  console.log(HOSTNAME);
+  console.log(HOSTNAME);
   //검색입력은 useState사용
   const isFocused = useIsFocused() // 리프레쉬
   const [posts, setPosts] = useState([]); // 계약서 배열
   const {login_data} = useContext(LoginContext); //로그인정보
-  console.log(HOSTNAME);
   const loadPosts = async () => {
     const { data: result } = await Axios.get(HOSTNAME + '/post_load');
     setPosts(result);
@@ -50,10 +59,10 @@ function Main({ navigation }) {
         <View style={styles.container_image_slider}>
           <SliderBox
             images={[
-              "https://source.unsplash.com/1024x768/?nature",
-              "https://source.unsplash.com/1024x768/?water",
-              "https://source.unsplash.com/1024x768/?girl",
-              "https://source.unsplash.com/1024x768/?tree",
+              banner1,
+              banner2,
+              banner3,
+              banner4,
             ]}
             ImageComponentStyle={{borderRadius: 10, width: '95%', height: "100%" }}
             onCurrentImagePressed={index => console.warn(`image ${index} pressed`)}
@@ -97,8 +106,8 @@ function Main({ navigation }) {
                 })}
               >
                 {/* 아이콘 말고 게시글 제목 + 작성자 + 작성일자 보여줄 것 */}
-                <Icon name="rocket" color={icon_color} size={icon_size} />
-                <Text>{item.post_title}</Text>
+                <AntDesign name="filetext1" color={icon_color} size={icon_size} />
+                <Text style={styles.post_txt}>{item.post_title}</Text>
               </TouchableOpacity>
             </View>
           )}
@@ -166,7 +175,7 @@ const Notice_board = () => {
         component={Three_Contracts}
         options={{
           drawerIcon: ({ color, size, focused }) => (
-            <Icon name={"rocket"} size={size} color={color} />
+            <FontAwesome5 name="file-signature" size={size} color={color} />
           ),
         }}
       />
@@ -174,8 +183,8 @@ const Notice_board = () => {
         name="MyPage"
         component={MyPage}
         options={{
-          drawerIcon: ({ color, size, focused }) => ( //focused 어디있노
-            <Icon name={"pause"} size={size} color={color} />
+          drawerIcon: ({ color, size, focused }) => ( 
+            <MaterialCommunityIcons name="face-man" size={size} color={color} />
           ),
         }}
       />
@@ -184,7 +193,7 @@ const Notice_board = () => {
         component={Verification}
         options={{
           drawerIcon: ({ color, size, focused }) => (
-            <Icon name={"pause"} size={size} color={color} />
+          <MaterialCommunityIcons name="check-network-outline" size={size} color={color} />
           ),
         }}
       />
@@ -298,5 +307,8 @@ const styles = StyleSheet.create({
     width: "100%",
     height: Width * 0.5,
     marginTop: "11%"
+  },
+  post_txt: {
+    margin:5, 
   }
 });

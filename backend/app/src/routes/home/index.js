@@ -66,6 +66,7 @@ router.post("/cancle_contract", signedContractCtrl.process.cancle_contract);
 router.post("/delete_contract", signedContractCtrl.process.delete_contract);
 router.post("/get_singed_avoidance", signedContractCtrl.process.get_singed_avoidance);
 router.post("/set_singed_avoidance", signedContractCtrl.process.set_singed_avoidance);
+router.get("/get_last_contractid", signedContractCtrl.process.get_last_contractid);
 
 // 블록체인
 router.post("/contract", blockchainCtrl.process.contract)

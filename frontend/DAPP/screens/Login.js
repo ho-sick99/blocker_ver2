@@ -7,7 +7,10 @@ import LoginContext from "../context/LoginContext";
 
 
 function Login({ navigation }) {
-  console.log(HOSTNAME); 
+  console.log(HOSTNAME);
+  console.log(HOSTNAME)
+  console.log(HOSTNAME);
+  console.log(HOSTNAME)
   // 회원 가입 제어 변수 
   const [is_sign_in, set_is_sign_in] = useState(false);
   const [modalVisible_login, setLoginModalVisible] = useState(false);
@@ -35,7 +38,6 @@ function Login({ navigation }) {
 
   // 로그인 
   const chk_login = async (id_input, pw_input) => {
-    console.log(HOSTNAME);
     const { data: res } = await Axios.post(HOSTNAME + '/login', { id: id_input, pw: pw_input })
     console.log(res);
     return res;

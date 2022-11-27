@@ -127,7 +127,6 @@ class User {
     const input_id = this.body;
     try {
       const response = await UserStorage.get_user_sign(input_id.id)
-      console.log(response);
       return response;
     } catch (err) {
       console.log(err);

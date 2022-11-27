@@ -13,13 +13,15 @@ import React, {
     Modal,
     FlatList, 
   } from 'react-native';
-  import { HOSTNAME } from "@env";
+import { HOSTNAME } from "@env";
 import LoginContext from '../context/LoginContext';
 import Axios from 'axios';
 const Width = Dimensions.get('window').width;    //스크린 너비 초기화
 const Height = Dimensions.get('window').height;  //스크린 높이 초기화
 
 function PostWrite({navigation, route}){
+  console.log(HOSTNAME);
+  console.log(HOSTNAME);
   console.log(HOSTNAME);
     const {login_data} = useContext(LoginContext);
     const [post_title, setTitle] = useState(); // 타이틀

@@ -16,6 +16,9 @@ const Width = Dimensions.get('window').width;    //스크린 너비 초기화
 const Height = Dimensions.get('window').height;  //스크린 높이 초기화
 
 function PostView({navigation, route}) {
+  console.log(HOSTNAME);
+  console.log(HOSTNAME);
+  console.log(HOSTNAME);
   const [post_info, setPost] = useState([]); // 계약서 배열
   const {login_data} = useContext(LoginContext);
   const [user_bmark, set_user_bmark] = useState(0);
