@@ -31,10 +31,10 @@ function Verification({navigation}) {
       const url = HOSTNAME+"/upload_pdf";
       const fileUri = param.uri;
       const formData = new FormData();
-      formData.append('file', param);
+      formData.append('file', param); // name, value
       const options = {
           method: 'POST',
-          body: formData,
+          body: formData, // 
           headers: {
             Accept: 'application/pdf',
             'Content-Type': 'multipart/form-data',
@@ -50,12 +50,12 @@ function Verification({navigation}) {
     const pickDocument = async () => {
       console.log("pdf 파일 불러오기")
       console.log("변경 후")
-      let result = await DocumentPicker.getDocumentAsync({ type: "*/*", copyToCacheDirectory: true })
+      let result = await DocumentPicker.getDocumentAsync({ type: "application/pdf", copyToCacheDirectory: true }) // pdf 형식의 파일만 읽어오게
       .then(response => {
         if (response.type == 'success') {          
           let { name, size, uri } = response;
           let nameParts = name.split('.');
-          let fileType = nameParts[nameParts.length - 1];
+          let fileType = nameParts[nameParts.length - 1]; 
           var fileToUpload = {
             name: name,
             size: size,

@@ -4,15 +4,10 @@ const { Gateway, Wallets } = require("fabric-network");
 const path = require('path');
 const fs = require('fs');
 
-class Blockchain {
-
-    constructor(body) {
-        this.body = body;
-    }
+class Chaincode {
 
     // 계약 성립
-    async contract() {
-        const contractData = this.body;
+    static async contract(contractData) {
         try {
             const ccpPath = path.resolve(__dirname, process.env.BLOCKER_CCP_PATH);
             const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
@@ -47,7 +42,7 @@ class Blockchain {
 
             // 블로체인 네트워크 연결 해제 
             await gateway.disconnect();
-            return { result: JSON.parse(result.toString())};
+            return { result: JSON.parse(result.toString()) };
         } catch (error) {
             console.error(`Failed to evaluate transaction: ${error}`);
             return { result: "contract faild" };
@@ -56,8 +51,7 @@ class Blockchain {
     }
 
     // 계약 파기
-    async canclecontract() {
-        const contractData = this.body;
+    static async canclecontract(contractData) {
         try {
             const ccpPath = path.resolve(__dirname, process.env.BLOCKER_CCP_PATH);
             const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
@@ -90,7 +84,7 @@ class Blockchain {
 
             // 체인코드 호출: 파기 계약 체결 
             const result = await contract.evaluateTransaction('GetAllAssets');
-            
+
             await gateway.disconnect();
 
             return { result: "contract success!" };
@@ -102,11 +96,10 @@ class Blockchain {
     }
 
     // 계약 검증
-    async query() {
-        const contractData = this.body;
+    static async query(contractData) {
         const bool_hash = true;
         try {
-            const ccpPath = path.resolve(__dirname,process.env.BLOCKER_CCP_PATH);
+            const ccpPath = path.resolve(__dirname, process.env.BLOCKER_CCP_PATH);
             const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
             const mspId = ccp.client.organization;
 
@@ -161,4 +154,4 @@ class Blockchain {
 
 }
 
-module.exports = Blockchain;
+module.exports = Chaincode;
