@@ -14,7 +14,7 @@
 |:---:|:---:|:---:|:---:|
 |<img width="160px" src="https://avatars.githubusercontent.com/u/88191538?v=4" /> |<img width="160px" src="https://avatars.githubusercontent.com/u/83945722?v=4" /> |<img width="160px" src="https://avatars.githubusercontent.com/u/87313979?v=4"/>|<img width="160px" src="https://avatars.githubusercontent.com/u/96711842?v=4"/>|
 |[@nu-jey](https://github.com/nu-jey) |[@ho-sick99](https://github.com/ho-sick99)|[@YOON-CC](https://github.com/YOON-CC)|[@thisis-joe](https://github.com/thisis-joe)|
-|부경대학교 컴퓨터공학과 3학년| 부경대학교 컴퓨터공학과 3학년 | 부경대학교 컴퓨터공학과 3학년 | 부경대학교 컴퓨터공학과 3학년 
+|부경대학교 컴퓨터공학과  3학년| 부경대학교 컴퓨터공학과  3학년 | 부경대학교 컴퓨터공학과  3학년 | 부경대학교 컴퓨터공학과  3학년|
 
 # Stacks
 * BlockChain <br>
