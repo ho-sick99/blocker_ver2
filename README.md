@@ -27,9 +27,6 @@
 ![AWS](https://img.shields.io/badge/amazonec2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white)
 ![Naver](https://img.shields.io/badge/naver&nbsp;cloud-03C75A?style=for-the-badge&logo=naver&logoColor=white)     
 
-* Config <br>
-![npm](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white)
-
 * Development <br>
 ![ReactNative](https://img.shields.io/badge/react&nbsp;native-61DAFB?style=for-the-badge&logo=react&logoColor=white)
 ![Expo](https://img.shields.io/badge/expo-000020?style=for-the-badge&logo=expo&logoColor=white)
