@@ -8,13 +8,14 @@
 > 2022 캡스톤 디자인 - 부경대학교 컴퓨터공학과 <br>
 > 2022/09/11 ~ 2022/11/27
 
-# Team
 
-|오예준|문준호|조윤찬|우동균|
-|:---:|:---:|:---:|:---:|
-|<img width="160px" src="https://avatars.githubusercontent.com/u/88191538?v=4" /> |<img width="160px" src="https://avatars.githubusercontent.com/u/83945722?v=4" /> |<img width="160px" src="https://avatars.githubusercontent.com/u/87313979?v=4"/>|<img width="160px" src="https://avatars.githubusercontent.com/u/96711842?v=4"/>|
-|[@nu-jey](https://github.com/nu-jey) |[@ho-sick99](https://github.com/ho-sick99)|[@YOON-CC](https://github.com/YOON-CC)|[@thisis-joe](https://github.com/thisis-joe)|
-|부경대학교 컴퓨터공학과  3학년| 부경대학교 컴퓨터공학과  3학년 | 부경대학교 컴퓨터공학과  3학년 | 부경대학교 컴퓨터공학과  3학년|
+# Team
+#### 아래의 프로필 이미지를 클릭하시면 저희 팀원들의 커밋 내역을 확인하실 수 있습니다.
+|                                                                               오예준                                                                                |                                                                                 문준호                                                                                 |                                                                               조윤찬                                                                                |                                                                                 우동균                                                                                 |
+| :-----------------------------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| <a href="https://github.com/ho-sick99/blocker_ver2/commits/main?author=nu-jey"><img width="160px" src="https://avatars.githubusercontent.com/u/88191538?v=4" /></a> | <a href="https://github.com/ho-sick99/blocker_ver2/commits/main?author=ho-sick99"><img width="160px" src="https://avatars.githubusercontent.com/u/83945722?v=4" /></a> | <a href="https://github.com/ho-sick99/blocker_ver2/commits/main?author=YOON-CC"><img width="160px" src="https://avatars.githubusercontent.com/u/87313979?v=4"/></a> | <a href="https://github.com/ho-sick99/blocker_ver2/commits/main?author=thisis-joe"><img width="160px" src="https://avatars.githubusercontent.com/u/96711842?v=4"/></a> |
+|                                                                [@nu-jey](https://github.com/nu-jey)                                                                 |                                                               [@ho-sick99](https://github.com/ho-sick99)                                                               |                                                               [@YOON-CC](https://github.com/YOON-CC)                                                                |                                                              [@thisis-joe](https://github.com/thisis-joe)                                                              |
+|                                                                   부경대학교 컴퓨터공학과  3학년                                                                    |                                                                     부경대학교 컴퓨터공학과  3학년                                                                     |                                                                   부경대학교 컴퓨터공학과  3학년                                                                    |                                                                     부경대학교 컴퓨터공학과  3학년                                                                     |
 
 # Stacks
 * BlockChain <br>
@@ -34,6 +35,7 @@
 ![express](https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white)
 ![go](https://img.shields.io/badge/go-00ADD8?style=for-the-badge&logo=go&logoColor=white)
 ![mysql](https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+
 # Views
 |동업자 구인 게시판|계시글 작성|계약서|계약서 목록|검증|
 |:---:|:---:|:---:|:---:|:---:|
@@ -52,87 +54,87 @@
 ├── LICENSE
 ├── README.md
 ├── backend
-│   └── app
-│       ├── app.js
-│       ├── bin
-│       │   └── server.js
-│       ├── connection > 블록체인 네트워크 연결을 위한 인증서 
-│       │   ├── blocker-orderer.json
-│       │   ├── blocker-ordererca.json
-│       │   ├── blocker-orgca.json
-│       │   ├── blocker-peer.json
-│       │   ├── connection_property_blocker-oderermsp.json
-│       │   └── connection_property_blocker-orgmsp.json
-│       ├── package-lock.json
-│       ├── package.json
-│       ├── src
-│       │   ├── config > 데이터 베이스 연결을 위한 파일 
-│       │   │   └── db.js
-│       │   ├── model > 서버 처리 데이터 모델 
-│       │   │   ├── Blockchian > 블록체인 네트워크와 상호작용 하는 모델 
-│       │   │   │   └── blockchain.js
-│       │   │   ├── Contract > 계약서와 상태에 따라 상속
-│       │   │   │   ├── Contract.js
-│       │   │   │   ├── N_SignedContract.js
-│       │   │   │   ├── N_SignedContractStorage.js
-│       │   │   │   ├── SignedContract.js
-│       │   │   │   ├── SignedContractStorage.js
-│       │   │   │   ├── SigningContract.js
-│       │   │   │   └── SigningContractStorage.js
-│       │   │   ├── Post > 게시글
-│       │   │   │   ├── Post.js
-│       │   │   │   └── PostStorage.js
-│       │   │   └── User > 회원정보
-│       │   │       ├── User.js
-│       │   │       └── UserStorage.js
-│       │   └── routes > 호출 api에 따른 라우팅 
-│       │       ├── contracts
-│       │       │   ├── contract.ctrl.js
-│       │       │   ├── n_signedContract.ctrl.js
-│       │       │   ├── pdf.crtl.js
-│       │       │   ├── signedContract.ctrl.js
-│       │       │   └── signingContract.ctrl.js
-│       │       ├── home
-│       │       │   ├── blockchain.ctrl.js
-│       │       │   └── index.js
-│       │       ├── posts
-│       │       │   └── post.ctrl.js
-│       │       └── user
-│       │           └── user.ctrl.js
-│       └── wallet > 신원 인증을 위한 집갑 
-│           └── blocker-orgca.id
+│   └── app
+│       ├── app.js
+│       ├── bin
+│       │   └── server.js
+│       ├── connection > 블록체인 네트워크 연결을 위한 인증서 
+│       │   ├── blocker-orderer.json
+│       │   ├── blocker-ordererca.json
+│       │   ├── blocker-orgca.json
+│       │   ├── blocker-peer.json
+│       │   ├── connection_property_blocker-oderermsp.json
+│       │   └── connection_property_blocker-orgmsp.json
+│       ├── package-lock.json
+│       ├── package.json
+│       ├── src
+│       │   ├── config > 데이터 베이스 연결을 위한 파일 
+│       │   │   └── db.js
+│       │   ├── model > 서버 처리 데이터 모델 
+│       │   │   ├── Blockchian > 블록체인 네트워크와 상호작용 하는 모델 
+│       │   │   │   └── blockchain.js
+│       │   │   ├── Contract > 계약서와 상태에 따라 상속
+│       │   │   │   ├── Contract.js
+│       │   │   │   ├── N_SignedContract.js
+│       │   │   │   ├── N_SignedContractStorage.js
+│       │   │   │   ├── SignedContract.js
+│       │   │   │   ├── SignedContractStorage.js
+│       │   │   │   ├── SigningContract.js
+│       │   │   │   └── SigningContractStorage.js
+│       │   │   ├── Post > 게시글
+│       │   │   │   ├── Post.js
+│       │   │   │   └── PostStorage.js
+│       │   │   └── User > 회원정보
+│       │   │       ├── User.js
+│       │   │       └── UserStorage.js
+│       │   └── routes > 호출 api에 따른 라우팅 
+│       │       ├── contracts
+│       │       │   ├── contract.ctrl.js
+│       │       │   ├── n_signedContract.ctrl.js
+│       │       │   ├── pdf.crtl.js
+│       │       │   ├── signedContract.ctrl.js
+│       │       │   └── signingContract.ctrl.js
+│       │       ├── home
+│       │       │   ├── blockchain.ctrl.js
+│       │       │   └── index.js
+│       │       ├── posts
+│       │       │   └── post.ctrl.js
+│       │       └── user
+│       │           └── user.ctrl.js
+│       └── wallet > 신원 인증을 위한 지갑
+│           └── blocker-orgca.id
 ├── frontend
-│   ├── DAPP
-│   │   ├── App.js
-│   │   ├── app.json
-│   │   ├── assets
-│   │   │   ├── adaptive-icon.png
-│   │   │   ├── favicon.png
-│   │   │   ├── icon.png
-│   │   │   └── splash.png
-│   │   ├── babel.config.js
-│   │   ├── context > 로그인 관리를 위한 컨텍스트 
-│   │   │   ├── LoginContext.js
-│   │   │   └── LoginProvider.js
-│   │   ├── package-lock.json
-│   │   ├── package.json
-│   │   └── screens > 구성화면 
-│   │       ├── Contract_Create.js
-│   │       ├── Contract_Edit.js
-│   │       ├── Contract_View.js
-│   │       ├── Login.js
-│   │       ├── MyPage.js
-│   │       ├── N_Signed.js
-│   │       ├── Notice_board.js
-│   │       ├── PostEdit.js
-│   │       ├── PostView.js
-│   │       ├── PostWrite.js
-│   │       ├── Proceeding.js
-│   │       ├── Signed.js
-│   │       ├── Three_Contracts.js
-│   │       ├── Verification.js
-│   │       └── image
-│   └── package-lock.json
+│   ├── DAPP
+│   │   ├── App.js
+│   │   ├── app.json
+│   │   ├── assets
+│   │   │   ├── adaptive-icon.png
+│   │   │   ├── favicon.png
+│   │   │   ├── icon.png
+│   │   │   └── splash.png
+│   │   ├── babel.config.js
+│   │   ├── context > 로그인 관리를 위한 컨텍스트 
+│   │   │   ├── LoginContext.js
+│   │   │   └── LoginProvider.js
+│   │   ├── package-lock.json
+│   │   ├── package.json
+│   │   └── screens > 구성화면 
+│   │       ├── Contract_Create.js
+│   │       ├── Contract_Edit.js
+│   │       ├── Contract_View.js
+│   │       ├── Login.js
+│   │       ├── MyPage.js
+│   │       ├── N_Signed.js
+│   │       ├── Notice_board.js
+│   │       ├── PostEdit.js
+│   │       ├── PostView.js
+│   │       ├── PostWrite.js
+│   │       ├── Proceeding.js
+│   │       ├── Signed.js
+│   │       ├── Three_Contracts.js
+│   │       ├── Verification.js
+│   │       └── image
+│   └── package-lock.json
 └── tunnel
 ```
 # More Info
