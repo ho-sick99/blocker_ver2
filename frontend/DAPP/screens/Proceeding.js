@@ -12,15 +12,13 @@ import {
 } from "react-native";
 import Axios from "axios";
 import { HOSTNAME } from "@env";
-// import del_img from "./image/del_img.png";
-// import { create } from "html-pdf";
-// const conversion = require("phantom-html-to-pdf")();
+import {printToFileAsync} from 'expo-print';
+import { shareAsync } from 'expo-sharing';
 
 const Width = Dimensions.get("window").width; //스크린 너비 초기화
 const Height = Dimensions.get("window").height; //스크린 높이 초기화
 
 function Proceeding({ navigation, route }) {
-  console.log(HOSTNAME);
   const isFocused = useIsFocused(); // 리프레쉬
   const { login_data } = useContext(LoginContext);
 
@@ -39,9 +37,8 @@ function Proceeding({ navigation, route }) {
   const [user_name2, setUserName2] = useState("");
   const [user_name3, setUserName3] = useState("");
 
-  const contractors = JSON.parse(route.params.contractors);
-  const sigend_info = JSON.parse(route.params.signed);
-  console.log(HOSTNAME);
+  const contractors = JSON.parse(route.params.contractors); 
+  const sigend_info = JSON.parse(route.params.signed); 
 
   const get_info = async (contractor_id, idx) => {
     const { data: result } = await Axios.post(HOSTNAME + "/get_sign_info", {
@@ -218,12 +215,9 @@ function Proceeding({ navigation, route }) {
             }
           );
         }
-        const { data: result } = await Axios.post(
-          HOSTNAME + "/progress_contract",
-          { contract_id: route.params.contract_id }
-        );
-        if (result.success) {
-          navigation.pop();
+        const { data: result } = await Axios.post(HOSTNAME + '/progress_contract',{ contract_id: route.params.contract_id})
+        if(result.success){
+          generatePdf(); 
         }
       } else {
         // 사인은 성공했으나 모든 서명 기입 아님
@@ -246,6 +240,211 @@ function Proceeding({ navigation, route }) {
       alert(result.msg);
     }
   };
+
+  let generatePdf = async () => {
+    const { data: result } = await Axios.get(HOSTNAME + '/get_last_contractid')
+    const { data: writer_name } = await Axios.post(HOSTNAME + '/get_user_name',{ id : result[0].id})
+    const contractors = JSON.parse(result[0].contractors); 
+    const file = await printToFileAsync({
+      html: `
+      <!DOCTYPE html>
+      <html>
+          <head>
+              <title>계약서 양식</title>
+              <style>
+                .centered { display: table; margin-left: auto; margin-right: auto; text-align: center; }
+                .contract_writer { text-align: right; }
+                .contract_date { text-align: left; }
+                .contract_content { text-align: left; }
+              </style>
+          </head>
+          <body class="centered">
+              <H1>
+                   ${result[0].title}
+              </H1>
+              <H3 class="contract_date">
+                  계약 체결일: ${result[0].contract_date}
+              </H3>
+              <H3 class="contract_writer">
+                  작성자: ${writer_name}(${result[0].id})
+              </H3>
+              <hr>
+              <div>
+                  계약 참여자
+                  <table border="1">
+                      <tbody>
+                        <tr>
+                              <td>${user_name0}</td>
+                              <td>${user_name1}</td>
+                              <td>${user_name2}</td>
+                              <td>${user_name3}</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+              <hr>
+                계약 내용
+                <br>
+                <div>
+                  ${result[0].content}
+                </div>
+              <hr>
+              <div>
+                  서명란
+                  <table border="1">
+                      <thead>
+                        <tr><th>${contractors.id[0]}</th><th>${contractors.id[1]}</th><th>${contractors.id[2]}</th><th>${contractors.id[3]}</th></tr>
+                      </thead>
+                      <tobdy>
+                        <tr>
+                          <td>${user_name0}</td><td><img src=${sign_img_data_0}></td>
+                          <td>${user_name1}</td><td><img src=${sign_img_data_1}></td>
+                          </tr>
+                        <tr>
+                          <td>${user_name2}</td><td><img src=${sign_img_data_2}></td>
+                          <td>${user_name3}</td><td><img src=${sign_img_data_3}></td>
+                        </tr>
+                      </tobdy>
+                  </table>
+              </div>
+          </body>
+      </html>
+    `,
+      base64 : true
+    });
+    console.log("파일 전송 및 결과 반환")
+    const url = HOSTNAME+"/upload_pdf";
+    const fileUri = file.uri;
+    const formData = new FormData();
+    formData.append('file', {
+      name: "temppdf",
+      size: file.base64.length,
+      uri: fileUri,
+      type: "application/pdf"
+    });
+    const options = {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Accept: 'application/pdf',
+          'Content-Type': 'multipart/form-data',
+        },
+    };
+    const res = await fetch(url, options).catch((error) => console.log(error));
+    const data = await res.json();
+    console.log(data.hash);
+
+    //블록체인 네트워크 원장에 기록 
+    if(route.params.avoidance > 0){
+      console.log("파기 계약서 원본 가져오기")
+      // 1. avoidance가 가리키는 계약서 내용 가져옴 
+      const { data: cancle_result } = await Axios.post(HOSTNAME + '/signed_contract_view',{ contract_id : route.params.avoidance})
+      const { data: cancle_writer_name } = await Axios.post(HOSTNAME + '/get_user_name',{ id : cancle_result.id})
+      console.log(cancle_result); 
+      console.log(writer_name); 
+      // 2. 계약서 내용을 기반으로 html 파일 생성
+      const cancle_file = await printToFileAsync({
+          html: `
+          <!DOCTYPE html>
+          <html>
+              <head>
+                  <title>계약서 양식</title>
+                  <style>
+                    .centered { display: table; margin-left: auto; margin-right: auto; text-align: center; }
+                    .contract_writer { text-align: right; }
+                    .contract_date { text-align: left; }
+                    .contract_content { text-align: left; }
+                  </style>
+              </head>
+              <body class="centered">
+                  <H1>
+                      ${cancle_result.title}
+                  </H1>
+                  <H3 class="contract_date">
+                      계약 체결일: ${cancle_result.contract_date}
+                  </H3>
+                  <H3 class="contract_writer">
+                      작성자: ${cancle_writer_name}(${cancle_result.id})
+                  </H3>
+                  <hr>
+                  <div>
+                      계약 참여자
+                      <table border="1">
+                          <tbody>
+                            <tr>
+                                  <td>${user_name0}</td>
+                                  <td>${user_name1}</td>
+                                  <td>${user_name2}</td>
+                                  <td>${user_name3}</td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+                  <hr> 
+                    계약 내용
+                    <br>
+                    <div>
+                      ${cancle_result.content}
+                    </div>
+                  <hr>
+                  <div>
+                      서명란
+                      <table border="1">
+                          <thead>
+                            <tr><th>${contractors.id[0]}</th><th>${contractors.id[1]}</th><th>${contractors.id[2]}</th><th>${contractors.id[3]}</th></tr>
+                          </thead>
+                          <tobdy>
+                            <tr>
+                              <td>${user_name0}</td><td><img src=${sign_img_data_0}></td>
+                              <td>${user_name1}</td><td><img src=${sign_img_data_1}></td>
+                              </tr>
+                            <tr>
+                              <td>${user_name2}</td><td><img src=${sign_img_data_2}></td>
+                              <td>${user_name3}</td><td><img src=${sign_img_data_3}></td>
+                            </tr>
+                          </tobdy>
+                      </table>
+                  </div>
+              </body>
+          </html>
+        `,
+        base64 : true
+      });
+      console.log("파일 전송 및 결과 반환")
+      const cancle_url = HOSTNAME+"/upload_pdf";
+      const cancle_fileUri = cancle_file.uri;
+      const cancle_formData = new FormData();
+      cancle_formData.append('file', {
+        name: "temppdf",
+        size: cancle_file.base64.length,
+        uri: cancle_fileUri,
+        type: "application/pdf"
+      });
+      const cancle_options = {
+          method: 'POST',
+          body: cancle_formData,
+          headers: {
+            Accept: 'application/pdf',
+            'Content-Type': 'multipart/form-data',
+          },
+      };
+
+      // 3. 해당 pdf를 기반으로 hash값 생성 
+      const cancle_res = await fetch(cancle_url, cancle_options).catch((error) => console.log(error));
+      const cancledata = await cancle_res.json();
+      console.log(cancledata.hash);
+
+      // 4. 체인코드 호출: 파기 계약 체결 
+      const { data: b_res } = await Axios.post(HOSTNAME + '/canclecontract', { hash: data.hash, canclehash: cancledata.hash, contractors: result[0].contractors, date: result[0].contract_date}); 
+      alert(b_res.msg);
+    }
+    else{
+      // 체인코드 호출:  계약 체결 
+      const { data: b_res } = await Axios.post(HOSTNAME + '/contract', { hash: data.hash, contractors: result[0].contractors, date: result[0].contract_date}); 
+      alert(b_res.msg);
+    }
+
+  }
 
   useEffect(() => {
     get_contractor_info();

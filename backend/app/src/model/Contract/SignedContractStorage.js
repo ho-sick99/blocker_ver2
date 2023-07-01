@@ -20,6 +20,22 @@ class SignedContractStorage {
     });
   }
 
+  static getlast() {
+    return new Promise((resolve, reject) => {
+      console.log("최근 값 반환");
+      db.query(
+        "SELECT * FROM blocker_db.signed_contract where contract_id = (select max(contract_id) from blocker_db.signed_contract);",
+        (err, result) => {
+          if (err) {
+            reject(`${err}`);
+          } else {
+            resolve(result);
+          }
+        }
+      );
+    });
+  }
+
   // 특정 체결 계약서 정보 로드 메서드
   static view_contract(contractId) {
     // 계약서 id를 매개변수로 받음

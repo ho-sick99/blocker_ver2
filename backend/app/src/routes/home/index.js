@@ -13,7 +13,7 @@ const contractCtrl = require("../contracts/contract.ctrl"); // contract 컨트�
 const n_signedContractCtrl = require("../contracts/n_signedContract.ctrl"); // 미체결 계약서 컨트롤러
 const signingContractCtrl = require("../contracts/signingContract.ctrl"); // 진행중 계약서 컨트롤러
 const signedContractCtrl = require("../contracts/signedContract.ctrl"); // 체결 계약서 컨트롤러
-const blockchainCtrl = require("../blockchain/blockchain.ctrl"); // 체결 계약서 컨트롤러
+const blockchainCtrl = require("./blockchain.ctrl"); // 체결 계약서 컨트롤러
 
 // process
 router.post("/login", userCtrl.process.login);
@@ -66,6 +66,12 @@ router.post("/cancle_contract", signedContractCtrl.process.cancle_contract);
 router.post("/delete_contract", signedContractCtrl.process.delete_contract);
 router.post("/get_singed_avoidance", signedContractCtrl.process.get_singed_avoidance);
 router.post("/set_singed_avoidance", signedContractCtrl.process.set_singed_avoidance);
+router.get("/get_last_contractid", signedContractCtrl.process.get_last_contractid);
+
+// 블록체인
+router.post("/contract", blockchainCtrl.process.contract)
+router.post("/canclecontract", blockchainCtrl.process.canclecontract)
+router.post("/query", blockchainCtrl.process.query)
 
 // blockchain 관련 api 라우팅 //
 router.post("/contract", blockchainCtrl.process.contract) // 계약 성립

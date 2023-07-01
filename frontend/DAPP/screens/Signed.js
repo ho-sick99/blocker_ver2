@@ -23,6 +23,7 @@ function Signed({ navigation, route }) {
   const isFocused = useIsFocused(); // 리프레쉬
   const { login_data } = useContext(LoginContext);
   console.log(HOSTNAME);
+  console.log(HOSTNAME);
 
   const contractors = JSON.parse(route.params.contractors);
   const [sign_img_data_0, setSignImgData_0] = useState("");
@@ -131,7 +132,7 @@ function Signed({ navigation, route }) {
               계약 체결일: ${route.params.contract_date}
           </H3>
           <H3 class="contract_writer">
-              작성자: ${login_data.name}(${route.params.id})
+              작성자: ${user_name0}(${route.params.id})
           </H3>
           <hr>
           <div>
@@ -199,12 +200,8 @@ function Signed({ navigation, route }) {
           <Text style={styles.textTitle}>{route.params.title}</Text>
         </View>
         <View style={styles.container_top}>
-          <Text style={styles.textDate}>
-            계약 체결일: {route.params.contract_date}
-          </Text>
-          <Text style={styles.textWriter}>
-            작성자: {login_data.name}({route.params.id})
-          </Text>
+          <Text style={styles.textDate}>계약 체결일: {route.params.contract_date}</Text>
+          <Text style={styles.textWriter}>작성자: {login_data.name}({route.params.id})</Text>     
         </View>
 
         <View style={styles.textContractors}>
@@ -216,6 +213,7 @@ function Signed({ navigation, route }) {
         <ScrollView style={styles.containerContent}>
           <Text style={styles.textContent}>{route.params.content}</Text>
         </ScrollView>
+
 
         <View style={styles.containerSign}>
           <Image source={{ uri: sign_img_data_0 }} style={styles.imgSign} />

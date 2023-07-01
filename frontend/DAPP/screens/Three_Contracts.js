@@ -20,6 +20,8 @@ import Axios from 'axios';
 import LoginContext from '../context/LoginContext';
 import { LinearGradient } from 'expo-linear-gradient'
 import { HOSTNAME } from "@env";
+import { Entypo } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 const Width = Dimensions.get('window').width;    //스크린 너비 초기화
 const Height = Dimensions.get('window').height;  //스크린 높이 초기화
@@ -33,7 +35,6 @@ const icon_size = 50;
 const main_color = "#0DF9FF";
 
 function Three_Contracts() {
-  console.log(HOSTNAME);
   return (
     <Tab.Navigator
       initialRouteName="N_Signed"
@@ -52,9 +53,9 @@ function Three_Contracts() {
         options={{
           title: "미체결",
           tabBarIcon: ({ color, size }) => (
-            <Icon name="rocket" color={color} size={size} />
+            <Entypo name="document"color="white" size="24" />
           ),
-          tabBarActiveTintColor: "#025CFC",
+          tabBarActiveTintColor: "white",
         }}
       />
       <Tab.Screen
@@ -63,7 +64,7 @@ function Three_Contracts() {
         options={{
           title: "진행중",
           tabBarIcon: ({ color, size }) => (
-            <Icon name="rocket" color={color} size={size} />
+            <Entypo name="text-document" size={24} color="white" />
           ),
           tabBarActiveTintColor: "white",
         }}
@@ -75,9 +76,9 @@ function Three_Contracts() {
           title: "체결",
 
           tabBarIcon: ({ color, size }) => (
-            <Icon name="rocket" color={color} size={size} />
+            <Entypo name="text-document-inverted" size={24} color="white" />
           ),
-          tabBarActiveTintColor: "#FD8016",
+          tabBarActiveTintColor: "white",
         }}
       />
     </Tab.Navigator>
@@ -86,6 +87,8 @@ function Three_Contracts() {
 
 /////////미체결////////////
 function N_Signed({ navigation }) {
+  console.log(HOSTNAME);
+  console.log(HOSTNAME);
   const isFocused = useIsFocused() // 리프레쉬
   const [contracts, setContracts] = useState([]); // 계약서 배열
   const {login_data} = useContext(LoginContext);
@@ -135,7 +138,7 @@ function N_Signed({ navigation }) {
                   })
                 }
               >
-                <Icon name="rocket" color={icon_color} size={icon_size} />
+                <Entypo name="document"color={icon_color} size={icon_size} />
                 <Text style={styles.text_style}>{item.title}</Text>
               </TouchableOpacity>
             </View>
@@ -155,6 +158,9 @@ function N_Signed({ navigation }) {
 
 /////////진행중////////////
 function Proceeding({ navigation }) {
+  console.log(HOSTNAME);
+  console.log(HOSTNAME);
+  console.log(HOSTNAME);
   const isFocused = useIsFocused() // 리프레쉬
   const [contracts, setContracts] = useState([]); // 계약서 배열
   const {login_data} = useContext(LoginContext);
@@ -304,7 +310,6 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     fontSize: 15,
     textAlign: "center",
-    color: "#ffffff",
   },
   h_text_style2: {
     backgroundColor: "#000000",
@@ -325,7 +330,7 @@ const styles = StyleSheet.create({
     color: "#ffffff",
   },
   view_style: {
-    backgroundColor: "#025CFC",
+    backgroundColor: "#D9D9D9",
     borderRadius: 10,
     width: "100%",
     height: 80,
@@ -363,7 +368,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginLeft: 65,
     marginTop: 55,
-    color: "#ffffff",
+    color: "black",
     fontWeight: "bold",
   },
   text_style2: {

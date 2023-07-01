@@ -1,0 +1,27 @@
+{
+  "name": "blocker",
+  "description": "Connection profile for Naver Cloud Blockchain Service. Network ID: 970, MSP ID: blocker-oderermsp",
+  "version": "1.0.0",
+  "client": {
+    "organization": "blocker-oderermsp"
+  },
+  "organizations": {
+    "blocker-oderermsp": {
+      "mspid": "blocker-oderermsp",
+      "peers": [],
+      "certificateAuthorities": [
+        "blocker-ordererca-k6bnwc-hlf-ca.bc-np4sjfwe.kr.blockchain.naverncp.com:443"
+      ]
+    }
+  },
+  "certificateAuthorities": {
+    "blocker-ordererca-k6bnwc-hlf-ca.bc-np4sjfwe.kr.blockchain.naverncp.com:443": {
+      "url": "https://blocker-ordererca-k6bnwc-hlf-ca.bc-np4sjfwe.kr.blockchain.naverncp.com:443",
+      "tlsCACerts": {
+        "pem": [
+          "-----BEGIN CERTIFICATE-----\nMIID5DCCAsygAwIBAgIUWOtkfv6Z1OW7rq+w414Ql+uPu48wDQYJKoZIhvcNAQEL\nBQAwejELMAkGA1UEBhMCS1IxFDASBgNVBAgMC0d5ZW9uZ2dpLWRvMRQwEgYDVQQH\nDAtTZW9uZ25hbS1zaTEZMBcGA1UECgwQTkFWRVIgQ2xvdWQgQ29ycDETMBEGA1UE\nCwwKQmxvY2tjaGFpbjEPMA0GA1UEAwwGaGxmLWNhMCAXDTIyMTEyMzEzMTEwMFoY\nDzIwNTIxMTE1MTMxMTAwWjB6MQswCQYDVQQGEwJLUjEUMBIGA1UECAwLR3llb25n\nZ2ktZG8xFDASBgNVBAcMC1Nlb25nbmFtLXNpMRkwFwYDVQQKDBBOQVZFUiBDbG91\nZCBDb3JwMRMwEQYDVQQLDApCbG9ja2NoYWluMQ8wDQYDVQQDDAZobGYtY2EwggEi\nMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDrIPfWufPq34QkhzpkN6l7HS5+\nI4eOKLu9APdQ5YSj+gSh0McelfpFdZIsDVO3bidAdqnAq+mdsRRb+7Agurrj94W7\n2AUodO33cGtuhC8DuJlc+XudHlWCoau4mntqeQ7edjlZ+uSBl7jEoCwtP32PfIzC\ncu2B/BYBALMcIb57h/WkdC04Y7SHu3iyeZ9lWmSoZEqoUcJOBXsCPz+8h6WyHgMq\nHgMev/2O7+HsQ3pzje92vFWAMxh8PMu8KFxrZ0HKnxo9TZt22nKZgRudWB6YsT/H\nw8076Mk7OOL17RHUtHhV8eom8vLB4yqbQivSpPNPgdB2qwuCiL0KlJ7j/30pAgMB\nAAGjYDBeMFwGA1UdEQRVMFOCRmJsb2NrZXItb3JkZXJlcmNhLWs2Ym53Yy1obGYt\nY2EuYmMtbnA0c2pmd2Uua3IuYmxvY2tjaGFpbi5uYXZlcm5jcC5jb22CCWxvY2Fs\naG9zdDANBgkqhkiG9w0BAQsFAAOCAQEAES+dGzqJeBOxOhxmndsxjq3crZgsghU1\n2ucZ65/11gs/flORsS47EA1vqC+cgrJxlbR5n6vkFslwJUyQVAnDYxDMrleJfo1i\nRfAlHMFwm25WA05UFZX7rK+C1VmJkg6WTqg9OoFBtbbGv4QGzc/GdAE2DKGPXJYm\nTf0HM85AgHTHxFySS8r/HMvLxrKE2JbgioCI+xO8HmehNspB89Nq0zmvnz+1j6iv\nqfBhGFYcYgzbXKXGqBA+p/hopopy6gijiAwOWmk3x3idRw16iSQ6DNFDYeuE3syZ\nH50YRUjp1kdSh/8I9w5UEGmLV7N5FrvWZP4NlbB4RoGnPbMuVKvhKw\u003d\u003d\n-----END CERTIFICATE-----\n"
+        ]
+      }
+    }
+  }
+}

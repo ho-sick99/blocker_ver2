@@ -13,10 +13,10 @@ import {
 import * as DocumentPicker from 'expo-document-picker';
 import { HOSTNAME } from "@env";
 import verification_icon from './image/verification_icon.png';
-
 import res_def from './image/logo_nbg.png'
 import res_false from './image/false.png'
 import res_true from './image/true.png'
+import Axios from 'axios';
 
 
 const Width = Dimensions.get('window').width;    //스크린 너비 초기화
@@ -29,7 +29,6 @@ function Verification({navigation}) {
     const postDocument = async(param) => {
       console.log("파일 전송 및 결과 반환")
       const url = HOSTNAME+"/upload_pdf";
-      const fileUri = param.uri;
       const formData = new FormData();
       formData.append('file', param); // name, value
       const options = {
@@ -62,6 +61,7 @@ function Verification({navigation}) {
             uri: uri,
             type: "application/" + fileType
           };
+          console.log(fileToUpload);
           return fileToUpload;
         } 
       })
@@ -70,10 +70,9 @@ function Verification({navigation}) {
       })
     };
 
-    const compare_hash = (hash_value) => {
-      // 임시 hash value 
-      const origin_hash_value = 'dc5fa883dad7fe0be63c0d43f5f40ef77385512c';
-      if(hash_value === origin_hash_value){
+    const compare_hash = async (hash_value) =>  {
+      const { data: res } = await Axios.post(HOSTNAME + '/query', { v_hash: hash_value}); 
+      if(res.success){
         //alert("일치 -> 정상적인 계약서")
         set_res_img(res_true);
         set_res_bg_color("#32BA7C");
@@ -85,6 +84,7 @@ function Verification({navigation}) {
         set_res_bg_color("#F15249");
         set_vrf_res("불일치: Blocer에서 지원하지 않는 계약서입니다.");
       }
+      alert(res.msg); 
     }
 
     const resStyle = function(color) {
@@ -121,9 +121,7 @@ function Verification({navigation}) {
                         {vrf_res}
                     </Text>
                 </View>
-                
-            </View>
-            
+            </View>   
         </View>
 
     );

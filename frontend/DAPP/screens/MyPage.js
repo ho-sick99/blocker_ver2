@@ -29,7 +29,7 @@ const Width = Dimensions.get('window').width;    //스크린 너비 초기화
 const Height = Dimensions.get('window').height;  //스크린 높이 초기화
 
 function MyPage({navigation}) {
-  console.log(HOSTNAME);
+
   const {login_data} = useContext(LoginContext);
   const [user_name, set_user_name] = useState(login_data.name);
 
@@ -161,26 +161,6 @@ function MyPage({navigation}) {
 
       {/* 하단 상세 유저 정보 리스트*/}
       <View style={styles.setting_list}>
-
-        {/* 계약서 */}
-          <View style={styles.setting_item}>
-            <Text style={styles.textStyle_2}>Contract</Text>
-            <View style={styles.contracts_bar}>
-              <View style={styles.contracts_bar_item}> 
-                <Text style={styles.textStyle_3}>미체결</Text>
-                <Text style={styles.textStyle_3}>{user_save_contracts}</Text>
-              </View>
-              <View style={styles.contracts_bar_item}> 
-                <Text style={styles.textStyle_3}>진행중</Text>
-                <Text style={styles.textStyle_3}>{user_ing_contracts}</Text>
-              </View>
-              <View style={styles.contracts_bar_item}> 
-                <Text style={styles.textStyle_3}>체결</Text>
-                <Text style={styles.textStyle_3}>{user_ed_contracts}</Text>
-              </View>
-            </View>
-          </View>
-
         {/* 게시글 */}
           <View style={styles.setting_item}>
             <Text style={styles.textStyle_2}>Post </Text>

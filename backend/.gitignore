@@ -103,8 +103,8 @@ dist
 # TernJS port file
 .tern-port
 
-# BlockChain network connection setting
-connection
+# BlockChain connection setting
+connectionProfile.json
 
-# BlockChain network wallet setting
-wallet
+# Wallet setting
+identity

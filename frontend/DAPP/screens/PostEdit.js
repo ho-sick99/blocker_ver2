@@ -23,7 +23,6 @@ const Width = Dimensions.get('window').width;    //스크린 너비 초기화
 const Height = Dimensions.get('window').height;  //스크린 높이 초기화
 
 function PostEdit({navigation, route}) {
-  console.log(HOSTNAME);
   const {login_data} = useContext(LoginContext);
   const [post_info, setPost] = useState([]);
   const [post_title, setTitle] = useState(); // 타이틀
